@@ -11,22 +11,28 @@ public class InstPhoton : MonoBehaviourPunCallbacks
 
     private GameObject _1PHouse = null;
     private GameObject _2PHouse = null;
-    private void Awake()
+
+    private float _1PrandX = 0f;
+    private float _2PrandX = 0f;
+
+    [PunRPC]
+    public void RandPos(float randX1, float randX2)
     {
+        _1PrandX = randX1;
+        _2PrandX = randX2;
+
         _1PHouse = GameObject.Find("1PHouse");
+        _1PHouse.transform.position += new Vector3(_1PrandX, 0f, 0f);
         _1PPos = GameObject.Find("1PPosition").transform;
-        _1PHouse.transform.position += new Vector3(Random.Range(0f, -250f), 0f, 0f);
 
         _2PHouse = GameObject.Find("2PHouse");
+        _2PHouse.transform.position += new Vector3(_2PrandX, 0f, 0f);
         _2PPos = GameObject.Find("2PPosition").transform;
-        _2PHouse.transform.position += new Vector3(Random.Range(0f, 250f), 0f, 0f);
-    }
-    private void Start()
-    {
-        if(PhotonNetwork.IsConnected)
+
+        if (PhotonNetwork.IsConnected)
         {
             GameObject player = PhotonNetwork.Instantiate("Player", Vector3.one, Quaternion.identity);
-            if(PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient)
             {
                 player.transform.position = _1PPos.position;
                 player.transform.rotation = _1PPos.rotation;
@@ -38,5 +44,12 @@ public class InstPhoton : MonoBehaviourPunCallbacks
             }
         }
 
+    }
+    private void Awake()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("RandPos", RpcTarget.AllBuffered, Random.Range(-250f, 0f), Random.Range(0f, 250f));
+        }
     }
 }

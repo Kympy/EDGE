@@ -2289,6 +2289,7 @@ GameObject:
   - component: {fileID: 7617552417125362168}
   - component: {fileID: 5697117660587450295}
   - component: {fileID: 6165226909093352331}
+  - component: {fileID: 2139023401746085761}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2442,7 +2443,23 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 0
+  m_UseLocal: 1
+--- !u!54 &2139023401746085761
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7617552417125362175}
+  serializedVersion: 2
+  m_Mass: 60
+  m_Drag: 0.1
+  m_AngularDrag: 100
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &7649454946273398413
 GameObject:
   m_ObjectHideFlags: 0
