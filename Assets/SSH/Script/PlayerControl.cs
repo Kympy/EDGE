@@ -9,9 +9,15 @@ public class PlayerControl : MonoBehaviour
     Animator anim = null;
 
     float mouseX = 0f;
-    float rotateSpeed = 200f;
+    float rotateSpeed = 100f;
 
-    bool isStar = false;
+    int curBullet = 0;
+    int maxBullet = 6;
+
+    bool isStart = false;
+    bool attackDelay = false;
+
+
 
     private void Awake()
     {
@@ -26,29 +32,32 @@ public class PlayerControl : MonoBehaviour
 
     void Start()
     {
-        Invoke("UnlockTrans", 3f);
+        Invoke("Unlock", 3f);
     }
 
     void Update()
     {
         FollowCameraTrans();
-        if (isStar)
+        if (isStart)
         {
             PlayerRotate();
         }
-
-        PlayerAttack();
+        if (attackDelay)
+        {
+            PlayerAttack();
+        }
     }
 
-    void UnlockTrans()
+    void Unlock()
     {
-        isStar = true;
+        isStart = true;
+        attackDelay = true;
     }
 
     void PlayerRotate()
     {
-        mouseX += Input.GetAxis("Mouse X")*Time.deltaTime*rotateSpeed;
-        transform.rotation = Quaternion.Euler(0, mouseX, 0);        
+        mouseX += Input.GetAxis("Mouse X") * Time.deltaTime * rotateSpeed;
+        transform.rotation = Quaternion.Euler(0, mouseX, 0);
     }
 
     void FollowCameraTrans()
@@ -62,6 +71,14 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             anim.SetTrigger("isAttack");
+            attackDelay = false;
+            Invoke("AttackDelay", 2f);
+            Debug.Log("น฿ป็");
         }
+    }
+
+    void AttackDelay()
+    {
+        attackDelay = true;
     }
 }
