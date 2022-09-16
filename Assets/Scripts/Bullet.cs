@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float speed = 20f;
+    [SerializeField] private float speed = 940f;
     private Rigidbody _Rigidbody;
-    private float timer = 0f;
-    private float origin = 0f;
-    private bool CheckOnce = true;
-    public GameObject hit;
+    //private float timer = 0f;
+    //private float origin = 0f;
+    //private bool CheckOnce = true;
+    //public GameObject hit;
 
     private void Awake()
     {
@@ -17,16 +17,32 @@ public class Bullet : MonoBehaviour
     }
     private void Start()
     {
-        Destroy(this.gameObject, 60f);
         _Rigidbody.AddForce(transform.forward * speed, ForceMode.Impulse);
-        Debug.Log("Starting Y Position is " + transform.position.y + " m");
-        origin = transform.position.y;
+        //Debug.Log("Starting Y Position is " + transform.position.y + " m");
+        //origin = transform.position.y;
     }
 
     private void Update()
     {
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.LogError("Hit " + collision.transform.name);
+        //Destroy(this.gameObject);
+
+        if (collision.transform.CompareTag("Target"))
+        {
+            //Instantiate(hit, collision.transform.position, collision.transform.rotation); 
+        }
+    }
+
+#if UNITY_EDITOR
+    /*
+    private void CheckHeight()
+    {
         Debug.LogWarning("Height : " + transform.position.y + " m");
-        if(CheckOnce)
+        if (CheckOnce)
         {
             timer += Time.deltaTime;
             if (timer > 1f)
@@ -35,22 +51,10 @@ public class Bullet : MonoBehaviour
                 timer = 0f;
                 CheckOnce = false;
             }
-            
         }
 
         Debug.Log(_Rigidbody.velocity.magnitude + " m/s");
-        
-        //transform.Translate(speed * Time.deltaTime * Vector3.up);
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.LogError("Hit " + collision.transform.name);
-        if (collision.transform.CompareTag("Target"))
-        {
-
-            Instantiate(hit, collision.transform.position, collision.transform.rotation);
-            Destroy(this.gameObject);
-        }
-    }
+    */
+#endif
 }

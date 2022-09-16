@@ -15,6 +15,8 @@ public class PlayerControl : MonoBehaviourPun
     [SerializeField] private float zoomSpeed = 50f;
     // Player Upper Bone
     private Transform UpperBody = null;
+    // Player Rigidbody
+    private Rigidbody _Rigidbody = null;
     // Prefab
     private GameObject BulletPrefab = null;
     // Player Virtual Arm
@@ -25,10 +27,10 @@ public class PlayerControl : MonoBehaviourPun
     private float vertical;
     private Vector3 moveVector;
     // Mouse Movement
-    private float mouseX;
-    private float mouseY;
+    private float mouseX = 0f;
+    private float mouseY = 0f;
     // Mouse Upper Rotation
-    private float mouseYUpper;
+    private float mouseYUpper = 90f;
     // Fire
     private float shootRot;
     // Fire Position
@@ -53,7 +55,7 @@ public class PlayerControl : MonoBehaviourPun
     // Player Following Camera Position
     private Transform PlayerCameraPos;
     // Animator
-    private Animator _GunAnimator;
+    private Animator _ArmAnimator;
     private Animator _PlayerAnimator;
 
     private void Awake()
@@ -70,8 +72,9 @@ public class PlayerControl : MonoBehaviourPun
         if (photonView.IsMine == false) return;
 
         PlayerCamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
-        _GunAnimator = PlayerCamera.GetComponentInChildren<Animator>();
+        _ArmAnimator = PlayerCamera.GetComponentInChildren<Animator>();
         _PlayerAnimator = GetComponent<Animator>();
+        //_Rigidbody = GetComponent<Rigidbody>();
         ZoomInPos = GameObject.Find("ZoomInPos").transform;
         ZoomOutPos = GameObject.Find("ZoomOutPos").transform;
         PlayerCameraPos = GameObject.Find("CameraPosition").transform;
@@ -79,7 +82,7 @@ public class PlayerControl : MonoBehaviourPun
         ScopeCamera = GameObject.Find("ScopeCamera").GetComponent<Camera>();
 
         UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
-        //Debug.Log(UpperBody.name);
+
         Arm = GameObject.Find("PlayerArmPivot");
         shootPos = GameObject.Find("ShootPos").transform;
         ZoomShootPosition = GameObject.Find("ZoomShootPos").transform;
@@ -90,16 +93,16 @@ public class PlayerControl : MonoBehaviourPun
     {
         //Debug.Log("Upper : " + mouseY);
         if (photonView.IsMine == false) return;
-        float upperY = UpperBody.eulerAngles.y;
-        upperY = upperY > 180f ? upperY - 360f : upperY;
-        
         UpperBody.eulerAngles = new Vector3(0f, UpperBody.eulerAngles.y, -mouseYUpper);
+    }
+    private void FixedUpdate()
+    {
+        PlayerCamera.transform.position = PlayerCameraPos.position;
+        Movement();
     }
     private void Update()
     {
         if (photonView.IsMine == false) return;
-
-        PlayerCamera.transform.position = PlayerCameraPos.position;
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
@@ -111,24 +114,29 @@ public class PlayerControl : MonoBehaviourPun
 
         if(IsZoom)
         {
-            mouseX = Input.GetAxis("Mouse X") * zoomMouseSpeed * Time.deltaTime;
-            mouseY = Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
-            //mouseYUpper = Input.GetAxis("Mouse Y") * zoomSpeed * Time.deltaTime;
+            mouseX += Input.GetAxis("Mouse X") * zoomMouseSpeed * Time.deltaTime;
+            mouseY += Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
+            mouseYUpper += Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
         }
         else
         {
-            mouseX = Input.GetAxis("Mouse X") * mouseSpeed * Time.deltaTime;
-            mouseY = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
+            mouseX += Input.GetAxis("Mouse X") * mouseSpeed * Time.deltaTime;
+            mouseY += Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
+            mouseYUpper += Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
         }
-        mouseYUpper += Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
+
         mouseX = mouseX > 180f ? mouseX - 360f : mouseX;
         mouseY = mouseY > 180f ? mouseY - 360f : mouseY;
         mouseYUpper = mouseYUpper > 180f ? mouseYUpper - 360f : mouseYUpper;
-        // -17 ~ 70f clamp
 
-        PlayerCamera.transform.eulerAngles += new Vector3(-mouseY, mouseX, 0f);
-        Arm.transform.eulerAngles = new Vector3(PlayerCamera.transform.eulerAngles.x, PlayerCamera.transform.eulerAngles.y, 0f);
-        transform.eulerAngles += new Vector3(0f, mouseX, 0f);
+        mouseY = Mathf.Clamp(mouseY, -50f, 70f);
+        mouseYUpper = Mathf.Clamp(mouseYUpper, 40f, 160f); // mouse Y + 90f
+
+        PlayerCamera.transform.eulerAngles = new Vector3(-mouseY, mouseX, 0f);
+        //transform.eulerAngles = new Vector3(0f, mouseX, 0f);
+        //_Rigidbody.rotation = Quaternion.Euler(0f, mouseX, 0f);
+        transform.rotation = Quaternion.Euler(0f, mouseX, 0f);
+
         if(Input.GetMouseButtonDown(1))
         {
             IsZoom = !IsZoom;
@@ -139,14 +147,10 @@ public class PlayerControl : MonoBehaviourPun
             }
             ZoomCoroutine = StartCoroutine(Zoom());
         }
-        if (IsMove)
-        {
-            moveVector = new Vector3(horizontal, 0f, vertical);
-            transform.Translate(moveSpeed * Time.deltaTime * moveVector);
-        }
+
         if(Input.GetAxis("Mouse ScrollWheel") != 0 && IsZoom)
         {
-            ScopeCamera.fieldOfView += -Input.GetAxis("Mouse ScrollWheel") * 10f * Time.deltaTime;
+            ScopeCamera.fieldOfView += -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime;
             if(ScopeCamera.fieldOfView > 10f)
             {
                 ScopeCamera.fieldOfView = 10f;
@@ -154,7 +158,7 @@ public class PlayerControl : MonoBehaviourPun
         }
         if (Input.GetMouseButtonDown(0))
         {
-            //_GunAnimator.SetTrigger("Fire");
+            _ArmAnimator.SetTrigger("Fire");
             shootRot = PlayerCamera.transform.eulerAngles.x;
             shootRot = shootRot > 180f ? shootRot - 360f : shootRot;
             if (IsZoom)
@@ -173,6 +177,16 @@ public class PlayerControl : MonoBehaviourPun
             ReCoilCoroutine = StartCoroutine(ReCoilUp());
 
         }
+        UpdateAnimation();
+    }
+    private void Movement()
+    {
+        if (IsMove)
+        {
+            moveVector = (horizontal * transform.right + vertical * transform.forward).normalized;
+            //transform.Translate(moveSpeed * Time.deltaTime * moveVector);
+            transform.position += moveSpeed * Time.deltaTime * moveVector;
+        }
     }
     private IEnumerator Zoom()
     {
@@ -181,7 +195,7 @@ public class PlayerControl : MonoBehaviourPun
             if (IsZoom)
             {
                 Arm.transform.localPosition = Vector3.MoveTowards(Arm.transform.localPosition, ZoomInPos.localPosition, Time.deltaTime * 2f);
-                PlayerCamera.fieldOfView -= 2f;
+                PlayerCamera.fieldOfView -= 4f;
                 if (PlayerCamera.fieldOfView < 9f)
                 {
                     PlayerCamera.fieldOfView = 9f;
@@ -267,6 +281,12 @@ public class PlayerControl : MonoBehaviourPun
             }
             yield return null;
         }
+    }
+    private void UpdateAnimation()
+    {
+        _PlayerAnimator.SetBool("IsMove", IsMove);
+        _PlayerAnimator.SetFloat("Horizontal", horizontal);
+        _PlayerAnimator.SetFloat("Vertical", vertical);
     }
     private void OnCollisionEnter(Collision collision)
     {
