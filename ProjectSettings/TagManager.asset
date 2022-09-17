@@ -12,6 +12,12 @@ TagManager:
   - FxTemporaire
   - Building
   - Dirt
+  - PlayerHead
+  - PlayerBody
+  - PlayerArmL
+  - PlayerArmR
+  - PlayerLegL
+  - PlayerLegR
   layers:
   - Default
   - TransparentFX
@@ -22,7 +28,7 @@ TagManager:
   - Scope
   - Player
   - PlayerArm
-  - 
+  - PlayerBones
   - 
   - 
   - 
