@@ -29,10 +29,11 @@ public class PlayerControl : MonoBehaviourPun
     // Mouse Upper Rotation
     private float mouseYUpper = 90f;
     // Fire
-    private float shootRot;
+    private float shootRot; // Fire time's X Rotation
+    private float recoilPower; // Recoil X Rotation Value
     // Fire Position
-    public Transform shootPos;
-    public Transform ZoomShootPosition;
+    private Transform shootPos;
+    private Transform ZoomShootPosition;
     // Player Control Booleans
     private bool IsZoom = false;
     // Keyboard Input Checker
@@ -42,6 +43,7 @@ public class PlayerControl : MonoBehaviourPun
     // Camera
     private Camera PlayerCamera; // Player Following Camera
     private Camera ScopeCamera; // Sniper rifle scope
+    private float ClampedX = 0f; // Fixed Camera X rotation
     // Zoom Coroutine
     private Coroutine ZoomCoroutine = null;
     // Recoil Coroutine
@@ -102,7 +104,6 @@ public class PlayerControl : MonoBehaviourPun
     private void FixedUpdate()
     {
         if (photonView.IsMine == false) return;
-
         PlayerCamera.transform.position = PlayerCameraPos.position;
         DoMovement();
     }
@@ -111,7 +112,7 @@ public class PlayerControl : MonoBehaviourPun
         if (photonView.IsMine == false) return;
 
         InputMovement();
-        MouseRotation();
+        CameraRotation();
         ZoomScope();
         UpdateZoomValue();
         Fire();
@@ -147,31 +148,36 @@ public class PlayerControl : MonoBehaviourPun
             ZoomCoroutine = StartCoroutine(Zoom());
         }
     }
-    private void MouseRotation()
+    private void CameraRotation() // Mouse Rotation + Recoil Power
     {
         if (IsZoom)
         {
-            mouseX += Input.GetAxis("Mouse X") * zoomMouseSpeed * Time.deltaTime;
-            mouseY += Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
+            mouseX = Input.GetAxis("Mouse X") * zoomMouseSpeed * Time.deltaTime;
+            mouseY = Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
             mouseYUpper += Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
         }
         else
         {
-            mouseX += Input.GetAxis("Mouse X") * mouseSpeed * Time.deltaTime;
-            mouseY += Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
+            mouseX = Input.GetAxis("Mouse X") * mouseSpeed * Time.deltaTime;
+            mouseY = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
             mouseYUpper += Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
         }
 
-        mouseX = mouseX > 180f ? mouseX - 360f : mouseX;
-        mouseY = mouseY > 180f ? mouseY - 360f : mouseY;
+        //mouseX = mouseX > 180f ? mouseX - 360f : mouseX;
+        //mouseY = mouseY > 180f ? mouseY - 360f : mouseY;
         mouseYUpper = mouseYUpper > 180f ? mouseYUpper - 360f : mouseYUpper;
 
-        mouseY = Mathf.Clamp(mouseY, -50f, 70f);
+
         mouseYUpper = Mathf.Clamp(mouseYUpper, 40f, 160f); // mouse Y + 90f
 
-        PlayerCamera.transform.eulerAngles = new Vector3(-mouseY, mouseX, 0f);
-        //transform.eulerAngles = new Vector3(0f, mouseX, 0f);
-        _Rigidbody.rotation = Quaternion.Euler(0f, mouseX, 0f);
+        PlayerCamera.transform.eulerAngles += new Vector3(-mouseY + recoilPower, mouseX, 0f);
+
+        ClampedX = PlayerCamera.transform.eulerAngles.x;
+        ClampedX = ClampedX > 180f ? ClampedX - 360f : ClampedX;
+        ClampedX = Mathf.Clamp(ClampedX, -50f, 70f);
+
+        transform.eulerAngles += new Vector3(0f, mouseX, 0f);
+        PlayerCamera.transform.eulerAngles = new Vector3(ClampedX, transform.eulerAngles.y, 0f);
     }
     private void InputMovement()
     {
@@ -196,6 +202,7 @@ public class PlayerControl : MonoBehaviourPun
     {
         if (Input.GetMouseButtonDown(0))
         {
+            _PlayerAnimator.SetTrigger("Fire");
             _ArmAnimator.SetTrigger("Fire"); // Play Animation
             RealSmoke.SetActive(true);
             FakeSmoke.SetActive(true);
@@ -203,6 +210,7 @@ public class PlayerControl : MonoBehaviourPun
             FakeMuzzle.SetActive(true);
             shootRot = PlayerCamera.transform.eulerAngles.x;
             shootRot = shootRot > 180f ? shootRot - 360f : shootRot;
+            Debug.Log(shootRot);
             if (IsZoom)
             {
                 PhotonNetwork.Instantiate("Bullets", ZoomShootPosition.position, ZoomShootPosition.rotation);
@@ -267,11 +275,11 @@ public class PlayerControl : MonoBehaviourPun
             {
                 rotValueX += 0.1f;
             }
-            PlayerCamera.transform.eulerAngles -= new Vector3(rotValueX, 0f, 0f);
-            if(timer > 0.1f)
+            recoilPower = -rotValueX;
+            if(timer > 0.2f)
             {
+                recoilPower = 0f;
                 StartCoroutine(RecoilDown());
-                StopCoroutine(ReCoilCoroutine);
                 yield break;
             }
             yield return null;
@@ -280,32 +288,24 @@ public class PlayerControl : MonoBehaviourPun
     private IEnumerator RecoilDown()
     {
         float rotValueX = 0f;
-        float randomOffset = 0f;
+        float timer = 0f;
         while (true)
         {
+            timer += Time.deltaTime;
             if (IsZoom)
             {
-                rotValueX = 0.02f;
+                rotValueX = 0.04f;
             }
             else
             {
-                rotValueX = 0.1f;
+                rotValueX = 0.2f;
             }
 
-            PlayerCamera.transform.eulerAngles += new Vector3(rotValueX, 0f, 0f);
-            float desiredX = PlayerCamera.transform.eulerAngles.x;
-            desiredX = desiredX > 180f ? desiredX - 360f : desiredX;
-            if (IsZoom)
-            {
-                randomOffset = Random.Range(-0.2f, 0.21f);
-            }
-            else
-            {
-                randomOffset = Random.Range(-1.0f, 1.01f);
-            }
+            recoilPower = rotValueX;
 
-            if (desiredX > shootRot + randomOffset)
+            if (timer > 0.2f)
             {
+                recoilPower = 0f;
                 yield break;
             }
             yield return null;
@@ -319,9 +319,9 @@ public class PlayerControl : MonoBehaviourPun
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Bullet"))
+        if(collision.gameObject.CompareTag("Dirt"))
         {
-            Debug.LogError("Hit Player!!");
+            
         }
     }
 }

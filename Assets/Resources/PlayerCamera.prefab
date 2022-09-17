@@ -2579,7 +2579,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 3831
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: c07e20860aec13748bfb8c51cdf1635a, type: 2}
   m_TargetDisplay: 0
@@ -3288,7 +3288,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 3447
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3422,15 +3422,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ea643e9161491af488cd73a2175193d1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.04289784
+      value: -0.001
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ea643e9161491af488cd73a2175193d1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00034264478
+      value: 0.0283
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ea643e9161491af488cd73a2175193d1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.07279652
+      value: 0.5982
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ea643e9161491af488cd73a2175193d1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3459,6 +3459,14 @@ PrefabInstance:
     - target: {fileID: 400000, guid: ea643e9161491af488cd73a2175193d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: ea643e9161491af488cd73a2175193d1, type: 3}
+      propertyPath: ShapeModule.arc.value
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: ea643e9161491af488cd73a2175193d1, type: 3}
+      propertyPath: ShapeModule.arc.value
+      value: 360
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea643e9161491af488cd73a2175193d1, type: 3}
