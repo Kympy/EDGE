@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636f50ce5494cb2419c338d6ee752fc9, type: 3}
+  m_Name: Prefabs
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 7617552417125362175, guid: 6e9f46a6f75dea748bf4ad7699e2f254, type: 3}
+  Bullet: {fileID: 5349962391610308525, guid: 29c38ada919f2c4419f89fde13ba535d, type: 3}
+  BulletHole: {fileID: 8901696298529907863, guid: cb16c3b0d6c0eb844a28b4907435b427, type: 3}
+  DirtImpact: {fileID: 100002, guid: 3c1fef66b9b449e46848d66496183373, type: 3}
+  SandImpact: {fileID: 100002, guid: dcc8d6d23d7acb24cbeeced108693513, type: 3}

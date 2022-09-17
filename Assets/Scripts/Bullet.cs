@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Bullet : MonoBehaviour
+using Photon.Pun;
+public class Bullet : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float speed = 940f;
     private Rigidbody _Rigidbody;
@@ -21,19 +21,22 @@ public class Bullet : MonoBehaviour
         //Debug.Log("Starting Y Position is " + transform.position.y + " m");
         //origin = transform.position.y;
     }
-
-    private void Update()
-    {
-
-    }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.LogError("Hit " + collision.transform.name);
-        //Destroy(this.gameObject);
+        _Rigidbody.velocity = Vector3.zero;
+        _Rigidbody.isKinematic = true;
 
-        if (collision.transform.CompareTag("Target"))
+        if (collision.transform.CompareTag("Player"))
         {
-            //Instantiate(hit, collision.transform.position, collision.transform.rotation); 
+            PhotonNetwork.Instantiate("BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+        }
+        else if(collision.transform.CompareTag("Building"))
+        {
+            PhotonNetwork.Instantiate("SandImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+        }
+        else if(collision.transform.CompareTag("Dirt"))
+        {
+            PhotonNetwork.Instantiate("DirtImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
         }
     }
 

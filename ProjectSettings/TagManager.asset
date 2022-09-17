@@ -9,6 +9,9 @@ TagManager:
   - Weapon
   - SecondCamera
   - BulletSpawn
+  - FxTemporaire
+  - Building
+  - Dirt
   layers:
   - Default
   - TransparentFX

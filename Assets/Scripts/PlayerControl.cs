@@ -5,7 +5,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-
 public class PlayerControl : MonoBehaviourPun
 {
     // Sensitivity
@@ -17,8 +16,6 @@ public class PlayerControl : MonoBehaviourPun
     private Transform UpperBody = null;
     // Player Rigidbody
     private Rigidbody _Rigidbody = null;
-    // Prefab
-    private GameObject BulletPrefab = null;
     // Player Virtual Arm
     private GameObject Arm = null;
     // Player Control Values
@@ -43,7 +40,7 @@ public class PlayerControl : MonoBehaviourPun
     private bool hasVerticalInput;
     private bool IsMove;
     // Camera
-    private Camera PlayerCamera;
+    private Camera PlayerCamera; // Player Following Camera
     private Camera ScopeCamera; // Sniper rifle scope
     // Zoom Coroutine
     private Coroutine ZoomCoroutine = null;
@@ -57,12 +54,14 @@ public class PlayerControl : MonoBehaviourPun
     // Animator
     private Animator _ArmAnimator;
     private Animator _PlayerAnimator;
-
+    // Effect
+    private GameObject RealSmoke = null; // Player Arm smoke
+    private GameObject FakeSmoke = null; // Player body smoke
+    private GameObject RealMuzzle = null; // Player Arm muzzle
+    private GameObject FakeMuzzle = null; // Player body muzzle
     private void Awake()
     {
-        BulletPrefab = Resources.Load<GameObject>("Bullets");
-        if (BulletPrefab == null) Debug.LogError("Bullet prefab load failed");
-
+        if (photonView.IsMine == false) return;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -74,7 +73,7 @@ public class PlayerControl : MonoBehaviourPun
         PlayerCamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
         _ArmAnimator = PlayerCamera.GetComponentInChildren<Animator>();
         _PlayerAnimator = GetComponent<Animator>();
-        //_Rigidbody = GetComponent<Rigidbody>();
+        _Rigidbody = GetComponent<Rigidbody>();
         ZoomInPos = GameObject.Find("ZoomInPos").transform;
         ZoomOutPos = GameObject.Find("ZoomOutPos").transform;
         PlayerCameraPos = GameObject.Find("CameraPosition").transform;
@@ -87,32 +86,70 @@ public class PlayerControl : MonoBehaviourPun
         shootPos = GameObject.Find("ShootPos").transform;
         ZoomShootPosition = GameObject.Find("ZoomShootPos").transform;
 
+        RealSmoke = GameObject.Find("RealSmoke");
+        FakeSmoke = GameObject.Find("FakeSmoke");
+        RealMuzzle = GameObject.Find("RealMuzzle");
+        FakeMuzzle = GameObject.Find("FakeMuzzle");
+
+        RealSmoke.SetActive(false);
+        FakeSmoke.SetActive(false);
+        RealMuzzle.SetActive(false);
+        FakeMuzzle.SetActive(false);
+
         Arm.transform.localPosition = ZoomOutPos.localPosition;
     }
-    private void LateUpdate()
-    {
-        //Debug.Log("Upper : " + mouseY);
-        if (photonView.IsMine == false) return;
-        UpperBody.eulerAngles = new Vector3(0f, UpperBody.eulerAngles.y, -mouseYUpper);
-    }
+
     private void FixedUpdate()
     {
+        if (photonView.IsMine == false) return;
+
         PlayerCamera.transform.position = PlayerCameraPos.position;
-        Movement();
+        DoMovement();
     }
     private void Update()
     {
         if (photonView.IsMine == false) return;
 
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
+        InputMovement();
+        MouseRotation();
+        ZoomScope();
+        UpdateZoomValue();
+        Fire();
+        UpdateAnimation();
+    }
+    private void LateUpdate()
+    {
+        if (photonView.IsMine == false) return;
 
-        hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
-        hasVerticalInput = !Mathf.Approximately(vertical, 0f);
-
-        IsMove = hasHorizontalInput || hasVerticalInput;
-
-        if(IsZoom)
+        UpperBody.eulerAngles = new Vector3(0f, UpperBody.eulerAngles.y, -mouseYUpper);
+    }
+    private void UpdateZoomValue()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") != 0 && IsZoom)
+        {
+            ScopeCamera.fieldOfView += -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime;
+            if (ScopeCamera.fieldOfView > 10f)
+            {
+                ScopeCamera.fieldOfView = 10f;
+            }
+        }
+    }
+    private void ZoomScope()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            IsZoom = !IsZoom;
+            if (ZoomCoroutine != null)
+            {
+                StopCoroutine(ZoomCoroutine);
+                ZoomCoroutine = null;
+            }
+            ZoomCoroutine = StartCoroutine(Zoom());
+        }
+    }
+    private void MouseRotation()
+    {
+        if (IsZoom)
         {
             mouseX += Input.GetAxis("Mouse X") * zoomMouseSpeed * Time.deltaTime;
             mouseY += Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
@@ -134,31 +171,36 @@ public class PlayerControl : MonoBehaviourPun
 
         PlayerCamera.transform.eulerAngles = new Vector3(-mouseY, mouseX, 0f);
         //transform.eulerAngles = new Vector3(0f, mouseX, 0f);
-        //_Rigidbody.rotation = Quaternion.Euler(0f, mouseX, 0f);
-        transform.rotation = Quaternion.Euler(0f, mouseX, 0f);
+        _Rigidbody.rotation = Quaternion.Euler(0f, mouseX, 0f);
+    }
+    private void InputMovement()
+    {
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
 
-        if(Input.GetMouseButtonDown(1))
-        {
-            IsZoom = !IsZoom;
-            if(ZoomCoroutine != null)
-            {
-                StopCoroutine(ZoomCoroutine);
-                ZoomCoroutine = null;
-            }
-            ZoomCoroutine = StartCoroutine(Zoom());
-        }
+        hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
+        hasVerticalInput = !Mathf.Approximately(vertical, 0f);
 
-        if(Input.GetAxis("Mouse ScrollWheel") != 0 && IsZoom)
+        IsMove = hasHorizontalInput || hasVerticalInput;
+    }
+    private void DoMovement()
+    {
+        if (IsMove)
         {
-            ScopeCamera.fieldOfView += -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime;
-            if(ScopeCamera.fieldOfView > 10f)
-            {
-                ScopeCamera.fieldOfView = 10f;
-            }
+            moveVector = (horizontal * transform.right + vertical * transform.forward).normalized;
+            //transform.Translate(moveSpeed * Time.deltaTime * moveVector);
+            _Rigidbody.position += moveSpeed * Time.deltaTime * moveVector;
         }
+    }
+    private void Fire()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            _ArmAnimator.SetTrigger("Fire");
+            _ArmAnimator.SetTrigger("Fire"); // Play Animation
+            RealSmoke.SetActive(true);
+            FakeSmoke.SetActive(true);
+            RealMuzzle.SetActive(true);
+            FakeMuzzle.SetActive(true);
             shootRot = PlayerCamera.transform.eulerAngles.x;
             shootRot = shootRot > 180f ? shootRot - 360f : shootRot;
             if (IsZoom)
@@ -175,17 +217,6 @@ public class PlayerControl : MonoBehaviourPun
                 ReCoilCoroutine = null;
             }
             ReCoilCoroutine = StartCoroutine(ReCoilUp());
-
-        }
-        UpdateAnimation();
-    }
-    private void Movement()
-    {
-        if (IsMove)
-        {
-            moveVector = (horizontal * transform.right + vertical * transform.forward).normalized;
-            //transform.Translate(moveSpeed * Time.deltaTime * moveVector);
-            transform.position += moveSpeed * Time.deltaTime * moveVector;
         }
     }
     private IEnumerator Zoom()
@@ -217,7 +248,6 @@ public class PlayerControl : MonoBehaviourPun
                 {
                     yield break;
                 }
-
             }
             yield return null;
         }
@@ -237,7 +267,6 @@ public class PlayerControl : MonoBehaviourPun
             {
                 rotValueX += 0.1f;
             }
-
             PlayerCamera.transform.eulerAngles -= new Vector3(rotValueX, 0f, 0f);
             if(timer > 0.1f)
             {
