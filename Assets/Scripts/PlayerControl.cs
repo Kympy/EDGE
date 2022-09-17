@@ -104,6 +104,7 @@ public class PlayerControl : MonoBehaviourPun
     private void FixedUpdate()
     {
         if (photonView.IsMine == false) return;
+
         PlayerCamera.transform.position = PlayerCameraPos.position;
         DoMovement();
     }
