@@ -40,6 +40,7 @@ public class PlayerControl : MonoBehaviourPun
     private bool hasHorizontalInput;
     private bool hasVerticalInput;
     private bool IsMove;
+    private bool IsFire;
     // Camera
     private Camera PlayerCamera; // Player Following Camera
     private Camera ScopeCamera; // Sniper rifle scope
@@ -94,9 +95,14 @@ public class PlayerControl : MonoBehaviourPun
         FakeMuzzle = GameObject.Find("FakeMuzzle");
 
         RealSmoke.SetActive(false);
-        FakeSmoke.SetActive(false);
         RealMuzzle.SetActive(false);
-        FakeMuzzle.SetActive(false);
+
+        //FakeSmoke.SetActive(false);
+        //FakeMuzzle.SetActive(false);
+        if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("MuzzleAndSmoke", RpcTarget.AllBuffered, false);
+        }
 
         Arm.transform.localPosition = ZoomOutPos.localPosition;
     }
@@ -123,7 +129,7 @@ public class PlayerControl : MonoBehaviourPun
     {
         if (photonView.IsMine == false) return;
 
-        UpperBody.eulerAngles = new Vector3(0f, UpperBody.eulerAngles.y, -mouseYUpper);
+        UpperBody.eulerAngles = new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, -mouseYUpper);
     }
     private void UpdateZoomValue()
     {
@@ -169,7 +175,7 @@ public class PlayerControl : MonoBehaviourPun
         mouseYUpper = mouseYUpper > 180f ? mouseYUpper - 360f : mouseYUpper;
 
 
-        mouseYUpper = Mathf.Clamp(mouseYUpper, 40f, 160f); // mouse Y + 90f
+        mouseYUpper = Mathf.Clamp(mouseYUpper, 20f, 150f); // mouse Y + 90f
 
         PlayerCamera.transform.eulerAngles += new Vector3(-mouseY + recoilPower, mouseX, 0f);
 
@@ -201,14 +207,18 @@ public class PlayerControl : MonoBehaviourPun
     }
     private void Fire()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && IsFire == false)
         {
-            _PlayerAnimator.SetTrigger("Fire");
+            _PlayerAnimator.SetBool("IsFire", true);
+            IsFire = true;
             _ArmAnimator.SetTrigger("Fire"); // Play Animation
-            RealSmoke.SetActive(true);
-            FakeSmoke.SetActive(true);
             RealMuzzle.SetActive(true);
-            FakeMuzzle.SetActive(true);
+            RealSmoke.SetActive(true);
+            if(PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("MuzzleAndSmoke", RpcTarget.AllBuffered, true);
+            }
+
             shootRot = PlayerCamera.transform.eulerAngles.x;
             shootRot = shootRot > 180f ? shootRot - 360f : shootRot;
             Debug.Log(shootRot);
@@ -227,6 +237,17 @@ public class PlayerControl : MonoBehaviourPun
             }
             ReCoilCoroutine = StartCoroutine(ReCoilUp());
         }
+    }
+    public void Reload()
+    {
+        _PlayerAnimator.SetBool("IsFire", false);
+        IsFire = false;
+    }
+    [PunRPC]
+    public void MuzzleAndSmoke(bool show)
+    {
+        FakeSmoke.SetActive(show);
+        FakeMuzzle.SetActive(show);
     }
     private IEnumerator Zoom()
     {
@@ -270,11 +291,11 @@ public class PlayerControl : MonoBehaviourPun
             timer += Time.deltaTime;
             if(IsZoom)
             {
-                rotValueX += 0.02f;
+                rotValueX += 0.01f;
             }
             else
             {
-                rotValueX += 0.1f;
+                rotValueX += 0.05f;
             }
             recoilPower = -rotValueX;
             if(timer > 0.2f)
@@ -304,7 +325,7 @@ public class PlayerControl : MonoBehaviourPun
 
             recoilPower = rotValueX;
 
-            if (timer > 0.2f)
+            if (timer > 0.4f)
             {
                 recoilPower = 0f;
                 yield break;

@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     //private float origin = 0f;
     //private bool CheckOnce = true;
     //public GameObject hit;
+    private bool UsedBullet = false;
 
     private void Awake()
     {
@@ -25,47 +26,56 @@ public class Bullet : MonoBehaviourPunCallbacks
     }
     private void OnCollisionEnter(Collision collision) // When Bullet gets a collision with an object
     {
-        _Rigidbody.velocity = Vector3.zero; // Stop
-        _Rigidbody.isKinematic = true;
-        GetComponent<Collider>().enabled = false; // Disable Collider;
-
         if (collision.transform.CompareTag("Building")) // Hit building
         {
             PhotonNetwork.Instantiate("SandImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+            FixBullet();
             return;
         }
         else if (collision.transform.CompareTag("Dirt")) // Hit dirt
         {
             PhotonNetwork.Instantiate("DirtImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+            FixBullet();
             return;
         }
-        // Else Instantiate blood because bullet hit player
-        PhotonNetwork.Instantiate("BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+        else
+        {
+            FixBullet();
+            // Else Instantiate blood because bullet hit player
+            PhotonNetwork.Instantiate("BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
 
-        if (collision.transform.CompareTag("PlayerHead"))
-        {
-            
-        }
-        else if (collision.transform.CompareTag("PlayerBody"))
-        {
-            
-        }
-        else if (collision.transform.CompareTag("PlayerArmL"))
-        {
-            
-        }
-        else if (collision.transform.CompareTag("PlayerArmR"))
-        {
-            
-        }
-        else if (collision.transform.CompareTag("PlayerLegL"))
-        {
+            if (collision.transform.CompareTag("PlayerHead"))
+            {
 
-        }
-        else if (collision.transform.CompareTag("PlayerLegR"))
-        {
+            }
+            else if (collision.transform.CompareTag("PlayerBody"))
+            {
 
+            }
+            else if (collision.transform.CompareTag("PlayerArmL"))
+            {
+
+            }
+            else if (collision.transform.CompareTag("PlayerArmR"))
+            {
+
+            }
+            else if (collision.transform.CompareTag("PlayerLegL"))
+            {
+
+            }
+            else if (collision.transform.CompareTag("PlayerLegR"))
+            {
+
+            }
         }
+        
+    }
+    private void FixBullet()
+    {
+        _Rigidbody.velocity = Vector3.zero; // Stop
+        _Rigidbody.isKinematic = true;
+        GetComponent<Collider>().enabled = false; // Disable Collider;
     }
 
 #if UNITY_EDITOR

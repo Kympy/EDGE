@@ -3468,7 +3468,9 @@ PrefabInstance:
       propertyPath: ShapeModule.arc.value
       value: 360
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5419125433821963952, guid: ea643e9161491af488cd73a2175193d1, type: 3}
+    - {fileID: 2058947663487441479, guid: ea643e9161491af488cd73a2175193d1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ea643e9161491af488cd73a2175193d1, type: 3}
 --- !u!4 &5538170907059784435 stripped
 Transform:
@@ -3574,7 +3576,9 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 732744854102841669, guid: 0661276422528d74d8c9894abad93242, type: 3}
+    - {fileID: 7983788100242606546, guid: 0661276422528d74d8c9894abad93242, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0661276422528d74d8c9894abad93242, type: 3}
 --- !u!4 &9110501499915990637 stripped
 Transform:

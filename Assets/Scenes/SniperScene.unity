@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 5eec794fa37754746ad94dab025985ed, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44624972, g: 0.49603754, b: 0.5746143, a: 1}
+  m_IndirectSpecularColor: {r: 0.48311162, g: 0.5279228, b: 0.5974375, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -209,14 +209,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 247541067}
-  m_LocalRotation: {x: 0.9028434, y: -0, z: -0, w: 0.4299696}
+  m_LocalRotation: {x: 0.9182775, y: -0, z: -0, w: 0.3959375}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 129.069, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 133.351, y: 0, z: 0}
 --- !u!1 &316650884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,6 +1864,18 @@ PrefabInstance:
     - target: {fileID: -7092041118122210201, guid: 6e9f46a6f75dea748bf4ad7699e2f254, type: 3}
       propertyPath: sceneViewId
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 325610326525781794, guid: 6e9f46a6f75dea748bf4ad7699e2f254, type: 3}
+      propertyPath: sceneViewId
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319414134979031548, guid: 6e9f46a6f75dea748bf4ad7699e2f254, type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345242798751303875, guid: 6e9f46a6f75dea748bf4ad7699e2f254, type: 3}
+      propertyPath: sceneViewId
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6165226909093352331, guid: 6e9f46a6f75dea748bf4ad7699e2f254, type: 3}
       propertyPath: m_Enabled
@@ -3844,6 +3856,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1198832858447373625, guid: b455ab0f6dc54ce428a8c7460ff3ca94, type: 3}
+      propertyPath: sceneViewId
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785244142053329460, guid: b455ab0f6dc54ce428a8c7460ff3ca94, type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8968321410168621320, guid: b455ab0f6dc54ce428a8c7460ff3ca94, type: 3}
       propertyPath: m_RootOrder
       value: 0
