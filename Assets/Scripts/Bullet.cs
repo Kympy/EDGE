@@ -7,15 +7,17 @@ public class Bullet : MonoBehaviourPunCallbacks
     [SerializeField] private float speed = 940f;
     [SerializeField] private float power = 50f;
     private Rigidbody _Rigidbody;
+
+    private AudioSource[] BulletSound = null;
     //private float timer = 0f;
     //private float origin = 0f;
     //private bool CheckOnce = true;
     //public GameObject hit;
-    private bool UsedBullet = false;
 
     private void Awake()
     {
         _Rigidbody = GetComponent<Rigidbody>();
+        BulletSound = GetComponents<AudioSource>();
     }
     private void Start()
     {
@@ -26,6 +28,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     }
     private void OnCollisionEnter(Collision collision) // When Bullet gets a collision with an object
     {
+        //PhotonNetwork.Instantiate("BulletHole", collision.contacts[0].point + collision.contacts[0].normal * 0.1f, Quaternion.LookRotation(collision.contacts[0].normal));
         if (collision.transform.CompareTag("Building")) // Hit building
         {
             PhotonNetwork.Instantiate("SandImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
@@ -46,27 +49,27 @@ public class Bullet : MonoBehaviourPunCallbacks
 
             if (collision.transform.CompareTag("PlayerHead"))
             {
-
+                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerBody"))
             {
-
+                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerArmL"))
             {
-
+                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerArmR"))
             {
-
+                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerLegL"))
             {
-
+                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerLegR"))
             {
-
+                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
         }
         
@@ -76,6 +79,7 @@ public class Bullet : MonoBehaviourPunCallbacks
         _Rigidbody.velocity = Vector3.zero; // Stop
         _Rigidbody.isKinematic = true;
         GetComponent<Collider>().enabled = false; // Disable Collider;
+        BulletSound[1].Play();
     }
 
 #if UNITY_EDITOR

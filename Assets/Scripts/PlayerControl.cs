@@ -4,6 +4,10 @@ using UnityEngine;
 
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
+
+[RequireComponent (typeof(PlayerAudio))]
+[RequireComponent (typeof(Rigidbody))]
 
 public class PlayerControl : MonoBehaviourPun
 {
@@ -12,6 +16,10 @@ public class PlayerControl : MonoBehaviourPun
     [SerializeField] private float mouseSpeed = 10f;
     [SerializeField] private float zoomMouseSpeed = 0.1f;
     [SerializeField] private float zoomSpeed = 50f;
+    // Player HP
+    private float HP;
+    private float MaxHP = 100;
+    private Text HPText = null;
     // Player Upper Bone
     private Transform UpperBody = null;
     // Player Rigidbody
@@ -39,8 +47,10 @@ public class PlayerControl : MonoBehaviourPun
     // Keyboard Input Checker
     private bool hasHorizontalInput;
     private bool hasVerticalInput;
-    private bool IsMove;
-    private bool IsFire;
+    private bool IsMove = false;
+    public bool Is_Move { get { return IsMove; } }
+    private bool IsFire = false;
+    public bool Is_Fire { get { return IsFire; } }
     // Camera
     private Camera PlayerCamera; // Player Following Camera
     private Camera ScopeCamera; // Sniper rifle scope
@@ -62,10 +72,13 @@ public class PlayerControl : MonoBehaviourPun
     private GameObject FakeSmoke = null; // Player body smoke
     private GameObject RealMuzzle = null; // Player Arm muzzle
     private GameObject FakeMuzzle = null; // Player body muzzle
+
+    private PlayerAudio _PlayerAudio = null;
     private void Awake()
     {
         if (photonView.IsMine == false) return;
 
+        HP = MaxHP;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -73,6 +86,9 @@ public class PlayerControl : MonoBehaviourPun
     {
         if (photonView.IsMine == false) return;
 
+        HPText = GameObject.Find("HP").GetComponent<Text>();
+        HPText.text = HP.ToString();
+        _PlayerAudio = GetComponent<PlayerAudio>();
         PlayerCamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
         _ArmAnimator = PlayerCamera.GetComponentInChildren<Animator>();
         _PlayerAnimator = GetComponent<Animator>();
@@ -200,8 +216,8 @@ public class PlayerControl : MonoBehaviourPun
     {
         if (IsMove)
         {
+            _PlayerAudio.WalkSound();
             moveVector = (horizontal * transform.right + vertical * transform.forward).normalized;
-            //transform.Translate(moveSpeed * Time.deltaTime * moveVector);
             _Rigidbody.position += moveSpeed * Time.deltaTime * moveVector;
         }
     }
@@ -209,11 +225,13 @@ public class PlayerControl : MonoBehaviourPun
     {
         if (Input.GetMouseButtonDown(0) && IsFire == false)
         {
+            _PlayerAudio.FireSound();
             _PlayerAnimator.SetBool("IsFire", true);
             IsFire = true;
             _ArmAnimator.SetTrigger("Fire"); // Play Animation
             RealMuzzle.SetActive(true);
             RealSmoke.SetActive(true);
+
             if(PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC("MuzzleAndSmoke", RpcTarget.AllBuffered, true);
@@ -338,6 +356,12 @@ public class PlayerControl : MonoBehaviourPun
         _PlayerAnimator.SetBool("IsMove", IsMove);
         _PlayerAnimator.SetFloat("Horizontal", horizontal);
         _PlayerAnimator.SetFloat("Vertical", vertical);
+    }
+    [PunRPC]
+    private void GetDamage(float Damage)
+    {
+        HP -= Damage;
+        HPText.text = HP.ToString();
     }
     private void OnCollisionEnter(Collision collision)
     {
