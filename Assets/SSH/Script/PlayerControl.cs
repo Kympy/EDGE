@@ -17,27 +17,30 @@ public class PlayerControl : MonoBehaviour
     bool isStart = false;
     bool attackDelay = false;
 
-
-
+    /*
+        Ray rayCamera;
+        RaycastHit rayHit;
+    */
     private void Awake()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
         playerFollowCam = GameObject.Find("PlayerFollowCam");
-        followCameraPos = GameObject.Find("CameraPos");
+        followCameraPos = GameObject.Find("CameraPos"); // Find : 최초 1회 사용은 괜찮지만 Update에 사용시 성능저하의 원인
         // followCameraPos = transform.GetChild(2).gameObject; 
         anim = GetComponent<Animator>();
     }
 
     void Start()
     {
-        Invoke("Unlock", 3f);
+        Invoke("Unlock", 3f); // 시작 3초뒤 마우스 회전 활성화
     }
 
     void Update()
     {
         FollowCameraTrans();
+
         if (isStart)
         {
             PlayerRotate();
@@ -46,6 +49,7 @@ public class PlayerControl : MonoBehaviour
         {
             PlayerAttack();
         }
+        
     }
 
     void Unlock()
@@ -62,7 +66,9 @@ public class PlayerControl : MonoBehaviour
 
     void FollowCameraTrans()
     {
+        // 마우스 이동에 따른 회전(Y축)
         playerFollowCam.transform.rotation = Quaternion.Euler(0, mouseX, 0);
+        // 카메라의 위치를 특정위치(followCameraPos)로 변환 (시점 고정)
         playerFollowCam.transform.position = followCameraPos.transform.position;
     }
 
@@ -72,13 +78,36 @@ public class PlayerControl : MonoBehaviour
         {
             anim.SetTrigger("isAttack");
             attackDelay = false;
-            Invoke("AttackDelay", 2f);
+            Invoke("AttackDelay", 2f); // 재장전 시간 2초
             Debug.Log("발사");
+            RayCamera();
         }
     }
 
     void AttackDelay()
     {
         attackDelay = true;
+    }
+
+    void RayCamera()
+    {
+        // rayCamera = Camera.main.ViewportPointToRay(transform.position);
+        Debug.DrawRay(playerFollowCam.transform.position, playerFollowCam.transform.forward * 50f, Color.red);
+
+        if (Physics.Raycast(playerFollowCam.transform.position, playerFollowCam.transform.forward * 5f, out RaycastHit rayHit, Mathf.Infinity))
+        {
+            if (rayHit.transform.tag == "Player")
+            {
+                Debug.Log("죽음");
+            }
+        }
+
+
+        /*
+        if (rayHit.transform.tag == "Player")
+        {
+            Debug.Log("죽음");
+        }
+        */
     }
 }
