@@ -7,7 +7,6 @@ using Photon.Realtime;
 using UnityEngine.UI;
 
 [RequireComponent (typeof(PlayerAudio))]
-[RequireComponent (typeof(Rigidbody))]
 
 public class PlayerControl : MonoBehaviourPun
 {
@@ -23,7 +22,7 @@ public class PlayerControl : MonoBehaviourPun
     // Player Upper Bone
     private Transform UpperBody = null;
     // Player Rigidbody
-    private Rigidbody _Rigidbody = null;
+    //private Rigidbody _Rigidbody = null;
     // Player Virtual Arm
     private GameObject Arm = null;
     // Player Control Values
@@ -92,7 +91,7 @@ public class PlayerControl : MonoBehaviourPun
         PlayerCamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
         _ArmAnimator = PlayerCamera.GetComponentInChildren<Animator>();
         _PlayerAnimator = GetComponent<Animator>();
-        _Rigidbody = GetComponent<Rigidbody>();
+        //_Rigidbody = GetComponent<Rigidbody>();
         ZoomInPos = GameObject.Find("ZoomInPos").transform;
         ZoomOutPos = GameObject.Find("ZoomOutPos").transform;
         PlayerCameraPos = GameObject.Find("CameraPosition").transform;
@@ -218,7 +217,7 @@ public class PlayerControl : MonoBehaviourPun
         {
             _PlayerAudio.WalkSound();
             moveVector = (horizontal * transform.right + vertical * transform.forward).normalized;
-            _Rigidbody.position += moveSpeed * Time.deltaTime * moveVector;
+            transform.position += moveSpeed * Time.deltaTime * moveVector;
         }
     }
     private void Fire()
@@ -306,14 +305,14 @@ public class PlayerControl : MonoBehaviourPun
         float timer = 0f;
         while(true)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime;
             if(IsZoom)
             {
-                rotValueX += 0.01f;
+                rotValueX += 0.04f;
             }
             else
             {
-                rotValueX += 0.05f;
+                rotValueX += 0.12f;
             }
             recoilPower = -rotValueX;
             if(timer > 0.2f)
@@ -331,14 +330,14 @@ public class PlayerControl : MonoBehaviourPun
         float timer = 0f;
         while (true)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime;
             if (IsZoom)
             {
                 rotValueX = 0.04f;
             }
             else
             {
-                rotValueX = 0.2f;
+                rotValueX = 0.12f;
             }
 
             recoilPower = rotValueX;

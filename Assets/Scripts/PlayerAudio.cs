@@ -25,6 +25,7 @@ public class PlayerAudio : MonoBehaviourPun
             PlayerSound = GetComponents<AudioSource>();
             //_PlayerControl = this.GetComponent<PlayerControl>();
             Foot = Resources.LoadAll<AudioClip>("Sound/Foot");
+            PlayerSound[0].clip = Foot[0];
             Fire = Resources.Load<AudioClip>("Sound/SniperFire");
             Reload = Resources.Load<AudioClip>("Sound/Reload");
         }

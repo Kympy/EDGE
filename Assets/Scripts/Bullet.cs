@@ -49,26 +49,32 @@ public class Bullet : MonoBehaviourPunCallbacks
 
             if (collision.transform.CompareTag("PlayerHead"))
             {
+                Debug.Log("Head");
                 collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerBody"))
             {
+                Debug.Log("Body");
                 collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerArmL"))
             {
+                Debug.Log("Arm");
                 collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerArmR"))
             {
+                Debug.Log("Arm");
                 collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerLegL"))
             {
+                Debug.Log("Leg");
                 collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerLegR"))
             {
+                Debug.Log("Leg");
                 collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
         }
