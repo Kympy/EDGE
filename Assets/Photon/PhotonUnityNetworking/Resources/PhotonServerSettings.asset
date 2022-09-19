@@ -42,6 +42,9 @@ MonoBehaviour:
   - RandPos
   - MuzzleAndSmoke
   - GetDamage
+  - RandomSky
+  - SetUserName
+  - UpdateServerBone
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

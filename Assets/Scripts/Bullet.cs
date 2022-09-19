@@ -31,13 +31,13 @@ public class Bullet : MonoBehaviourPunCallbacks
         //PhotonNetwork.Instantiate("BulletHole", collision.contacts[0].point + collision.contacts[0].normal * 0.1f, Quaternion.LookRotation(collision.contacts[0].normal));
         if (collision.transform.CompareTag("Building")) // Hit building
         {
-            PhotonNetwork.Instantiate("SandImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+            PhotonNetwork.Instantiate("Impacts/SandImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
             FixBullet();
             return;
         }
         else if (collision.transform.CompareTag("Dirt")) // Hit dirt
         {
-            PhotonNetwork.Instantiate("DirtImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+            PhotonNetwork.Instantiate("Impacts/DirtImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
             FixBullet();
             return;
         }
@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviourPunCallbacks
         {
             FixBullet();
             // Else Instantiate blood because bullet hit player
-            PhotonNetwork.Instantiate("BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+            PhotonNetwork.Instantiate("Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
 
             if (collision.transform.CompareTag("PlayerHead"))
             {
