@@ -54,6 +54,17 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
                 player.transform.position = _2PPos.position;
                 player.transform.rotation = _2PPos.rotation;
             }
+
+            if(photonView.IsMine)
+            {
+                GameObject[] disableObj = GameObject.FindGameObjectsWithTag("WillDisable");
+
+                for(int i = 0; i < disableObj.Length; i++)
+                {
+                    disableObj[i].AddComponent<DisableRenderer>();
+                }
+            }
+
         }
 
     }

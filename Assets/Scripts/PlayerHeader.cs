@@ -69,9 +69,12 @@ public class PlayerHeader : MonoBehaviourPun
     protected Animator _PlayerAnimator;
     // Effect
     protected GameObject RealSmoke = null; // Player Arm smoke
-    protected GameObject FakeSmoke = null; // Player body smoke
+    [SerializeField] protected GameObject FakeSmoke = null; // Player body smoke
     protected GameObject RealMuzzle = null; // Player Arm muzzle
-    protected GameObject FakeMuzzle = null; // Player body muzzle
+    [SerializeField] protected GameObject FakeMuzzle = null; // Player body muzzle
 
     protected PlayerAudio _PlayerAudio = null;
+
+    public float CurrentHP { get { return HP; } }
+    public float Max_HP { get { return MaxHP; } }
 }

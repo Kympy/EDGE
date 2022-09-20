@@ -8,14 +8,15 @@ using UnityEngine.UI;
 
 [RequireComponent (typeof(PlayerAudio))]
 
-public class PlayerControl : PlayerHeader, IPunObservable
+public class SniperControl : PlayerHeader, IPunObservable
 {
     #region Variables
-    private Text HPText = null;
-    private bool SmokeActive = false;
-    private bool MuzzleActive = false;
     private Vector3 UpperRotation;
+    private bool DevMode = false;
+    private Text mode = null;
 
+    private bool FakeMuzzleActive = false;
+    private bool FakeSmokeActive = false;
     // Player Control Values
     public bool Is_Move { get { return IsMove; } }
     public bool Is_Fire { get { return IsFire; } }
@@ -24,7 +25,8 @@ public class PlayerControl : PlayerHeader, IPunObservable
     private void Awake()
     {
         if (photonView.IsMine == false) return;
-
+        mode = GameObject.Find("Dev").GetComponent<Text>();
+        mode.text = "DevMode : " + DevMode.ToString();
         HP = MaxHP;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -33,8 +35,6 @@ public class PlayerControl : PlayerHeader, IPunObservable
     {
         if (photonView.IsMine == false) return;
 
-        HPText = GameObject.Find("HP").GetComponent<Text>();
-        HPText.text = HP.ToString();
         // Components
         _PlayerAudio = GetComponent<PlayerAudio>();
         _PlayerAnimator = GetComponent<Animator>();
@@ -55,19 +55,19 @@ public class PlayerControl : PlayerHeader, IPunObservable
         UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         // Effects
         RealSmoke = GameObject.Find("RealSmoke");
-        FakeSmoke = GameObject.Find("FakeSmoke");
-        RealMuzzle = GameObject.Find("RealMuzzle");
         FakeMuzzle = GameObject.Find("FakeMuzzle");
+        Debug.Log("Fake Muzzle Inst " + FakeMuzzle.name);
+        FakeSmoke = GameObject.Find("FakeSmoke");
+        Debug.Log("Fake Smoke Inst " + FakeSmoke.name);
+        RealMuzzle = GameObject.Find("RealMuzzle");
         ArmCasing = GameObject.Find("ArmCasing");
 
         ArmCasing.SetActive(false);
         RealSmoke.SetActive(false);
         RealMuzzle.SetActive(false);
 
-        FakeSmoke.SetActive(false);
         FakeMuzzle.SetActive(false);
-        //photonView.RPC("MuzzleAndSmoke", RpcTarget.AllBuffered, false);
-
+        FakeSmoke.SetActive(false);
         // Set Arm Position
         Arm.transform.localPosition = ZoomOutPos.localPosition;
     } // Find Components & Initialize
@@ -90,12 +90,22 @@ public class PlayerControl : PlayerHeader, IPunObservable
         UpdateZoomValue();
         Fire();
         UpdateAnimation();
+        DevModeToggle();
+        UpdateEffectToggle();
     }
     private void LateUpdate()
     {
         if (photonView.IsMine == false)
         {
-            UpperBody.eulerAngles = UpperRotation;
+            //UpperBody.eulerAngles = UpperRotation;
+        }
+    }
+    private void DevModeToggle()
+    {
+        if(Input.GetKeyDown(KeyCode.F2))
+        {
+            DevMode = !DevMode;
+            mode.text = "DevMode : " + DevMode.ToString();
         }
     }
     #region Zoom Function
@@ -225,7 +235,6 @@ public class PlayerControl : PlayerHeader, IPunObservable
             // Player Effect
             FakeMuzzle.SetActive(true);
             FakeSmoke.SetActive(true);
-            //photonView.RPC("MuzzleAndSmoke", RpcTarget.AllBuffered, true);
 
             shootRot = PlayerCamera.transform.eulerAngles.x;
             shootRot = shootRot > 180f ? shootRot - 360f : shootRot;
@@ -256,17 +265,12 @@ public class PlayerControl : PlayerHeader, IPunObservable
         ArmCasing.SetActive(true);
         PhotonNetwork.Instantiate("Case", CasingPos.position, CasingPos.rotation);
     }
-    [PunRPC]
-    public void MuzzleAndSmoke(bool show)
-    {
-        FakeSmoke.SetActive(show);
-        FakeMuzzle.SetActive(show);
-    }
     #endregion
 
     #region Recoil Function
     private IEnumerator ReCoilUp()
     {
+        if (DevMode == true) yield break;
         float rotValueX = 0f;
         float timer = 0f;
         while(true)
@@ -323,12 +327,6 @@ public class PlayerControl : PlayerHeader, IPunObservable
         _PlayerAnimator.SetFloat("Horizontal", horizontal);
         _PlayerAnimator.SetFloat("Vertical", vertical);
     } // Control Animator
-    [PunRPC]
-    private void GetDamage(float Damage)
-    {
-        HP -= Damage;
-        HPText.text = HP.ToString();
-    }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Dirt"))
@@ -343,15 +341,25 @@ public class PlayerControl : PlayerHeader, IPunObservable
         if(stream.IsWriting)
         {
             stream.SendNext(FakeMuzzle.activeSelf);
+            Debug.Log("Muzzle Send : " + FakeMuzzle.activeSelf);
             stream.SendNext(FakeSmoke.activeSelf);
-            //stream.SendNext(UpperBody.localEulerAngles);
+            Debug.Log("Smoke Send : " + FakeSmoke.activeSelf);
         }
         else
         {
-            FakeMuzzle.SetActive((bool)stream.ReceiveNext());
-            FakeSmoke.SetActive((bool)stream.ReceiveNext());
-            //UpperBody.localEulerAngles = (Vector3)stream.ReceiveNext();
+            FakeMuzzleActive = (bool)stream.ReceiveNext();
+            FakeMuzzle.SetActive(FakeMuzzleActive);
+            //Debug.Log("Muzzle Receive : " + (bool)stream.ReceiveNext());
+            FakeSmokeActive = (bool)stream.ReceiveNext();
+            FakeSmoke.SetActive(FakeSmokeActive);
+            //Debug.Log("Smoke Receive : " + (bool)stream.ReceiveNext());
+
         }
+    }
+
+    private void UpdateEffectToggle()
+    {
+        
     }
     [PunRPC]
     public void UpdateServerBone(Vector3 rotation)

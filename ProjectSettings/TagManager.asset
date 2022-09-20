@@ -18,6 +18,7 @@ TagManager:
   - PlayerArmR
   - PlayerLegL
   - PlayerLegR
+  - WillDisable
   layers:
   - Default
   - TransparentFX
