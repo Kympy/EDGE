@@ -89,13 +89,16 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
         if (Enemy != null)
         {
             Vector3 screenPoint = Vector3.zero;
+            Vector3 namePoint = Vector3.zero;
             if (PlayerList[0].GetComponent<SniperControl>().Is_Zoom)
             {
                 screenPoint = MyCamera.GetComponentInChildren<Camera>().WorldToViewportPoint(Enemy.transform.position); // Scope Camera
+                namePoint = MyCamera.GetComponentInChildren<Camera>().WorldToScreenPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
             }
             else
             {
                 screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position); // Player Arm Camera
+                namePoint = MyCamera.WorldToScreenPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
             }
 
 
@@ -103,7 +106,7 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
                 screenPoint.x > 0f && screenPoint.x < 1f &&
                 screenPoint.y > 0f && screenPoint.y < 1f)
             {
-                Vector3 namePoint = MyCamera.WorldToScreenPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
+                
                 Debug.Log("In!!");
                 _UIManager.SetNickNamePosition(PlayerList[1].GetPhotonView().Owner.NickName, namePoint);
             }
