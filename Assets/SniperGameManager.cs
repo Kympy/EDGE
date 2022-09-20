@@ -70,10 +70,10 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
                 player.transform.position = _2PPos.position;
                 player.transform.rotation = _2PPos.rotation;
             }
-            PlayerList.Add(player);
             DisableMesh();
         }
     }
+    
     public void DisableMesh()
     {
         if (photonView.IsMine)

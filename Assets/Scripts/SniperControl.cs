@@ -15,9 +15,6 @@ public class SniperControl : PlayerHeader, IPunObservable
     private bool DevMode = false;
     private Text mode = null;
 
-    private bool FakeMuzzleActive = false;
-    private bool FakeSmokeActive = false;
-
     public GameObject NamePos = null; // Player Nickname Position
     // Player Control Values
     public bool Is_Move { get { return IsMove; } }
@@ -26,6 +23,7 @@ public class SniperControl : PlayerHeader, IPunObservable
 
     private void Awake()
     {
+        GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject);
         if (photonView.IsMine == false) return;
         mode = GameObject.Find("Dev").GetComponent<Text>();
         mode.text = "DevMode : " + DevMode.ToString();
