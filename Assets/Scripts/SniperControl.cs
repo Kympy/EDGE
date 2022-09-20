@@ -10,23 +10,6 @@ using UnityEngine.UI;
 
 public class SniperControl : PlayerHeader, IPunObservable
 {
-    [System.Serializable]
-    public struct ChangedMesh
-    {
-        public GameObject Arm;
-        public GameObject Bag;
-        public GameObject Face;
-        public GameObject Eye;
-        public GameObject Head;
-        public GameObject Jacket;
-        public GameObject Pants;
-        public GameObject Pullover;
-        public GameObject Shoes;
-        public GameObject FakeWeapon;
-        public GameObject _Scope;
-        public GameObject Bolt;
-    }
-    [SerializeField] private ChangedMesh changedMesh;
     [SerializeField] private GameObject[] changedObjects = new GameObject[12];
 
     #region Variables
@@ -72,26 +55,20 @@ public class SniperControl : PlayerHeader, IPunObservable
         _ArmAnimator = PlayerCamera.GetComponentInChildren<Animator>();
         Arm = GameObject.Find("PlayerArmPivot");
         // Positions
-        //PlayerCameraPos = GameObject.Find("CameraPosition").transform;
         ScopeCamera = GameObject.Find("ScopeCamera").GetComponent<Camera>();
         ZoomInPos = GameObject.Find("ZoomInPos").transform;
         ZoomOutPos = GameObject.Find("ZoomOutPos").transform;
         CasingPos = GameObject.Find("CasingPos").transform;
         shootPos = GameObject.Find("ShootPos").transform;
         ZoomShootPosition = GameObject.Find("ZoomShootPos").transform;
-        // Bone
-        //UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         // Effects
         RealSmoke = GameObject.Find("RealSmoke");
-        //FakeMuzzle = GameObject.Find("FakeMuzzle");
-        //FakeSmoke = GameObject.Find("FakeSmoke");
         RealMuzzle = GameObject.Find("RealMuzzle");
         ArmCasing = GameObject.Find("ArmCasing");
-
+        // Initializing Active State
         ArmCasing.SetActive(false);
         RealSmoke.SetActive(false);
         RealMuzzle.SetActive(false);
-
         FakeMuzzle.SetActive(false);
         FakeSmoke.SetActive(false);
         // Set Arm Position

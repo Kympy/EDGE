@@ -43,7 +43,6 @@ public class Bullet : MonoBehaviourPunCallbacks
         }
         else
         {
-            FixBullet();
             // Else Instantiate blood because bullet hit player
             PhotonNetwork.Instantiate("Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
 
@@ -77,6 +76,7 @@ public class Bullet : MonoBehaviourPunCallbacks
                 Debug.Log("Leg");
                 collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
+            PhotonNetwork.Destroy(this.gameObject);
         }
         
     }
