@@ -30,10 +30,12 @@ public class UIManager : MonoBehaviourPun
     {
         EnemyPlayerName.text = nickname;
     }
-    public void SetNickNamePosition(Vector3 position)
+    public void SetNickNamePosition(string name, Vector3 position)
     {
         EnemyPlayerName.gameObject.SetActive(true);
-        EnemyPlayerName.transform.position = position;
+        Debug.Log("Position : " + position);
+        EnemyPlayerName.text = name;
+        EnemyPlayerName.rectTransform.position = new Vector3(position.x, position.y);
     }
     public void HideNickName()
     {

@@ -1092,7 +1092,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -668.30505, y: -345.9829}
+  m_AnchoredPosition: {x: 0.57, y: 0.49}
   m_SizeDelta: {x: 228.6024, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1993877718
@@ -1475,6 +1475,7 @@ MonoBehaviour:
   _UIManager: {fileID: 710381313}
   MyCamera: {fileID: 398528491}
   Enemy: {fileID: 0}
+  PlayerList: []
 --- !u!1001 &4358538024169825824
 PrefabInstance:
   m_ObjectHideFlags: 0

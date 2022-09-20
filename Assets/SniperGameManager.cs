@@ -6,6 +6,12 @@ using Photon.Realtime;
 
 public class SniperGameManager : MonoBehaviourPunCallbacks
 {
+    public struct PlayerList
+    {
+        public string Nickname;
+        public GameObject PlayerObj;
+    }
+    public List<PlayerList> P_List = new List<PlayerList>();
     #region Player Position Initialize Variables
     private GameObject _1PHouse = null;
     private GameObject _2PHouse = null;
@@ -19,8 +25,6 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     [SerializeField] private UIManager _UIManager = null;
     [SerializeField] private Camera MyCamera = null;
     [SerializeField] private GameObject Enemy = null;
-
-    [SerializeField] public List<GameObject> PlayerList = new List<GameObject>();
 
     public GameObject GetEnemy { get { return Enemy; } }
     private SniperGameManager() { }
@@ -36,10 +40,6 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         EnemyInCamera();
-    }
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        Debug.Log("Player Entered");
     }
     [PunRPC]
     public void PlayerInst(float randX1, float randX2) // Move Start Position by random X value
@@ -87,21 +87,21 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     }
     public void EnemyInCamera()
     {
-        if(PlayerList.Count > 1)
+        if(P_List.Count > 1)
         {
-            Enemy = PlayerList[1];
+            Enemy = P_List[1].PlayerObj;
         }
         if (Enemy != null)
         {
             Vector3 screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position);
-            Vector3 namePoint = MyCamera.WorldToViewportPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
 
             if (screenPoint.z > 0f &&
                 screenPoint.x > 0f && screenPoint.x < 1f &&
                 screenPoint.y > 0f && screenPoint.y < 1f)
             {
+                Vector3 namePoint = MyCamera.WorldToScreenPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
                 Debug.Log("In!!");
-                _UIManager.SetNickNamePosition(namePoint);
+                _UIManager.SetNickNamePosition(P_List[1].Nickname, namePoint);
             }
             else
             {
