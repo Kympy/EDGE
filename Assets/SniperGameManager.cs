@@ -6,12 +6,7 @@ using Photon.Realtime;
 
 public class SniperGameManager : MonoBehaviourPunCallbacks
 {
-    public struct PlayerList
-    {
-        public string Nickname;
-        public GameObject PlayerObj;
-    }
-    public List<PlayerList> P_List = new List<PlayerList>();
+    public List<GameObject> PlayerList = new List<GameObject>();
     #region Player Position Initialize Variables
     private GameObject _1PHouse = null;
     private GameObject _2PHouse = null;
@@ -23,7 +18,7 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     #endregion
     [SerializeField] private WeatherManager _WeatherManager = null;
     [SerializeField] private UIManager _UIManager = null;
-    [SerializeField] private Camera MyCamera = null;
+    [SerializeField] private Camera MyCamera = null; // Player Arm Camera
     [SerializeField] private GameObject Enemy = null;
 
     public GameObject GetEnemy { get { return Enemy; } }
@@ -85,15 +80,24 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
             }
         }
     }
-    public void EnemyInCamera()
+    public void EnemyInCamera() // Is Enemy Player in my camera?
     {
-        if(P_List.Count > 1)
+        if(PlayerList.Count > 1)
         {
-            Enemy = P_List[1].PlayerObj;
+            Enemy = PlayerList[1];
         }
         if (Enemy != null)
         {
-            Vector3 screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position);
+            Vector3 screenPoint = Vector3.zero;
+            if (PlayerList[0].GetComponent<SniperControl>().Is_Zoom)
+            {
+                screenPoint = MyCamera.GetComponentInChildren<Camera>().WorldToViewportPoint(Enemy.transform.position); // Scope Camera
+            }
+            else
+            {
+                screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position); // Player Arm Camera
+            }
+
 
             if (screenPoint.z > 0f &&
                 screenPoint.x > 0f && screenPoint.x < 1f &&
@@ -101,7 +105,7 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
             {
                 Vector3 namePoint = MyCamera.WorldToScreenPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
                 Debug.Log("In!!");
-                _UIManager.SetNickNamePosition(P_List[1].Nickname, namePoint);
+                _UIManager.SetNickNamePosition(PlayerList[1].GetPhotonView().Owner.NickName, namePoint);
             }
             else
             {

@@ -77,4 +77,6 @@ public class PlayerHeader : MonoBehaviourPun
 
     public float CurrentHP { get { return HP; } }
     public float Max_HP { get { return MaxHP; } }
+
+    public bool Is_Zoom { get { return IsZoom; } }
 }

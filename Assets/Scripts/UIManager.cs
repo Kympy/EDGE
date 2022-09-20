@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviourPun
 
     private void Start()
     {
-        EnemyPlayerName.text = "DEBUG";
+        EnemyPlayerName.text = "";
     }
     public void InitUserHP()
     {
