@@ -23,7 +23,7 @@ public class SniperControl : PlayerHeader, IPunObservable
 
     private void Awake()
     {
-        GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject);
+        GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject); // Add Me On Player List
         if (photonView.IsMine == false) return;
         mode = GameObject.Find("Dev").GetComponent<Text>();
         mode.text = "DevMode : " + DevMode.ToString();

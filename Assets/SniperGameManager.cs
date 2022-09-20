@@ -26,7 +26,6 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     private SniperGameManager() { }
     private void Awake()
     {
-        FindEnemy();
         if (PhotonNetwork.IsMasterClient) // If master, Create Random Value and Send
         {
             photonView.RPC("PlayerInst", RpcTarget.AllBuffered, Random.Range(-250f, 0f), Random.Range(0f, 250f));
@@ -86,20 +85,12 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
             }
         }
     }
-    public void FindEnemy()
-    {
-        //playerList = FindObjectsOfType<SniperControl>();
-
-        //foreach (SniperControl player in playerList)
-        {
-            //if (player.gameObject.GetComponent<PhotonView>().IsMine == false)
-            {
-                //Enemy = player.gameObject;
-            }
-        }
-    }
     public void EnemyInCamera()
     {
+        if(PlayerList.Count > 1)
+        {
+            Enemy = PlayerList[1];
+        }
         if (Enemy != null)
         {
             Vector3 screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position);
