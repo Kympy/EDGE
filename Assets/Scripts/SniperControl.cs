@@ -44,7 +44,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         _ArmAnimator = PlayerCamera.GetComponentInChildren<Animator>();
         Arm = GameObject.Find("PlayerArmPivot");
         // Positions
-        PlayerCameraPos = GameObject.Find("CameraPosition").transform;
+        //PlayerCameraPos = GameObject.Find("CameraPosition").transform;
         ScopeCamera = GameObject.Find("ScopeCamera").GetComponent<Camera>();
         ZoomInPos = GameObject.Find("ZoomInPos").transform;
         ZoomOutPos = GameObject.Find("ZoomOutPos").transform;
@@ -52,13 +52,11 @@ public class SniperControl : PlayerHeader, IPunObservable
         shootPos = GameObject.Find("ShootPos").transform;
         ZoomShootPosition = GameObject.Find("ZoomShootPos").transform;
         // Bone
-        UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
+        //UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         // Effects
         RealSmoke = GameObject.Find("RealSmoke");
-        FakeMuzzle = GameObject.Find("FakeMuzzle");
-        Debug.Log("Fake Muzzle Inst " + FakeMuzzle.name);
-        FakeSmoke = GameObject.Find("FakeSmoke");
-        Debug.Log("Fake Smoke Inst " + FakeSmoke.name);
+        //FakeMuzzle = GameObject.Find("FakeMuzzle");
+        //FakeSmoke = GameObject.Find("FakeSmoke");
         RealMuzzle = GameObject.Find("RealMuzzle");
         ArmCasing = GameObject.Find("ArmCasing");
 

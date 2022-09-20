@@ -11,7 +11,7 @@ public class PlayerHeader : MonoBehaviourPun
     [SerializeField] protected float zoomMouseSpeed = 0.1f;
     [SerializeField] protected float zoomSpeed = 50f;
 
-    protected Rigidbody _Rigidbody = null;
+    [SerializeField] protected Rigidbody _Rigidbody = null;
     // Player Virtual Arm
     protected GameObject Arm = null;
 
@@ -20,7 +20,7 @@ public class PlayerHeader : MonoBehaviourPun
     protected float MaxHP = 100;
 
     // Player Upper Bone
-    protected Transform UpperBody = null;
+    [SerializeField] protected Transform UpperBody = null;
 
     // Keyboard Movement
     protected float horizontal;
@@ -60,17 +60,17 @@ public class PlayerHeader : MonoBehaviourPun
     protected Transform ZoomOutPos;
     protected Transform ZoomInPos;
     // Player Following Camera Position
-    protected Transform PlayerCameraPos;
+    [SerializeField] protected Transform PlayerCameraPos;
     // Casing Position
     protected Transform CasingPos;
     protected GameObject ArmCasing = null;
     // Animator
     protected Animator _ArmAnimator;
-    protected Animator _PlayerAnimator;
+    [SerializeField] protected Animator _PlayerAnimator;
     // Effect
-    protected GameObject RealSmoke = null; // Player Arm smoke
+     protected GameObject RealSmoke = null; // Player Arm smoke
     [SerializeField] protected GameObject FakeSmoke = null; // Player body smoke
-    protected GameObject RealMuzzle = null; // Player Arm muzzle
+     protected GameObject RealMuzzle = null; // Player Arm muzzle
     [SerializeField] protected GameObject FakeMuzzle = null; // Player body muzzle
 
     protected PlayerAudio _PlayerAudio = null;
