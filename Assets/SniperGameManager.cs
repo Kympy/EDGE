@@ -56,6 +56,7 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
         _2PHouse.transform.position += new Vector3(_2PrandX, 0f, 0f);
         _2PPos = GameObject.Find("2PPosition").transform;
 
+
         if (PhotonNetwork.IsConnected)
         {
             GameObject player = PhotonNetwork.Instantiate("Player", Vector3.one, Quaternion.identity); // Create First
