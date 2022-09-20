@@ -19,10 +19,14 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     [SerializeField] private UIManager _UIManager = null;
     [SerializeField] private Camera MyCamera = null;
     [SerializeField] private GameObject Enemy = null;
+
+    [SerializeField] public List<GameObject> PlayerList = new List<GameObject>();
+
     public GameObject GetEnemy { get { return Enemy; } }
     private SniperGameManager() { }
     private void Awake()
     {
+        FindEnemy();
         if (PhotonNetwork.IsMasterClient) // If master, Create Random Value and Send
         {
             photonView.RPC("PlayerInst", RpcTarget.AllBuffered, Random.Range(-250f, 0f), Random.Range(0f, 250f));
@@ -37,17 +41,6 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("Player Entered");
-        _UIManager.UpdateEnemyName(newPlayer.NickName);
-
-        SniperControl[] playerList = FindObjectsOfType<SniperControl>();
-
-        foreach(SniperControl player in playerList)
-        {
-            if(player.gameObject.GetComponent<PhotonView>().IsMine == false)
-            {
-                Enemy = player.gameObject;
-            }
-        }
     }
     [PunRPC]
     public void PlayerInst(float randX1, float randX2) // Move Start Position by random X value
@@ -76,21 +69,37 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
                 player.transform.position = _2PPos.position;
                 player.transform.rotation = _2PPos.rotation;
             }
+            PlayerList.Add(player);
+            DisableMesh();
+        }
+    }
+    public void DisableMesh()
+    {
+        if (photonView.IsMine)
+        {
+            GameObject[] disableObj = GameObject.FindGameObjectsWithTag("WillDisable");
 
-            if(photonView.IsMine)
+            for (int i = 0; i < disableObj.Length; i++)
             {
-                GameObject[] disableObj = GameObject.FindGameObjectsWithTag("WillDisable");
+                disableObj[i].AddComponent<DisableRenderer>();
+            }
+        }
+    }
+    public void FindEnemy()
+    {
+        //playerList = FindObjectsOfType<SniperControl>();
 
-                for(int i = 0; i < disableObj.Length; i++)
-                {
-                    disableObj[i].AddComponent<DisableRenderer>();
-                }
+        //foreach (SniperControl player in playerList)
+        {
+            //if (player.gameObject.GetComponent<PhotonView>().IsMine == false)
+            {
+                //Enemy = player.gameObject;
             }
         }
     }
     public void EnemyInCamera()
     {
-        if(Enemy != null)
+        if (Enemy != null)
         {
             Vector3 screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position);
             Vector3 namePoint = MyCamera.WorldToViewportPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
@@ -99,10 +108,12 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
                 screenPoint.x > 0f && screenPoint.x < 1f &&
                 screenPoint.y > 0f && screenPoint.y < 1f)
             {
+                Debug.Log("In!!");
                 _UIManager.SetNickNamePosition(namePoint);
             }
             else
             {
+                Debug.Log("Out!!");
                 _UIManager.HideNickName();
             }
         }

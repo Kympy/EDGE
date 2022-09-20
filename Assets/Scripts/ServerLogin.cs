@@ -9,6 +9,7 @@ using System;
 public class ServerLogin : MonoBehaviourPunCallbacks
 {
     public Button button;
+    
     private void Awake()
     {
         PhotonNetwork.ConnectUsingSettings(); // Applicate Connection to Master Server
