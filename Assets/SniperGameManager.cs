@@ -16,19 +16,41 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     private float _2PrandX = 0f; // Player 2 Random X position
     #endregion
     [SerializeField] private WeatherManager _WeatherManager = null;
-
+    [SerializeField] private UIManager _UIManager = null;
+    [SerializeField] private Camera MyCamera = null;
+    [SerializeField] private GameObject Enemy = null;
+    public GameObject GetEnemy { get { return Enemy; } }
     private SniperGameManager() { }
     private void Awake()
     {
         if (PhotonNetwork.IsMasterClient) // If master, Create Random Value and Send
         {
-            photonView.RPC("RandPos", RpcTarget.AllBuffered, Random.Range(-250f, 0f), Random.Range(0f, 250f));
+            photonView.RPC("PlayerInst", RpcTarget.AllBuffered, Random.Range(-250f, 0f), Random.Range(0f, 250f));
         }
         _WeatherManager.ApplyRandomSky();
+        
     }
+    private void Update()
+    {
+        EnemyInCamera();
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log("Player Entered");
+        _UIManager.UpdateEnemyName(newPlayer.NickName);
 
+        SniperControl[] playerList = FindObjectsOfType<SniperControl>();
+
+        foreach(SniperControl player in playerList)
+        {
+            if(player.gameObject.GetComponent<PhotonView>().IsMine == false)
+            {
+                Enemy = player.gameObject;
+            }
+        }
+    }
     [PunRPC]
-    public void RandPos(float randX1, float randX2) // Move Start Position by random X value
+    public void PlayerInst(float randX1, float randX2) // Move Start Position by random X value
     {
         _1PrandX = randX1;
         _2PrandX = randX2;
@@ -64,8 +86,25 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
                     disableObj[i].AddComponent<DisableRenderer>();
                 }
             }
-
         }
+    }
+    public void EnemyInCamera()
+    {
+        if(Enemy != null)
+        {
+            Vector3 screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position);
+            Vector3 namePoint = MyCamera.WorldToViewportPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
 
+            if (screenPoint.z > 0f &&
+                screenPoint.x > 0f && screenPoint.x < 1f &&
+                screenPoint.y > 0f && screenPoint.y < 1f)
+            {
+                _UIManager.SetNickNamePosition(namePoint);
+            }
+            else
+            {
+                _UIManager.HideNickName();
+            }
+        }
     }
 }

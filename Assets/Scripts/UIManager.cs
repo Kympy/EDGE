@@ -7,50 +7,36 @@ using Photon.Pun;
 
 public class UIManager : MonoBehaviourPun
 {
-    private TextMeshProUGUI Player_1_Name = null;
-    private TextMeshProUGUI Player_2_Name = null;
+    //private TextMeshProUGUI Player_1_Name = null;
+    //private TextMeshProUGUI Player_2_Name = null;
+    [SerializeField] private TextMeshProUGUI EnemyPlayerName = null;
 
     private TextMeshProUGUI MyHP = null;
 
     private SniperControl MyPlayer = null;
+    [SerializeField] SniperGameManager MyGameManager = null;
 
     private void Start()
     {
-        if (photonView.IsMine == false) return;
-
-        InitUserName();
-        MyPlayer = FindObjectOfType<SniperControl>();
-        InitUserHP();
+        EnemyPlayerName.text = "DEBUG";
     }
     public void InitUserHP()
     {
+        MyPlayer = FindObjectOfType<SniperControl>();
         MyHP = GameObject.Find("HPInfo").GetComponent<TextMeshProUGUI>();
         MyHP.text = MyPlayer.CurrentHP + " / " + MyPlayer.Max_HP;
     }
-    public void InitUserName()
+    public void UpdateEnemyName(string nickname)
     {
-        Player_1_Name = GameObject.Find("1PName").GetComponent<TextMeshProUGUI>();
-        Player_2_Name = GameObject.Find("2PName").GetComponent<TextMeshProUGUI>();
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("SetUserName", RpcTarget.AllBuffered, 1, PhotonNetwork.NickName);
-        }
-        else
-        {
-            photonView.RPC("SetUserName", RpcTarget.AllBuffered, 2, PhotonNetwork.NickName);
-        }
+        EnemyPlayerName.text = nickname;
     }
-    [PunRPC]
-    public void SetUserName(int Number, string Nickname)
+    public void SetNickNamePosition(Vector3 position)
     {
-        if(Number == 1)
-        {
-            Player_1_Name.text = "1P : " + Nickname;
-        }
-        else
-        {
-            Player_2_Name.text = "2P : " + Nickname;
-        }
+        EnemyPlayerName.gameObject.SetActive(true);
+        EnemyPlayerName.transform.position = position;
+    }
+    public void HideNickName()
+    {
+        EnemyPlayerName.gameObject.SetActive(false);
     }
 }

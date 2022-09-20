@@ -17,6 +17,8 @@ public class SniperControl : PlayerHeader, IPunObservable
 
     private bool FakeMuzzleActive = false;
     private bool FakeSmokeActive = false;
+
+    public GameObject NamePos = null; // Player Nickname Position
     // Player Control Values
     public bool Is_Move { get { return IsMove; } }
     public bool Is_Fire { get { return IsFire; } }
@@ -339,19 +341,12 @@ public class SniperControl : PlayerHeader, IPunObservable
         if(stream.IsWriting)
         {
             stream.SendNext(FakeMuzzle.activeSelf);
-            Debug.Log("Muzzle Send : " + FakeMuzzle.activeSelf);
             stream.SendNext(FakeSmoke.activeSelf);
-            Debug.Log("Smoke Send : " + FakeSmoke.activeSelf);
         }
         else
         {
-            FakeMuzzleActive = (bool)stream.ReceiveNext();
-            FakeMuzzle.SetActive(FakeMuzzleActive);
-            //Debug.Log("Muzzle Receive : " + (bool)stream.ReceiveNext());
-            FakeSmokeActive = (bool)stream.ReceiveNext();
-            FakeSmoke.SetActive(FakeSmokeActive);
-            //Debug.Log("Smoke Receive : " + (bool)stream.ReceiveNext());
-
+            FakeMuzzle.SetActive((bool)stream.ReceiveNext());
+            FakeSmoke.SetActive((bool)stream.ReceiveNext());
         }
     }
 
