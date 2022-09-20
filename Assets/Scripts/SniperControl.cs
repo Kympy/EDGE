@@ -10,6 +10,25 @@ using UnityEngine.UI;
 
 public class SniperControl : PlayerHeader, IPunObservable
 {
+    [System.Serializable]
+    public struct ChangedMesh
+    {
+        public GameObject Arm;
+        public GameObject Bag;
+        public GameObject Face;
+        public GameObject Eye;
+        public GameObject Head;
+        public GameObject Jacket;
+        public GameObject Pants;
+        public GameObject Pullover;
+        public GameObject Shoes;
+        public GameObject FakeWeapon;
+        public GameObject _Scope;
+        public GameObject Bolt;
+    }
+    [SerializeField] private ChangedMesh changedMesh;
+    [SerializeField] private GameObject[] changedObjects = new GameObject[12];
+
     #region Variables
     private Vector3 UpperRotation;
     private bool DevMode = false;
@@ -24,12 +43,21 @@ public class SniperControl : PlayerHeader, IPunObservable
     private void Awake()
     {
         GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject); // Add Me On Player List
+
         if (photonView.IsMine == false) return;
+
         mode = GameObject.Find("Dev").GetComponent<Text>();
         mode.text = "DevMode : " + DevMode.ToString();
+
         HP = MaxHP;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        for(int i = 0; i < changedObjects.Length; i++)
+        {
+            changedObjects[i].layer = LayerMask.NameToLayer("MyServerPlayer");
+        }
     }
     private void Start()
     {
