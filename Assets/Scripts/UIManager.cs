@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviourPun
     {
         EnemyPlayerName.text = "";
         User1Name.text = PhotonNetwork.NickName;
+        User2Name.text = "";
         TabPanel.SetActive(false);
     }
     private void Update()
@@ -64,6 +65,7 @@ public class UIManager : MonoBehaviourPun
         EnemyPlayerName.gameObject.SetActive(true);
         //Debug.Log("Position : " + position);
         EnemyPlayerName.text = name;
+        User2Name.text = name;
         EnemyPlayerName.rectTransform.position = new Vector3(position.x, position.y);
     }
     public void HideNickName()
@@ -96,26 +98,32 @@ public class UIManager : MonoBehaviourPun
         if(parts == "Head")
         {
             someone.Head.sprite = MyGameManager.prefabData.HeadRed;
+            someone.Head.color = Color.white;
         }
         else if(parts == "Body")
         {
             someone.Body.sprite = MyGameManager.prefabData.BodyRed;
+            someone.Body.color = Color.white;
         }
         else if(parts == "ArmL")
         {
             someone.ArmL.sprite = MyGameManager.prefabData.ArmL;
+            someone.ArmL.color = Color.white;
         }
         else if(parts == "ArmR")
         {
             someone.ArmR.sprite = MyGameManager.prefabData.ArmR;
+            someone.ArmR.color = Color.white;
         }
         else if(parts == "LegL")
         {
             someone.LegL.sprite = MyGameManager.prefabData.LegL;
+            someone.LegL.color = Color.white;
         }
         else if(parts == "LegR")
         {
             someone.LegR.sprite = MyGameManager.prefabData.LegR;
+            someone.LegR.color = Color.white;
         }
     }
 }

@@ -56,7 +56,7 @@ public class Bullet : MonoBehaviourPunCallbacks
             {
                 if(collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
                 {
-                    SniperGameManager.Instance.GetUI.UpdateIndicator("Head", 1);
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("Head", 2);
                 }
             }
             else if (collision.collider.CompareTag("PlayerBody"))
@@ -64,35 +64,35 @@ public class Bullet : MonoBehaviourPunCallbacks
                 if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
                 {
                     Debug.Log("Body Indi");
-                    SniperGameManager.Instance.GetUI.UpdateIndicator("Body", 1);
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("Body", 2);
                 }
             }
             else if (collision.collider.CompareTag("PlayerArmL"))
             {
                 if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
                 {
-                    SniperGameManager.Instance.GetUI.UpdateIndicator("ArmL", 1);
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("ArmL", 2);
                 }        
             }
             else if (collision.collider.CompareTag("PlayerArmR"))
             {
                 if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
                 {
-                    SniperGameManager.Instance.GetUI.UpdateIndicator("ArmR", 1);
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("ArmR", 2);
                 }
             }
             else if (collision.collider.CompareTag("PlayerLegL"))
             {
                 if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
                 {
-                    SniperGameManager.Instance.GetUI.UpdateIndicator("LegL", 1);
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("LegL", 2);
                 }
             }
             else if (collision.collider.CompareTag("PlayerLegR"))
             {
                 if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
                 {
-                    SniperGameManager.Instance.GetUI.UpdateIndicator("LegR", 1);
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("LegR", 2);
                 }
             }
         }
