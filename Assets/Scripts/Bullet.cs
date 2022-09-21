@@ -9,11 +9,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     private Rigidbody _Rigidbody;
 
     private AudioSource[] BulletSound = null;
-    //private float timer = 0f;
-    //private float origin = 0f;
-    //private bool CheckOnce = true;
-    //public GameObject hit;
-    private bool Used = false;
+    private bool Used = false; // Has a first collision
     private void Awake()
     {
         _Rigidbody = GetComponent<Rigidbody>();
@@ -23,14 +19,12 @@ public class Bullet : MonoBehaviourPunCallbacks
     {
         _Rigidbody.AddForce(transform.forward * speed, ForceMode.Impulse); // Give a force to bullet
         _Rigidbody.AddTorque(transform.forward * power, ForceMode.Impulse); // Give a rotation force
-        //Debug.Log("Starting Y Position is " + transform.position.y + " m");
-        //origin = transform.position.y;
     }
     private void Update()
     {
         if(Used == false)
         {
-            _Rigidbody.AddForce(Vector3.up * 5f, ForceMode.Acceleration);
+            _Rigidbody.AddForce(Vector3.up * 5.8f, ForceMode.Acceleration);
         }
         //Debug.Log(_Rigidbody.velocity.magnitude);
     }
@@ -96,7 +90,7 @@ public class Bullet : MonoBehaviourPunCallbacks
         }
         
     }
-    private void FixBullet()
+    private void FixBullet() 
     {
         GetComponent<Collider>().enabled = false; // Disable Collider;
         _Rigidbody.velocity = Vector3.zero; // Stop

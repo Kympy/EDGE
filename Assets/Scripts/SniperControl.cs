@@ -18,6 +18,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     private Vector3 UpperRotation;
     private bool DevMode = false;
     private Text mode = null;
+    private int ZoomLevel = 0;
 
     public GameObject NamePos = null; // Player Nickname Position
     // Player Control Values
@@ -158,14 +159,45 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && IsZoom)
         {
             ScopeCamera.fieldOfView += -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime;
-            if (ScopeCamera.fieldOfView > 10f)
+            if (ScopeCamera.fieldOfView > 20f)
             {
-                ScopeCamera.fieldOfView = 10f;
+                ScopeCamera.fieldOfView = 20f;
+            }
+            else if(ScopeCamera.fieldOfView < 0.1f)
+            {
+                ScopeCamera.fieldOfView = 0.1f;
             }
         }
     }
     private void ZoomScope()
     {
+        if(Input.GetKeyDown(KeyCode.R) && IsZoom)
+        {
+            ZoomLevel++;
+            if(ZoomLevel > 2)
+            {
+                ZoomLevel = 0;
+            }
+
+            switch (ZoomLevel)
+            {
+                case 0:
+                    {
+                        ScopeCamera.fieldOfView = 20f;
+                        break;
+                    }
+                case 1:
+                    {
+                        ScopeCamera.fieldOfView = 5f;
+                        break;
+                    }
+                case 2:
+                    {
+                        ScopeCamera.fieldOfView = 1f;
+                        break;
+                    }
+            }
+        }
         if (Input.GetMouseButtonDown(1))
         {
             IsZoom = !IsZoom;
@@ -321,11 +353,11 @@ public class SniperControl : PlayerHeader, IPunObservable
             timer += Time.fixedDeltaTime;
             if(IsZoom)
             {
-                rotValueX += 0.04f;
+                rotValueX += 0.005f;
             }
             else
             {
-                rotValueX += 0.12f;
+                rotValueX += 0.6f;
             }
             recoilPower = -rotValueX;
             if(timer > 0.2f)
@@ -346,16 +378,16 @@ public class SniperControl : PlayerHeader, IPunObservable
             timer += Time.fixedDeltaTime;
             if (IsZoom)
             {
-                rotValueX = 0.04f;
+                rotValueX += 0.005f;
             }
             else
             {
-                rotValueX = 0.12f;
+                rotValueX += 0.06f;
             }
 
             recoilPower = rotValueX;
 
-            if (timer > 0.6f)
+            if (timer > 0.2f)
             {
                 recoilPower = 0f;
                 yield break;

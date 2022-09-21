@@ -197,8 +197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2.5
   mouseSpeed: 30
-  zoomMouseSpeed: 10
-  zoomSpeed: 300
+  zoomMouseSpeed: 8
+  zoomSpeed: 20
   _Rigidbody: {fileID: 5885419354238797612}
   UpperBody: {fileID: 1290628354205306057}
   PlayerCameraPos: {fileID: 2730722574895160550}
