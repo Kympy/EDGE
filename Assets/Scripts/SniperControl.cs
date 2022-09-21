@@ -357,6 +357,7 @@ public class SniperControl : PlayerHeader, IPunObservable
             FakeSmoke.SetActive((bool)stream.ReceiveNext());
         }
     }
+    [PunRPC]
     public void GetDamage(float damage)
     {
         HP -= damage;
