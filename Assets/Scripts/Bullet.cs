@@ -32,8 +32,6 @@ public class Bullet : MonoBehaviourPunCallbacks
     }
     private void OnCollisionEnter(Collision collision) // When Bullet gets a collision with an object
     {
-        if (photonView.IsMine == false) return;
-        //PhotonNetwork.Instantiate("BulletHole", collision.contacts[0].point + collision.contacts[0].normal * 0.1f, Quaternion.LookRotation(collision.contacts[0].normal));
         if (collision.transform.CompareTag("Building")) // Hit building
         {
             PhotonNetwork.Instantiate("Impacts/SandImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
@@ -56,12 +54,9 @@ public class Bullet : MonoBehaviourPunCallbacks
             if (collision.collider.CompareTag("PlayerHead"))
             {
                 Debug.Log(collision.gameObject.transform.root.GetComponent<SniperControl>().ToString());
-                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.AllBuffered, 100f);
+                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f);
                 SniperGameManager.Instance.GetUI.UpdateIndicator("Head", 2);
-                if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
-                {
-
-                }
+                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others,"Head", 1);
             }
             else if (collision.collider.CompareTag("PlayerBody"))
             {

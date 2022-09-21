@@ -75,6 +75,7 @@ public class UIManager : MonoBehaviourPun
     {
         EnemyPlayerName.gameObject.SetActive(false);
     }
+    [PunRPC]
     public void UpdateIndicator(string parts, int playerIndex)
     { 
         switch(playerIndex)
