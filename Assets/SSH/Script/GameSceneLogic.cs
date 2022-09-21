@@ -8,7 +8,7 @@ using Photon.Realtime;
 
 public class GameSceneLogic : MonoBehaviourPunCallbacks
 {
-    public void LobbyPos()
+   /* public void LobbyPos()
     {
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
@@ -40,5 +40,5 @@ public class GameSceneLogic : MonoBehaviourPunCallbacks
 
             PhotonNetwork.Instantiate("Cowboy", ClientPos, Quaternion.Euler(0f,125,0));
         }
-    }
+    }*/
 }

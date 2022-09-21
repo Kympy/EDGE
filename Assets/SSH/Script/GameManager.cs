@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (pC.gameObject.GetPhotonView().ViewID == myViewID)
                 {
                     playerControl = pC;
+                    Debug.Log("photonView.IsMine 두두둥장");
                 }
             }
             // Cowboy라는 이름을 가진 GameObject를 찾아 GetComponent<PlayerControl>
@@ -59,36 +60,18 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // GameSceneLogic라는 이름을 가진 GameObject를 찾아 GameSceneLogic Component를 받아옴
         gameSceneLogic = GameObject.Find("GameSceneLogic").GetComponent<GameSceneLogic>();
-
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        // 현재 Scene을 확인하여 Player 기능 온/오프
-        CurSceneFind();
+
     }
 
-    // Update is called once per frame0[ㅔ
+    // Update is called once per frame
     void Update()
     {
 
-    }
-
-    void CurSceneFind()
-    {
-        // Lobby Scene 플레이어 일부 기능 활성화 
-        if(SceneManager.GetActiveScene().name == "Lobby")
-        {
-            playerControl.LobbyPlayerActive();
-            // gameSceneLogic.LobbyPos();
-        }
-
-        else if(SceneManager.GetActiveScene().name == "GunFight")
-        {
-            playerControl.GunFightPlayerActive();
-            // gameSceneLogic.GunFightPos();
-        }
     }
 
     void LobbyPos()
@@ -111,8 +94,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         //objectViewID.GetComponent<PhotonView>();
         // 위와 같음
-        myViewID = objectViewID.GetPhotonView().ViewID;
-        
+        myViewID = objectViewID.GetPhotonView().ViewID;        
     }
 
     void GunFightPos()
