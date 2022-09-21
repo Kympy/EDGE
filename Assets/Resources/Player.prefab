@@ -202,19 +202,6 @@ MonoBehaviour:
   _PlayerAnimator: {fileID: 6421172860949916608}
   FakeSmoke: {fileID: 687878512522111886}
   FakeMuzzle: {fileID: 4835946030947719164}
-  changedMesh:
-    Arm: {fileID: 0}
-    Bag: {fileID: 0}
-    Face: {fileID: 0}
-    Eye: {fileID: 0}
-    Head: {fileID: 0}
-    Jacket: {fileID: 0}
-    Pants: {fileID: 0}
-    Pullover: {fileID: 0}
-    Shoes: {fileID: 0}
-    FakeWeapon: {fileID: 0}
-    _Scope: {fileID: 0}
-    Bolt: {fileID: 0}
   changedObjects:
   - {fileID: 4459513886887217776}
   - {fileID: 7794249483428546290}

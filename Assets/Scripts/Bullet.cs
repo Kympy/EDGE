@@ -26,6 +26,10 @@ public class Bullet : MonoBehaviourPunCallbacks
         //Debug.Log("Starting Y Position is " + transform.position.y + " m");
         //origin = transform.position.y;
     }
+    private void Update()
+    {
+        Debug.Log(_Rigidbody.velocity.magnitude);
+    }
     private void OnCollisionEnter(Collision collision) // When Bullet gets a collision with an object
     {
         //PhotonNetwork.Instantiate("BulletHole", collision.contacts[0].point + collision.contacts[0].normal * 0.1f, Quaternion.LookRotation(collision.contacts[0].normal));
@@ -43,40 +47,40 @@ public class Bullet : MonoBehaviourPunCallbacks
         }
         else
         {
+            FixBullet();
             // Else Instantiate blood because bullet hit player
             PhotonNetwork.Instantiate("Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
 
             if (collision.transform.CompareTag("PlayerHead"))
             {
                 Debug.Log("Head");
-                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerBody"))
             {
                 Debug.Log("Body");
-                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerArmL"))
             {
                 Debug.Log("Arm");
-                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerArmR"))
             {
                 Debug.Log("Arm");
-                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerLegL"))
             {
                 Debug.Log("Leg");
-                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
             else if (collision.transform.CompareTag("PlayerLegR"))
             {
                 Debug.Log("Leg");
-                collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
-            PhotonNetwork.Destroy(this.gameObject);
         }
         
     }
