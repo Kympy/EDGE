@@ -47,6 +47,7 @@ public class PlayerHeader : MonoBehaviourPun
     protected bool hasVerticalInput;
     protected bool IsMove = false;
     protected bool IsFire = false;
+    protected bool IsCrouch = false;
 
     // Camera
     protected Camera PlayerCamera; // Player Following Camera

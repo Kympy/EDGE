@@ -29,7 +29,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         HP = MaxHP;
 
         if (photonView.IsMine == false) return;
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mode = GameObject.Find("Dev").GetComponent<Text>();
@@ -42,12 +41,13 @@ public class SniperControl : PlayerHeader, IPunObservable
     }
     private void Start()
     {
-        //if (photonView.IsMine == false) return;
+        if (photonView.IsMine == false) return;
 
         RagdollToggle(true);
         // Components
         _PlayerAudio = GetComponent<PlayerAudio>();
         _PlayerAnimator = GetComponent<Animator>();
+        UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         _Rigidbody = GetComponent<Rigidbody>();
         // Virtual Arm
         PlayerCamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
@@ -80,7 +80,7 @@ public class SniperControl : PlayerHeader, IPunObservable
 
         PlayerCamera.transform.position = PlayerCameraPos.position;
         DoMovement();
-        photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, -mouseYUpper));
+        //photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, -mouseYUpper));
     }
     private void Update()
     {
@@ -91,14 +91,15 @@ public class SniperControl : PlayerHeader, IPunObservable
         ZoomScope();
         UpdateZoomValue();
         Fire();
+        Crouch();
         UpdateAnimation();
         DevModeToggle();
     }
     private void LateUpdate()
     {
-        if (photonView.IsMine == false)
+        if (photonView.IsMine == true)
         {
-            //UpperBody.eulerAngles = UpperRotation;
+            UpperBody.Rotate(UpperRotation);
         }
     }
     private void RagdollToggle(bool toggle)
@@ -203,21 +204,19 @@ public class SniperControl : PlayerHeader, IPunObservable
         {
             mouseX = Input.GetAxis("Mouse X") * zoomMouseSpeed * Time.deltaTime;
             mouseY = Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
-            mouseYUpper += Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
+            mouseYUpper = Input.GetAxis("Mouse Y") * zoomMouseSpeed * Time.deltaTime;
         }
         else
         {
             mouseX = Input.GetAxis("Mouse X") * mouseSpeed * Time.deltaTime;
             mouseY = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
-            mouseYUpper += Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
+            mouseYUpper = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
         }
 
         //mouseX = mouseX > 180f ? mouseX - 360f : mouseX;
         //mouseY = mouseY > 180f ? mouseY - 360f : mouseY;
-        mouseYUpper = mouseYUpper > 180f ? mouseYUpper - 360f : mouseYUpper;
-
-
-        mouseYUpper = Mathf.Clamp(mouseYUpper, 20f, 150f); // mouse Y + 90f
+        //mouseYUpper = mouseYUpper > 180f ? mouseYUpper - 360f : mouseYUpper;
+        //mouseYUpper = Mathf.Clamp(mouseYUpper, 20f, 150f); // mouse Y + 90f
 
         PlayerCamera.transform.eulerAngles += new Vector3(-mouseY + recoilPower, mouseX, 0f);
 
@@ -274,7 +273,17 @@ public class SniperControl : PlayerHeader, IPunObservable
         PhotonNetwork.Instantiate("Case", CasingPos.position, CasingPos.rotation);
     }
     #endregion
-
+    private void Crouch()
+    {
+        if(Input.GetKey(KeyCode.LeftControl))
+        {
+            IsCrouch = true;
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            IsCrouch = false;
+        }
+    }
     #region Recoil Function
     private IEnumerator ReCoilUp()
     {
@@ -334,6 +343,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         _PlayerAnimator.SetBool("IsMove", IsMove);
         _PlayerAnimator.SetFloat("Horizontal", horizontal);
         _PlayerAnimator.SetFloat("Vertical", vertical);
+        _PlayerAnimator.SetBool("IsCrouch", IsCrouch);
     } // Control Animator
     private void OnCollisionEnter(Collision collision)
     {
@@ -350,11 +360,14 @@ public class SniperControl : PlayerHeader, IPunObservable
         {
             stream.SendNext(FakeMuzzle.activeSelf);
             stream.SendNext(FakeSmoke.activeSelf);
+            Debug.Log(mouseYUpper);
+            stream.SendNext(new Vector3(mouseYUpper, 0, 0));
         }
         else
         {
             FakeMuzzle.SetActive((bool)stream.ReceiveNext());
             FakeSmoke.SetActive((bool)stream.ReceiveNext());
+            UpperRotation = (Vector3)stream.ReceiveNext();
         }
     }
     [PunRPC]
