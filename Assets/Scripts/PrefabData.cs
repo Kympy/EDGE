@@ -15,4 +15,20 @@ public class PrefabData : ScriptableObject
     public GameObject BulletHole = null;
     public GameObject DirtImpact = null;
     public GameObject SandImpact = null;
+
+    [Header("Indicator UI")]
+    public Sprite Head = null;
+    public Sprite Body = null;
+    public Sprite ArmL = null;
+    public Sprite ArmR = null;
+    public Sprite LegL = null;
+    public Sprite LegR = null;
+
+    [Header ("Indicator Red UI")]
+    public Sprite HeadRed = null;
+    public Sprite BodyRed = null;
+    public Sprite ArmLRed = null;
+    public Sprite ArmRRed = null;
+    public Sprite LegLRed = null;
+    public Sprite LegRRed = null;
 }

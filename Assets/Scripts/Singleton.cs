@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Singleton<T> : MonoBehaviour where T : class
+using Photon.Pun;
+public class Singleton<T> : MonoBehaviourPunCallbacks where T : class
 {
     private static T instance;
     public static T Instance
@@ -21,9 +21,10 @@ public class Singleton<T> : MonoBehaviour where T : class
             return instance;
         }
     }
-
+    /*
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
+    */
 }

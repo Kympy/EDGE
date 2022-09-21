@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SniperGameManager : MonoBehaviourPunCallbacks
+public class SniperGameManager : Singleton<SniperGameManager> 
 {
     public List<GameObject> PlayerList = new List<GameObject>();
     #region Player Position Initialize Variables
@@ -21,6 +21,8 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
     [SerializeField] private Camera MyCamera = null; // Player Arm Camera
     [SerializeField] private GameObject Enemy = null;
 
+    public UIManager GetUI { get { return _UIManager; } }
+    public PrefabData prefabData = null;
     public GameObject GetEnemy { get { return Enemy; } }
     private SniperGameManager() { }
     private void Awake()

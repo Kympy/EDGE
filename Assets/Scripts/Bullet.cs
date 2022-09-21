@@ -54,33 +54,45 @@ public class Bullet : MonoBehaviourPunCallbacks
 
             if (collision.collider.CompareTag("PlayerHead"))
             {
-                Debug.Log("Head");
-                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                if(collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
+                {
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("Head", 1);
+                }
             }
             else if (collision.collider.CompareTag("PlayerBody"))
             {
-                Debug.Log("Body");
-                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
+                {
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("Body", 1);
+                }
             }
             else if (collision.collider.CompareTag("PlayerArmL"))
             {
-                Debug.Log("Arm");
-                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
+                {
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("ArmL", 1);
+                }        
             }
             else if (collision.collider.CompareTag("PlayerArmR"))
             {
-                Debug.Log("Arm");
-                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
+                {
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("ArmR", 1);
+                }
             }
             else if (collision.collider.CompareTag("PlayerLegL"))
             {
-                Debug.Log("Leg");
-                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
+                {
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("LegL", 1);
+                }
             }
             else if (collision.collider.CompareTag("PlayerLegR"))
             {
-                Debug.Log("Leg");
-                //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
+                if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
+                {
+                    SniperGameManager.Instance.GetUI.UpdateIndicator("LegR", 1);
+                }
             }
         }
         

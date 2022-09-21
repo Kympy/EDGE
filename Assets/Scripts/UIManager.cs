@@ -7,9 +7,24 @@ using Photon.Pun;
 
 public class UIManager : MonoBehaviourPun
 {
-    //private TextMeshProUGUI Player_1_Name = null;
-    //private TextMeshProUGUI Player_2_Name = null;
     [SerializeField] private TextMeshProUGUI EnemyPlayerName = null;
+
+    [SerializeField] private GameObject TabPanel = null;
+    [SerializeField] private TextMeshProUGUI User1Name = null;
+    [SerializeField] private TextMeshProUGUI User2Name = null;
+    [System.Serializable]
+    public struct Indicator
+    {
+        public Image Head;
+        public Image Body;
+        public Image ArmL;
+        public Image ArmR;
+        public Image LegL;
+        public Image LegR;
+    }
+
+    [SerializeField] private Indicator MyIndicator;
+    [SerializeField] private Indicator EnemyIndicator;
 
     private TextMeshProUGUI MyHP = null;
 
@@ -19,6 +34,8 @@ public class UIManager : MonoBehaviourPun
     private void Start()
     {
         EnemyPlayerName.text = "";
+        User1Name.text = PhotonNetwork.NickName;
+        TabPanel.SetActive(false);
     }
     public void InitUserHP()
     {
@@ -29,6 +46,7 @@ public class UIManager : MonoBehaviourPun
     public void UpdateEnemyName(string nickname)
     {
         EnemyPlayerName.text = nickname;
+        User2Name.text = nickname;
     }
     public void SetNickNamePosition(string name, Vector3 position)
     {
@@ -40,5 +58,53 @@ public class UIManager : MonoBehaviourPun
     public void HideNickName()
     {
         EnemyPlayerName.gameObject.SetActive(false);
+    }
+    public void UpdateIndicator(string parts, int playerIndex)
+    { 
+        switch(playerIndex)
+        {
+            case 1:
+                {
+                    SetIndicator(MyIndicator, parts);
+                    break;
+                }
+            case 2:
+                {
+                    SetIndicator(EnemyIndicator, parts);
+                    break;
+                }
+            default:
+                {
+                    Debug.Log("Player Index Error : Change Parts Red() ");
+                    break;
+                }
+        }
+    }
+    public void SetIndicator(Indicator someone, string parts)
+    {
+        if(parts == "Head")
+        {
+            someone.Head.sprite = MyGameManager.prefabData.HeadRed;
+        }
+        else if(parts == "Body")
+        {
+            someone.Body.sprite = MyGameManager.prefabData.BodyRed;
+        }
+        else if(parts == "ArmL")
+        {
+            someone.ArmL.sprite = MyGameManager.prefabData.ArmL;
+        }
+        else if(parts == "ArmR")
+        {
+            someone.ArmR.sprite = MyGameManager.prefabData.ArmR;
+        }
+        else if(parts == "LegL")
+        {
+            someone.LegL.sprite = MyGameManager.prefabData.LegL;
+        }
+        else if(parts == "LegR")
+        {
+            someone.LegR.sprite = MyGameManager.prefabData.LegR;
+        }
     }
 }
