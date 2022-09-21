@@ -10,8 +10,6 @@ using UnityEngine.UI;
 
 public class SniperControl : PlayerHeader, IPunObservable
 {
-    public delegate void Damage(float damage);
-    public Damage damageRoutine = null;
     [SerializeField] private GameObject[] changedObjects = new GameObject[12];
 
     #region Variables
@@ -28,7 +26,6 @@ public class SniperControl : PlayerHeader, IPunObservable
     private void Awake()
     {
         GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject); // Add Me On Player List
-        damageRoutine += GetDamage;
         HP = MaxHP;
 
         if (photonView.IsMine == false) return;

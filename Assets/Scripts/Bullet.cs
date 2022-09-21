@@ -57,7 +57,7 @@ public class Bullet : MonoBehaviourPunCallbacks
                 if(collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
                 {
                     Debug.Log(collision.gameObject.transform.root.GetComponent<SniperControl>().ToString());
-                    collision.gameObject.transform.root.GetComponent<SniperControl>().damageRoutine(100f);
+                    collision.gameObject.transform.root.GetComponent<SniperControl>().GetDamage(100f);
                     SniperGameManager.Instance.GetUI.UpdateIndicator("Head", 2);
                 }
             }
