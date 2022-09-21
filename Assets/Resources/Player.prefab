@@ -157,10 +157,10 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsMove
   - Type: 4
-    SynchronizeType: 2
+    SynchronizeType: 1
     Name: IsFire
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsCrouch
   m_SynchronizeLayers:
   - SynchronizeType: 0

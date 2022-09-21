@@ -12,6 +12,8 @@ public class SniperControl : PlayerHeader, IPunObservable
 {
     [SerializeField] private GameObject[] changedObjects = new GameObject[12];
 
+    private Coroutine CrouchCo = null;
+
     #region Variables
     private Vector3 UpperRotation;
     private bool DevMode = false;
@@ -277,13 +279,35 @@ public class SniperControl : PlayerHeader, IPunObservable
     #endregion
     private void Crouch()
     {
-        if(Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl))
         {
             IsCrouch = true;
+            if(CrouchCo != null)
+            {
+                StopCoroutine(CrouchCo);
+            }
+            PlayerCameraPos.transform.localPosition = new Vector3(0f, Mathf.Lerp(PlayerCameraPos.transform.localPosition.y, 0.908f, 0.5f), 0f);
         }
-        else if(Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             IsCrouch = false;
+            CrouchCo = StartCoroutine(StandUp());
+        }
+    }
+    private IEnumerator StandUp()
+    {
+        while(true)
+        {
+            PlayerCameraPos.transform.localPosition += new Vector3(0f, 0.1f, 0f);
+            
+            if(PlayerCameraPos.transform.localPosition.y > 1.7f)
+            {
+                PlayerCameraPos.transform.localPosition = new Vector3(0f, 1.7f, 0f);
+                CrouchCo = null;
+                yield break;
+            }
+            
+            yield return null;
         }
     }
     #region Recoil Function
