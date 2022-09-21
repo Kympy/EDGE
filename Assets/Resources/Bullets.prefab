@@ -103,7 +103,7 @@ Rigidbody:
   m_Mass: 0.05
   m_Drag: 0.01
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a42dda7b4a427945b45f4377dc17839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 70
   power: 20
 --- !u!96 &502146934796964990
 TrailRenderer:

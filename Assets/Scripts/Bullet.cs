@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     //private float origin = 0f;
     //private bool CheckOnce = true;
     //public GameObject hit;
-
+    private bool Used = false;
     private void Awake()
     {
         _Rigidbody = GetComponent<Rigidbody>();
@@ -28,12 +28,16 @@ public class Bullet : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
+        if(Used == false)
+        {
+            _Rigidbody.AddForce(Vector3.up * 5f, ForceMode.Acceleration);
+        }
         //Debug.Log(_Rigidbody.velocity.magnitude);
     }
     private void OnCollisionEnter(Collision collision) // When Bullet gets a collision with an object
     {
         if (photonView.IsMine == false) return;
-
+        Used = true;
         if (collision.transform.CompareTag("Building")) // Hit building
         {
             PhotonNetwork.Instantiate("Impacts/SandImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
