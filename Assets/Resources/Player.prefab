@@ -202,6 +202,18 @@ MonoBehaviour:
   _PlayerAnimator: {fileID: 6421172860949916608}
   FakeSmoke: {fileID: 687878512522111886}
   FakeMuzzle: {fileID: 4835946030947719164}
+  Bones:
+  - {fileID: 2685291659216145465}
+  - {fileID: 8059236441625231793}
+  - {fileID: 8216487344087390146}
+  - {fileID: 1405258764697947082}
+  - {fileID: 8037884436811484545}
+  - {fileID: 6653643128214809094}
+  - {fileID: 4128124443544513002}
+  - {fileID: 2307469727201007147}
+  - {fileID: 7881768033717696691}
+  - {fileID: 3694101059131533260}
+  - {fileID: 4204936648639687224}
   changedObjects:
   - {fileID: 4459513886887217776}
   - {fileID: 7794249483428546290}
@@ -26668,7 +26680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5418301024534132045}
   - component: {fileID: 5129978623739013575}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

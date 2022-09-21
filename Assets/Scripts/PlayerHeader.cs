@@ -73,6 +73,9 @@ public class PlayerHeader : MonoBehaviourPun
      protected GameObject RealMuzzle = null; // Player Arm muzzle
     [SerializeField] protected GameObject FakeMuzzle = null; // Player body muzzle
 
+    // Ragdoll
+    [SerializeField] protected Rigidbody[] Bones = new Rigidbody[12];
+
     protected PlayerAudio _PlayerAudio = null;
 
     public float CurrentHP { get { return HP; } }

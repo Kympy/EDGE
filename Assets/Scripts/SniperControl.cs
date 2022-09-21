@@ -46,6 +46,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         if (photonView.IsMine == false) return;
 
+        RagdollToggle(true);
         // Components
         _PlayerAudio = GetComponent<PlayerAudio>();
         _PlayerAnimator = GetComponent<Animator>();
@@ -101,6 +102,13 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (photonView.IsMine == false)
         {
             //UpperBody.eulerAngles = UpperRotation;
+        }
+    }
+    private void RagdollToggle(bool toggle)
+    {
+        for(int i = 0; i < Bones.Length; i++)
+        {
+            Bones[i].isKinematic = toggle;
         }
     }
     private void DevModeToggle()
