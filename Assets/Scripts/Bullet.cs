@@ -55,39 +55,39 @@ public class Bullet : MonoBehaviourPunCallbacks
 
             if (collision.collider.CompareTag("PlayerHead"))
             {
-                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f);
+                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.AllBuffered, 100f);
                 SniperGameManager.Instance.GetUI.UpdateIndicator("Head", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.AllBuffered,"Head", 1);
+                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered,"Head", 1);
             }
             else if (collision.collider.CompareTag("PlayerBody"))
             {
                 collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f);
                 SniperGameManager.Instance.GetUI.UpdateIndicator("Body", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others, "Body", 1);
+                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "Body", 1);
             }
             else if (collision.collider.CompareTag("PlayerArmL"))
             {
                 collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f);
                 SniperGameManager.Instance.GetUI.UpdateIndicator("ArmL", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others, "ArmL", 1);
+                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "ArmL", 1);
             }
             else if (collision.collider.CompareTag("PlayerArmR"))
             {
                 collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f);
                 SniperGameManager.Instance.GetUI.UpdateIndicator("ArmR", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others, "ArmR", 1);
+                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "ArmR", 1);
             }
             else if (collision.collider.CompareTag("PlayerLegL"))
             {
                 collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f);
                 SniperGameManager.Instance.GetUI.UpdateIndicator("LegL", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others, "LegL", 1);
+                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "LegL", 1);
             }
             else if (collision.collider.CompareTag("PlayerLegR"))
             {
                 collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f);
                 SniperGameManager.Instance.GetUI.UpdateIndicator("LegR", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others, "LegR", 1);
+                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "LegR", 1);
             }
         }
         
