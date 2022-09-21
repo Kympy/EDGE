@@ -116,12 +116,12 @@ public class SniperGameManager : MonoBehaviourPunCallbacks
                 screenPoint.y > 0f && screenPoint.y < 1f)
             {
                 
-                Debug.Log("In!!");
+                //Debug.Log("In!!");
                 _UIManager.SetNickNamePosition(PlayerList[1].GetPhotonView().Owner.NickName, namePoint);
             }
             else
             {
-                Debug.Log("Out!!");
+                //Debug.Log("Out!!");
                 _UIManager.HideNickName();
             }
         }

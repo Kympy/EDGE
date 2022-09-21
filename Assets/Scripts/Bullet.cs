@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        Debug.Log(_Rigidbody.velocity.magnitude);
+        //Debug.Log(_Rigidbody.velocity.magnitude);
     }
     private void OnCollisionEnter(Collision collision) // When Bullet gets a collision with an object
     {
