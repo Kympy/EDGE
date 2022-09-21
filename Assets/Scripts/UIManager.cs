@@ -52,11 +52,11 @@ public class UIManager : MonoBehaviourPun
     public void InitUserHP()
     {
         MyPlayer = MyGameManager.PlayerList[0].GetComponent<SniperControl>();
-        MyHP.text = MyPlayer.CurrentHP + " / " + MyPlayer.Max_HP;
+        MyHP.text = "100 / 100";
     }
-    public void UpdateHP()
+    public void UpdateHP(float current, float max)
     {
-        MyHP.text = MyPlayer.CurrentHP + " / " + MyPlayer.Max_HP;
+        MyHP.text = current + " / " + max;
     }
     public void UpdateEnemyName(string nickname)
     {

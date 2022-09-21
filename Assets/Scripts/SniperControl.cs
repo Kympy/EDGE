@@ -31,19 +31,16 @@ public class SniperControl : PlayerHeader, IPunObservable
         damageRoutine += GetDamage;
         HP = MaxHP;
 
-        mode = GameObject.Find("Dev").GetComponent<Text>();
-        mode.text = "DevMode : " + DevMode.ToString();
-
-        for (int i = 0; i < changedObjects.Length; i++)
-        {
-            changedObjects[i].layer = LayerMask.NameToLayer("MyServerPlayer");
-        }
-
         if (photonView.IsMine == false) return;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        mode = GameObject.Find("Dev").GetComponent<Text>();
+        mode.text = "DevMode : " + DevMode.ToString();
+        for (int i = 0; i < changedObjects.Length; i++)
+        {
+            changedObjects[i].layer = LayerMask.NameToLayer("MyServerPlayer");
+        }
 
     }
     private void Start()
@@ -365,12 +362,9 @@ public class SniperControl : PlayerHeader, IPunObservable
     }
     public void GetDamage(float damage)
     {
-        if(photonView.IsMine)
-        {
-            HP -= damage;
-            SniperGameManager.Instance.GetUI.UpdateHP();
-            Debug.Log(HP);
-        }
+        HP -= damage;
+        SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP);
+        Debug.Log(HP);
     }
 
     [PunRPC]
