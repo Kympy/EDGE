@@ -365,8 +365,12 @@ public class SniperControl : PlayerHeader, IPunObservable
     }
     public void GetDamage(float damage)
     {
-        HP -= damage;
-        Debug.Log(HP);
+        if(photonView.IsMine)
+        {
+            HP -= damage;
+            SniperGameManager.Instance.GetUI.UpdateHP();
+            Debug.Log(HP);
+        }
     }
 
     [PunRPC]

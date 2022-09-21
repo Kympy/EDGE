@@ -55,6 +55,10 @@ public class UIManager : MonoBehaviourPun
         MyHP = GameObject.Find("HPInfo").GetComponent<TextMeshProUGUI>();
         MyHP.text = MyPlayer.CurrentHP + " / " + MyPlayer.Max_HP;
     }
+    public void UpdateHP()
+    {
+        MyHP.text = MyPlayer.CurrentHP + " / " + MyPlayer.Max_HP;
+    }
     public void UpdateEnemyName(string nickname)
     {
         EnemyPlayerName.text = nickname;
