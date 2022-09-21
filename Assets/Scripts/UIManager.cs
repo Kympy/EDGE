@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviourPun
     [SerializeField] private Indicator MyIndicator;
     [SerializeField] private Indicator EnemyIndicator;
 
-    private TextMeshProUGUI MyHP = null;
+    [SerializeField] private TextMeshProUGUI MyHP = null;
 
     private SniperControl MyPlayer = null;
     [SerializeField] SniperGameManager MyGameManager = null;
@@ -51,8 +51,7 @@ public class UIManager : MonoBehaviourPun
     }
     public void InitUserHP()
     {
-        MyPlayer = FindObjectOfType<SniperControl>();
-        MyHP = GameObject.Find("HPInfo").GetComponent<TextMeshProUGUI>();
+        MyPlayer = MyGameManager.PlayerList[0].GetComponent<SniperControl>();
         MyHP.text = MyPlayer.CurrentHP + " / " + MyPlayer.Max_HP;
     }
     public void UpdateHP()

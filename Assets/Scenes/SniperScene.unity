@@ -1085,6 +1085,7 @@ MonoBehaviour:
     ArmR: {fileID: 27347761}
     LegL: {fileID: 1563225064}
     LegR: {fileID: 165274854}
+  MyHP: {fileID: 1164447500}
   MyGameManager: {fileID: 2144163186}
 --- !u!1 &711309272
 GameObject:

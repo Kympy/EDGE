@@ -66,20 +66,7 @@ public class SniperGameManager : Singleton<SniperGameManager>
                 player.transform.position = _2PPos.position;
                 player.transform.rotation = _2PPos.rotation;
             }
-            //DisableMesh();
-        }
-    }
-    
-    public void DisableMesh()
-    {
-        if (photonView.IsMine)
-        {
-            GameObject[] disableObj = GameObject.FindGameObjectsWithTag("WillDisable");
-
-            for (int i = 0; i < disableObj.Length; i++)
-            {
-                disableObj[i].AddComponent<DisableRenderer>();
-            }
+            _UIManager.InitUserHP();
         }
     }
     public void EnemyInCamera() // Is Enemy Player in my camera?
