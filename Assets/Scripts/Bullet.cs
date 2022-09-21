@@ -51,32 +51,32 @@ public class Bullet : MonoBehaviourPunCallbacks
             // Else Instantiate blood because bullet hit player
             PhotonNetwork.Instantiate("Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
 
-            if (collision.transform.CompareTag("PlayerHead"))
+            if (collision.collider.CompareTag("PlayerHead"))
             {
                 Debug.Log("Head");
                 //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
-            else if (collision.transform.CompareTag("PlayerBody"))
+            else if (collision.collider.CompareTag("PlayerBody"))
             {
                 Debug.Log("Body");
                 //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
-            else if (collision.transform.CompareTag("PlayerArmL"))
+            else if (collision.collider.CompareTag("PlayerArmL"))
             {
                 Debug.Log("Arm");
                 //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
-            else if (collision.transform.CompareTag("PlayerArmR"))
+            else if (collision.collider.CompareTag("PlayerArmR"))
             {
                 Debug.Log("Arm");
                 //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
-            else if (collision.transform.CompareTag("PlayerLegL"))
+            else if (collision.collider.CompareTag("PlayerLegL"))
             {
                 Debug.Log("Leg");
                 //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
             }
-            else if (collision.transform.CompareTag("PlayerLegR"))
+            else if (collision.collider.CompareTag("PlayerLegR"))
             {
                 Debug.Log("Leg");
                 //collision.gameObject.GetComponentInParent<PhotonView>().RPC("GetDamage", RpcTarget.AllBuffered, 100);
