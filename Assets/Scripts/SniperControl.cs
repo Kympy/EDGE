@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 public class SniperControl : PlayerHeader, IPunObservable
 {
+    public delegate void Damage(float damage);
+    public Damage damageRoutine = null;
     [SerializeField] private GameObject[] changedObjects = new GameObject[12];
 
     #region Variables
@@ -33,6 +35,8 @@ public class SniperControl : PlayerHeader, IPunObservable
         mode.text = "DevMode : " + DevMode.ToString();
 
         HP = MaxHP;
+
+        damageRoutine += GetDamage;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -95,7 +99,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         Fire();
         UpdateAnimation();
         DevModeToggle();
-        UpdateEffectToggle();
     }
     private void LateUpdate()
     {
@@ -360,11 +363,12 @@ public class SniperControl : PlayerHeader, IPunObservable
             FakeSmoke.SetActive((bool)stream.ReceiveNext());
         }
     }
-
-    private void UpdateEffectToggle()
+    public void GetDamage(float damage)
     {
-        
+        HP -= damage;
+        Debug.Log(HP);
     }
+
     [PunRPC]
     public void UpdateServerBone(Vector3 rotation)
     {
