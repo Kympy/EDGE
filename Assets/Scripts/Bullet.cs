@@ -63,6 +63,7 @@ public class Bullet : MonoBehaviourPunCallbacks
             {
                 if (collision.gameObject.GetComponentInParent<PhotonView>().IsMine == false)
                 {
+                    Debug.Log("Body Indi");
                     SniperGameManager.Instance.GetUI.UpdateIndicator("Body", 1);
                 }
             }

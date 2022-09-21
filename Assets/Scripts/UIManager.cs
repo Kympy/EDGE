@@ -37,6 +37,17 @@ public class UIManager : MonoBehaviourPun
         User1Name.text = PhotonNetwork.NickName;
         TabPanel.SetActive(false);
     }
+    private void Update()
+    {
+        if(Input.GetKey(KeyCode.Tab))
+        {
+            TabPanel.SetActive(true);
+        }
+        else if(Input.GetKeyUp(KeyCode.Tab))
+        {
+            TabPanel.SetActive(false);
+        }
+    }
     public void InitUserHP()
     {
         MyPlayer = FindObjectOfType<SniperControl>();

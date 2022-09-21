@@ -44,7 +44,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     }
     private void Start()
     {
-        if (photonView.IsMine == false) return;
+        //if (photonView.IsMine == false) return;
 
         RagdollToggle(true);
         // Components

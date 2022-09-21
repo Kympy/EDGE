@@ -63,7 +63,7 @@ public class PlayerHeader : MonoBehaviourPun
     [SerializeField] protected Transform PlayerCameraPos;
     // Casing Position
     protected Transform CasingPos;
-    protected GameObject ArmCasing = null;
+    [SerializeField] protected GameObject ArmCasing = null;
     // Animator
     protected Animator _ArmAnimator;
     [SerializeField] protected Animator _PlayerAnimator;
