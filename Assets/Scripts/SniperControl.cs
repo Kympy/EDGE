@@ -260,12 +260,14 @@ public class SniperControl : PlayerHeader, IPunObservable
                 ReCoilCoroutine = null;
             }
             ReCoilCoroutine = StartCoroutine(ReCoilUp());
+            Invoke("Casing", 1f);
         }
     }
     public void Reload() // Animation Event
     {
         _PlayerAnimator.SetBool("IsFire", false);
         IsFire = false;
+
     }
     public void Casing() // Animation Event
     {
