@@ -199,6 +199,7 @@ MonoBehaviour:
   _Rigidbody: {fileID: 5885419354238797612}
   UpperBody: {fileID: 1290628354205306057}
   PlayerCameraPos: {fileID: 2730722574895160550}
+  ArmCasing: {fileID: 0}
   _PlayerAnimator: {fileID: 6421172860949916608}
   FakeSmoke: {fileID: 687878512522111886}
   FakeMuzzle: {fileID: 4835946030947719164}

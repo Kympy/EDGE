@@ -77,7 +77,8 @@ public class UIManager : MonoBehaviourPun
     }
     [PunRPC]
     public void UpdateIndicator(string parts, int playerIndex)
-    { 
+    {
+        //if (photonView.IsMine == false) return;
         switch(playerIndex)
         {
             case 1:

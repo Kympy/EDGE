@@ -46,6 +46,7 @@ MonoBehaviour:
   - SetUserName
   - UpdateServerBone
   - PlayerInst
+  - UpdateIndicator
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
