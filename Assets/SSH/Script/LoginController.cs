@@ -48,7 +48,7 @@ public class LoginController : MonoBehaviourPunCallbacks
     {
         // 둘다 같음
         // PhotonNetwork.LoadLevel(1);
-        PhotonNetwork.LoadLevel("Lobby");
+        PhotonNetwork.LoadLevel("Lobby");        
     }
 
 
