@@ -28,23 +28,23 @@ public class SniperControl : PlayerHeader, IPunObservable
     private void Awake()
     {
         GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject); // Add Me On Player List
-
-        if (photonView.IsMine == false) return;
+        damageRoutine += GetDamage;
+        HP = MaxHP;
 
         mode = GameObject.Find("Dev").GetComponent<Text>();
         mode.text = "DevMode : " + DevMode.ToString();
 
-        HP = MaxHP;
+        for (int i = 0; i < changedObjects.Length; i++)
+        {
+            changedObjects[i].layer = LayerMask.NameToLayer("MyServerPlayer");
+        }
 
-        damageRoutine += GetDamage;
+        if (photonView.IsMine == false) return;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        for(int i = 0; i < changedObjects.Length; i++)
-        {
-            changedObjects[i].layer = LayerMask.NameToLayer("MyServerPlayer");
-        }
+
     }
     private void Start()
     {
