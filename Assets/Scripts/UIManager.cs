@@ -112,22 +112,22 @@ public class UIManager : MonoBehaviourPun
         }
         else if(parts == "ArmL")
         {
-            someone.ArmL.sprite = MyGameManager.prefabData.ArmL;
+            someone.ArmL.sprite = MyGameManager.prefabData.ArmLRed;
             someone.ArmL.color = Color.white;
         }
         else if(parts == "ArmR")
         {
-            someone.ArmR.sprite = MyGameManager.prefabData.ArmR;
+            someone.ArmR.sprite = MyGameManager.prefabData.ArmRRed;
             someone.ArmR.color = Color.white;
         }
         else if(parts == "LegL")
         {
-            someone.LegL.sprite = MyGameManager.prefabData.LegL;
+            someone.LegL.sprite = MyGameManager.prefabData.LegLRed;
             someone.LegL.color = Color.white;
         }
         else if(parts == "LegR")
         {
-            someone.LegR.sprite = MyGameManager.prefabData.LegR;
+            someone.LegR.sprite = MyGameManager.prefabData.LegRRed;
             someone.LegR.color = Color.white;
         }
     }
