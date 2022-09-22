@@ -9,11 +9,18 @@ using System;
 public class ServerLogin : MonoBehaviourPunCallbacks
 {
     public Button button;
-    
+
     private void Awake()
     {
         PhotonNetwork.ConnectUsingSettings(); // Applicate Connection to Master Server
         button.onClick.AddListener(() => LoginStart());
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            LoginStart();
+        }
     }
     private void LoginStart()
     {

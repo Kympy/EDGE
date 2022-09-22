@@ -418,7 +418,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         {
             stream.SendNext(FakeMuzzle.activeSelf);
             stream.SendNext(FakeSmoke.activeSelf);
-            Debug.Log(mouseYUpper);
             stream.SendNext(new Vector3(mouseYUpper, 0, 0));
         }
         else
