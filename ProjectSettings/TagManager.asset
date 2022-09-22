@@ -19,6 +19,7 @@ TagManager:
   - PlayerLegL
   - PlayerLegR
   - WillDisable
+  - ActorBullet
   layers:
   - Default
   - TransparentFX
