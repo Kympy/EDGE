@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class PlayerController : MonoBehaviour
 {
     private RotateToMouse rotateToMouse;
     private MovementChracterController movement;
@@ -15,9 +15,6 @@ public class PlayerController : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     public bool[] hasKnife;
     public Animator anim;
     Rigidbody rb;
-    float startTime, endTime;
-    Vector3 startPosition, endPosition;
-    float y;
     float press = 0f;
     float maxpress = 1000f;
     public GameObject ItemFactory;
@@ -30,7 +27,7 @@ public class PlayerController : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         Cursor.lockState = CursorLockMode.Locked;
 
         rb = GetComponent<Rigidbody>();
-        y = transform.position.y;
+        
 
         rotateToMouse = GetComponent<RotateToMouse>();
         movement = GetComponent<MovementChracterController>();
@@ -43,7 +40,7 @@ public class PlayerController : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         UpdateMove();
         GetInput();
         Interation();
-        LookAt();
+        
 
         if (Input.GetButtonUp("Fire1"))
         {
@@ -60,6 +57,8 @@ public class PlayerController : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         {
             anim.SetBool("hold", false);
             anim.SetTrigger("throw");
+            Axe.SetActive(false);
+            Debug.Log("없어졌냐?");
         }
 
         if (Input.GetMouseButton(0))
@@ -78,13 +77,6 @@ public class PlayerController : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             Throwing();
             press = 0f;          
         }
-    }
-
-
-    void LookAt()
-    {
-        Vector3 aim = cam.transform.localRotation * Vector3.forward;
-        
     }
 
 
@@ -187,60 +179,6 @@ public class PlayerController : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         {
             nearObject = null;
         }
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-
-        transform.position = GetPosition(eventData);
-    }
-
-
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-
-        startTime = Time.time;
-        startPosition = GetPosition(eventData);
-
-        rb.velocity = Vector3.zero;
-    }
-
-
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
-
-        endTime = Time.time;
-        endPosition = GetPosition(eventData);
-
-        Vector3 dir = (endPosition - startPosition).normalized;
-        float dis = (endPosition - startPosition).magnitude;
-        float speed = dis / (endTime - startTime);
-
-        Axe.SetActive(false);
-        rb.AddForce(dir * speed * 5f);
-    }
-
-    Vector3 GetPosition(PointerEventData eventData)
-    {
-        RaycastHit[] hits;
-        Ray ray = Camera.main.ScreenPointToRay(eventData.position);
-
-        hits = Physics.RaycastAll(ray, 1000f);
-
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.collider.name != transform.name)
-            {
-                return new Vector3(hit.point.x, y, hit.point.z);
-            }
-        }
-
-        return transform.position;
     }
 }
 

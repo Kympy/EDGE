@@ -17,18 +17,6 @@ public class AxeCollisionEvent : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
        
-        if (collision.gameObject.tag == "Blade")
-        {
-            rb.isKinematic = true;
-            
-        }
-
-        else if (collision.gameObject.tag == "Wood")
-        {
-            rb.isKinematic = false;
-            
-        }
-
         if (collision.gameObject.tag == "Score1")
         {
             score += 1;
