@@ -22,5 +22,9 @@ public class ScoreText : MonoBehaviour
     void Update()
     {
         
+
+
+
+
     }
 }

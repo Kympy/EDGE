@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 [RequireComponent(typeof(CharacterController))]
-public class MovementChracterController : MonoBehaviour
+public class MovementChracterController : MonoBehaviourPun
 {
     [SerializeField]
     private float moveSpeed;
@@ -14,12 +15,14 @@ public class MovementChracterController : MonoBehaviour
 
     private void Awake()
     {
+        if (photonView.IsMine == false) return;
         characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (photonView.IsMine == false) return;
         characterController.Move(moveForce * Time.deltaTime);
     }
 

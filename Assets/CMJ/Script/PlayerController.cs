@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
+    [SerializeField] GameObject CamPosition;
+
     private RotateToMouse rotateToMouse;
     private MovementChracterController movement;
     GameObject nearObject;
     bool idown;
-    public GameObject Axe;
+    private GameObject Axe;
     public GameObject Knife;
     public bool[] hasAxe;
     public bool[] hasKnife;
@@ -20,9 +23,13 @@ public class PlayerController : MonoBehaviour
     public GameObject ItemFactory;
     public Transform ThrowPoint;
     public Camera cam;
+    
 
     private void Awake()
     {
+        if (photonView.IsMine == false) return;
+        cam = GameObject.Find("PlayerCam").GetComponent<Camera>();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -36,6 +43,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (photonView.IsMine == false) return;
+        cam.gameObject.transform.position = CamPosition.transform.position;
+        cam.gameObject.transform.rotation = CamPosition.transform.rotation;
         UpdateRotate();
         UpdateMove();
         GetInput();
