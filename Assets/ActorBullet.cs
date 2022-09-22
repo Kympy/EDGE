@@ -16,11 +16,19 @@ public class ActorBullet : MonoBehaviour
         _Rigidbody.AddForce(transform.forward * 20f, ForceMode.Impulse);
         _Rigidbody.AddTorque(transform.forward * 5f, ForceMode.Impulse);
     }
+    private void Update()
+    {
+        if (_Blood.activeSelf)
+        {
+            _Blood.transform.rotation = Quaternion.Euler(-180f, 0f, 0f);
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Target")
         {
             _Blood.SetActive(true);
+            GetComponent<Collider>().enabled = false;
         }
     }
 }

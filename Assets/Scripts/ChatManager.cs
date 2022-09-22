@@ -121,13 +121,11 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnSubscribed(string[] channels, bool[] results)
     {
         //throw new System.NotImplementedException();
-        Debug.LogWarning("123213123");
     }
 
     public void OnUnsubscribed(string[] channels)
     {
         //throw new System.NotImplementedException();
-        Debug.LogWarning("--------");
     }
 
     public void OnUserSubscribed(string channel, string user)

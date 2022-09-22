@@ -96,15 +96,18 @@ public class CutSceneManager : MonoBehaviour
         dollyCamera3.transform.position = dollyCamera3Pos.position;
 
         yield return new WaitForSecondsRealtime(2f);
-        GameObject target = Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
-        actorBullet = target;
-        Time.timeScale = 0.1f;
-        Player.GetComponent<Animator>().SetTrigger("Fire");
         Smoke.SetActive(true);
         Muzzle.SetActive(true);
+        Player.GetComponent<Animator>().SetTrigger("Fire");
+        GameObject target = Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
+        actorBullet = target;
+        Time.timeScale = 0f;
+        Time.fixedDeltaTime = 0.001f;
+
+
         dollyCamera3.Follow = target.transform;
 
-        yield return new WaitForSecondsRealtime(1f);
+        //yield return new WaitForSecondsRealtime(1f);
         while(true)
         {
             Time.timeScale += Time.deltaTime;
@@ -120,11 +123,14 @@ public class CutSceneManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(3f);
         Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
         StartCoroutine(LightOut());
         yield return new WaitForSecondsRealtime(1f);
+        Actor2.GetComponentInChildren<ActorJohn>().KinematicInit();
         Actor2.GetComponent<Animator>().enabled = true;
         Actor2.transform.position = Actor2Origin.position;
         Actor2.transform.rotation = Actor2Origin.rotation;
+        //Actor2.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         dollyCamera3.Follow = null;
 
