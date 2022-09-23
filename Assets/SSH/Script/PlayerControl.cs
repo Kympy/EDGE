@@ -233,8 +233,13 @@ public class PlayerControl : MonoBehaviourPun
                 Debug.Log("죽음");
             }
 
+            if (rayHit.transform.tag == "SaloonObject")
+            {
+                rayHit.rigidbody.isKinematic = false;
 
-
+                // SaloonObject 피격 시 playerFollowCam.transform.forward로 AddForce
+                rayHit.transform.gameObject.GetComponent<Rigidbody>().AddForce(playerFollowCam.transform.forward * 10f, ForceMode.Impulse);
+            }
         }
     }
 
