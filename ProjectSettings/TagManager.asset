@@ -3,18 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Axe
-  - Knife
-  - Score1
-  - Score2
-  - Score3
-  - Score4
-  - Score5
-  - Score8
-  - Score9
-  - Blade
-  - Wood
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -22,9 +11,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Axe
-  - Wood
   - 
+  - 
+  - Post Processing
   - 
   - 
   - 
