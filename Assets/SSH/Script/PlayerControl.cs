@@ -32,7 +32,7 @@ public class PlayerControl : MonoBehaviourPun
 
     float moveX = 0f;
     float moveZ = 0f;
-    float moveSpeed = 2f;
+    float moveSpeed = 3f;
 
     int curBullet = 1;
     int maxBullet = 6;
@@ -173,6 +173,13 @@ public class PlayerControl : MonoBehaviourPun
         {
             rb.position += moveVec * moveSpeed * Time.deltaTime;
             //transform.Translate(new Vector3(moveX, 0, moveZ).normalized * moveSpeed * Time.deltaTime);
+
+            anim.SetBool("isRun", true);        
+        }
+
+        else if(moveX == 0 && moveZ == 0)
+        {
+            anim.SetBool("isRun", false);
         }
     }
 
@@ -193,7 +200,8 @@ public class PlayerControl : MonoBehaviourPun
             attackDelay = false;
             Invoke("AttackDelay", 0.5f); // 재장전 시간 0.5초
             Debug.Log("[로비] 발사");
-            RayCamera();
+            
+            GunFire();
         }
 
         else if (Input.GetButtonDown("Fire1") && !playerLobbyActive)
@@ -209,7 +217,7 @@ public class PlayerControl : MonoBehaviourPun
 
             Invoke("AttackDelay", 2f); // 재장전 시간 2초
             Debug.Log("발사");
-            RayCamera();
+            GunFire();
 
             curBullet++;
         }
@@ -220,8 +228,7 @@ public class PlayerControl : MonoBehaviourPun
         attackDelay = true;
     }
 
-
-    void RayCamera()
+    void GunFire()
     {
         // rayCamera = Camera.main.ViewportPointToRay(transform.position);
         Debug.DrawRay(playerFollowCam.transform.position, playerFollowCam.transform.forward * 50f, Color.red);
@@ -235,10 +242,11 @@ public class PlayerControl : MonoBehaviourPun
 
             if (rayHit.transform.tag == "SaloonObject")
             {
-                rayHit.rigidbody.isKinematic = false;
+                //rayHit.rigidbody.isKinematic = false;
 
                 // SaloonObject 피격 시 playerFollowCam.transform.forward로 AddForce
-                rayHit.transform.gameObject.GetComponent<Rigidbody>().AddForce(playerFollowCam.transform.forward * 10f, ForceMode.Impulse);
+                // rayHit.transform.gameObject.GetComponent<Rigidbody>().AddForce(playerFollowCam.transform.forward * 10f, ForceMode.Impulse);
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("FireHit", RpcTarget.AllBuffered, playerFollowCam.transform.forward * 10f);
             }
         }
     }
