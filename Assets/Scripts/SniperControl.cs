@@ -16,7 +16,6 @@ public class SniperControl : PlayerHeader, IPunObservable
 
     #region Variables
     private Vector3 UpperRotation;
-    private bool DevMode = false;
     private Text mode = null;
     private int ZoomLevel = 0;
 
@@ -35,7 +34,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mode = GameObject.Find("Dev").GetComponent<Text>();
-        mode.text = "DevMode : " + DevMode.ToString();
         for (int i = 0; i < changedObjects.Length; i++)
         {
             changedObjects[i].layer = LayerMask.NameToLayer("MyServerPlayer");
@@ -96,7 +94,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         Fire();
         Crouch();
         UpdateAnimation();
-        DevModeToggle();
     }
     private void LateUpdate()
     {
@@ -110,14 +107,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         for(int i = 0; i < Bones.Length; i++)
         {
             Bones[i].isKinematic = toggle;
-        }
-    }
-    private void DevModeToggle()
-    {
-        if(Input.GetKeyDown(KeyCode.F2))
-        {
-            DevMode = !DevMode;
-            mode.text = "DevMode : " + DevMode.ToString();
         }
     }
     #region Zoom Function
@@ -287,13 +276,14 @@ public class SniperControl : PlayerHeader, IPunObservable
             else
             {
                 PhotonNetwork.Instantiate("Bullets", shootPos.position, shootPos.rotation);
+
+                if (ReCoilCoroutine != null)
+                {
+                    StopCoroutine(ReCoilCoroutine);
+                    ReCoilCoroutine = null;
+                }
+                ReCoilCoroutine = StartCoroutine(ReCoilUp());
             }
-            if (ReCoilCoroutine != null)
-            {
-                StopCoroutine(ReCoilCoroutine);
-                ReCoilCoroutine = null;
-            }
-            ReCoilCoroutine = StartCoroutine(ReCoilUp());
             Invoke("Casing", 1f);
         }
     }
@@ -345,20 +335,12 @@ public class SniperControl : PlayerHeader, IPunObservable
     #region Recoil Function
     private IEnumerator ReCoilUp()
     {
-        if (DevMode == true) yield break;
         float rotValueX = 0f;
         float timer = 0f;
         while(true)
         {
             timer += Time.fixedDeltaTime;
-            if(IsZoom)
-            {
-                rotValueX += 0.005f;
-            }
-            else
-            {
-                rotValueX += 0.6f;
-            }
+            rotValueX += 0.1f;
             recoilPower = -rotValueX;
             if(timer > 0.2f)
             {
@@ -376,15 +358,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         while (true)
         {
             timer += Time.fixedDeltaTime;
-            if (IsZoom)
-            {
-                rotValueX += 0.005f;
-            }
-            else
-            {
-                rotValueX += 0.06f;
-            }
-
+            rotValueX += 0.09f;
             recoilPower = rotValueX;
 
             if (timer > 0.2f)
