@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviourPun
             anim.SetBool("hold", false);
             anim.SetTrigger("throw");
             
-            Debug.Log("없어졌냐?");
+            
         }
 
         if (Input.GetMouseButton(0))
