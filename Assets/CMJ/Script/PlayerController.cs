@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviourPun
 
     void GetInput()
     {
-        idown = Input.GetButtonDown("Interation");
+        /*idown = Input.GetButtonDown("Interation");*/
         
     }
 
