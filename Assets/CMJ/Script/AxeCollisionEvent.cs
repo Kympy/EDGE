@@ -17,7 +17,7 @@ public class AxeCollisionEvent : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
        
-        if (collision.gameObject.tag == "Score1")
+        /*if (collision.gameObject.tag == "Score1")
         {
             score += 1;
         }
@@ -52,7 +52,7 @@ public class AxeCollisionEvent : MonoBehaviour
             score += 9;
         }
 
-        Debug.Log(score);
+        Debug.Log(score);*/
 
 
 

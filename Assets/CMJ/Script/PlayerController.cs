@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviourPun
         UpdateMove();
         GetInput();
         Interation();
+        Axe.SetActive(true);
         
 
         if (Input.GetButtonUp("Fire1"))

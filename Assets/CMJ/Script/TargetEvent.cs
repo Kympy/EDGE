@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetEvent4 : MonoBehaviour
-{
-    int score = 0;
+public class TargetEvent : MonoBehaviour
+{   
+    [SerializeField] private int targetscore;
+    [SerializeField] ScoreText ST;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,13 +27,17 @@ public class TargetEvent4 : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody>().useGravity = false;
             collision.gameObject.GetComponent<Rigidbody>().isKinematic = true;
             /*Debug.Log("¹ÚÇû´ç");*/
+
             if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade")
             {
-                score += 4;
+                ST.getScore += targetscore;
+                ST.UpdateScore();
             }
-            Debug.Log(score);
+            Debug.Log(ST.getScore);
         }
+
         else
             Debug.Log("ÃÄ³Â´ç");
     }
+
 }
