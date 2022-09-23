@@ -33,7 +33,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (photonView.IsMine == false) return;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        mode = GameObject.Find("Dev").GetComponent<Text>();
         for (int i = 0; i < changedObjects.Length; i++)
         {
             changedObjects[i].layer = LayerMask.NameToLayer("MyServerPlayer");

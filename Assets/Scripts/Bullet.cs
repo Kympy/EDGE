@@ -22,10 +22,12 @@ public class Bullet : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
+        /*
         if(Used == false)
         {
             _Rigidbody.AddForce(Vector3.up * 5.8f, ForceMode.Acceleration);
         }
+        */
         //Debug.Log(_Rigidbody.velocity.magnitude);
     }
     private void OnCollisionEnter(Collision collision) // When Bullet gets a collision with an object
