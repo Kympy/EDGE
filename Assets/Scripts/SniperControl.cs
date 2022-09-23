@@ -79,6 +79,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (photonView.IsMine == false) return;
 
         PlayerCamera.transform.position = PlayerCameraPos.position;
+        photonView.RPC("RPC_RigidbodyDisable", RpcTarget.OthersBuffered);
         DoMovement();
         //photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, -mouseYUpper));
     }
@@ -412,5 +413,10 @@ public class SniperControl : PlayerHeader, IPunObservable
     public void UpdateServerBone(Vector3 rotation)
     {
         UpperRotation = rotation;
+    }
+    [PunRPC]
+    public void RPC_RigidbodyDisable()
+    {
+        _Rigidbody.isKinematic = true;
     }
 }
