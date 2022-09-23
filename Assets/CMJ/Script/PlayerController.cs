@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviourPun
         UpdateMove();
         GetInput();
         Interation();
-        Axe.SetActive(true);
+        
         
 
         if (Input.GetButtonUp("Fire1"))
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviourPun
         {
             anim.SetBool("hold", false);
             anim.SetTrigger("throw");
-            Axe.SetActive(false);
+            
             Debug.Log("없어졌냐?");
         }
 
