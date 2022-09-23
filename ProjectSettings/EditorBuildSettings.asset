@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainStart.unity
     guid: ee14852465be95b408e5b26bc77437c7
   - enabled: 1
+    path: Assets/Scenes/MainLobby.unity
+    guid: 28ce591ed97fd1a4ba2aaa2df65a4c1d
+  - enabled: 1
     path: Assets/Scenes/SniperScene.unity
     guid: af3b56cfd7aeb144685a39905ddd1ecc
   m_configObjects: {}

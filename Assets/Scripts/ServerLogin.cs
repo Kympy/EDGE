@@ -4,10 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-using System;
 using TMPro;
+//using System.Runtime.InteropServices;
 public class ServerLogin : MonoBehaviourPunCallbacks
 {
+    //[DllImport("user32.dll")]
+    //private static extern int SetCursorPos(int X, int Y);
+
     [SerializeField] private Button LoginButton = null;
     [SerializeField] private TMP_InputField NicknameInput = null;
     // Slang
@@ -19,9 +22,12 @@ public class ServerLogin : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        ForbiddenWords.Add("Fuck");
+        ForbiddenWords.Add("fuck");
         PhotonNetwork.ConnectUsingSettings(); // Applicate Connection to Master Server
         OKButton.onClick.AddListener(delegate
         {
+            NicknameInput.text = "";
             Warning.gameObject.SetActive(false);
         });
         WarningMsg.text = "";
@@ -34,7 +40,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
         if (IsSafeNickname() == false) return;
 
         PhotonNetwork.NickName = NicknameInput.text; // Set Nickname
-        PhotonNetwork.JoinLobby(TypedLobby.Default);
+        StartCoroutine(JoinLobbyCo());
         //PhotonNetwork.JoinOrCreateRoom("TestRoom", new RoomOptions { MaxPlayers = 2 }, null); // Check Room and Join or Create
     }
     private bool IsSafeNickname()
@@ -46,7 +52,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
         }
         if(NicknameInput.text.Length < 2 || NicknameInput.text.Length > 12)
         {
-            NicknameWarningUI("Nickname length must in range between 2 to 12.");
+            NicknameWarningUI("Nickname length must in range\nbetween 2 to 12.");
             return false;
         }
         foreach(string text in ForbiddenWords) // Has forbidden word?
@@ -64,13 +70,24 @@ public class ServerLogin : MonoBehaviourPunCallbacks
         WarningMsg.text = Message;
         Warning.gameObject.SetActive(true);
     }
+    private IEnumerator JoinLobbyCo()
+    {
+        NicknameWarningUI(PhotonNetwork.NetworkClientState.ToString());
+        yield return new WaitForSecondsRealtime(1f);
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
+        while (true)
+        {
+            NicknameWarningUI(PhotonNetwork.NetworkClientState.ToString());
+            OKButton.gameObject.SetActive(false);
+            if(PhotonNetwork.InLobby)
+            {
+                yield break;
+            }
+            yield return null;
+        }
+    }
     public override void OnJoinedLobby()
     {
-        //base.OnJoinedLobby();
-    }
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Joined Room");
         PhotonNetwork.LoadLevel(1);
     }
 }
