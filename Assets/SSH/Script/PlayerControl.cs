@@ -232,6 +232,9 @@ public class PlayerControl : MonoBehaviourPun
             {
                 Debug.Log("죽음");
             }
+
+
+
         }
     }
 
@@ -255,11 +258,18 @@ public class PlayerControl : MonoBehaviourPun
             Debug.Log("호출 실패");
             LobbyPlayerActive();
             Debug.Log("호출");
+            Unlock(); // 플레이어 회전 활성화
             // gameSceneLogic.LobbyPos();
         }
 
         else if (SceneManager.GetActiveScene().name == "GunFight")
         {
+            // Lobby씬에서 활성화된 isStart, attackDelay 비활성화
+            isStart = true;
+            attackDelay = true;
+
+            Invoke("Unlock", 3f); // 3초 뒤 플레이어 isStart, attackDelay
+
             GunFightPlayerActive();
             // gameSceneLogic.GunFightPos();
         }
