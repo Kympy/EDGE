@@ -31,6 +31,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         HP = MaxHP;
 
         if (photonView.IsMine == false) return;
+        photonView.RPC("RPC_RigidbodyDisable", RpcTarget.OthersBuffered);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         for (int i = 0; i < changedObjects.Length; i++)
@@ -77,9 +78,8 @@ public class SniperControl : PlayerHeader, IPunObservable
     private void FixedUpdate()
     {
         if (photonView.IsMine == false) return;
-
+        
         PlayerCamera.transform.position = PlayerCameraPos.position;
-        photonView.RPC("RPC_RigidbodyDisable", RpcTarget.OthersBuffered);
         DoMovement();
         //photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, -mouseYUpper));
     }
