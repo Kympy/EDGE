@@ -35,6 +35,18 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         RealCreateButton.onClick.AddListener(() => CreateRoom());
         CreateCanvas.gameObject.SetActive(false);
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            PhotonNetwork.NickName = "Test"; // Set Nickname
+            PhotonNetwork.JoinOrCreateRoom("TestRoom", new RoomOptions { MaxPlayers = 2 }, null); // Check Room and Join or Create
+        }
+    }
+    public override void OnJoinedRoom()
+    {
+        PhotonNetwork.LoadLevel(2);
+    }
     private void CreateUI()
     {
         CreateButton.interactable = false; // Lock Buttons

@@ -22,6 +22,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        PhotonNetwork.ConnectUsingSettings();
         ForbiddenWords.Add("Fuck");
         ForbiddenWords.Add("fuck");
         PhotonNetwork.ConnectUsingSettings(); // Applicate Connection to Master Server
@@ -35,11 +36,12 @@ public class ServerLogin : MonoBehaviourPunCallbacks
         NicknameInput.onEndEdit.AddListener(delegate { LoginStart(); });
         LoginButton.onClick.AddListener(() => LoginStart());
     }
+
     private void LoginStart()
     {
         if (IsSafeNickname() == false) return;
 
-        PhotonNetwork.NickName = NicknameInput.text; // Set Nickname
+
         StartCoroutine(JoinLobbyCo());
         //PhotonNetwork.JoinOrCreateRoom("TestRoom", new RoomOptions { MaxPlayers = 2 }, null); // Check Room and Join or Create
     }
