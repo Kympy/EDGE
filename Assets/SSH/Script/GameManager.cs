@@ -15,26 +15,34 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform MPos;
     [SerializeField] Transform CPos;
 
+    bool LoginMaster = false;
+    bool LoginClient = false;
 
     public int myViewID = 0;
 
     private void Awake()
     {
-        
-
         if (SceneManager.GetActiveScene().name == "Lobby")
         {
-            Debug.Log("LobbyPos");
+            // Debug.Log("LobbyPos");
             LobbyPos();
+
+            // Master와 Client 둘 다 접속 했을 경우 GunFight Scene으로 이동하는 함수 호출
+            if (PhotonNetwork.IsConnected && LoginClient && LoginMaster && PhotonNetwork.IsMasterClient)
+            {
+                // RpcTarget.MasterClient일 경우 적용 범위와 NextScene에서 
+                // MasterClient 확인 불필요?
+                photonView.RPC("NextScene", RpcTarget.MasterClient);
+            }
         }
-        else
+
+        else if(SceneManager.GetActiveScene().name == "GunFight")
         {
-            Debug.Log("GunFightPos");
+            // Debug.Log("GunFightPos");
             GunFightPos();
         }
 
         // 나의 ViewID에 해당하는 오브젝트 찾기
-
         if (photonView.IsMine)
         {
             // PlayerControl[] : room에 저장된 플레이어의 정보를 임시로 담기위한 저장공간 
@@ -62,18 +70,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         gameSceneLogic = GameObject.Find("GameSceneLogic").GetComponent<GameSceneLogic>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void LobbyPos()
     {
         Vector3 Pos = Vector3.zero;
@@ -81,37 +77,45 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
             Pos = MPos.position;
+            LoginMaster = true;
         }
 
-        else if (PhotonNetwork.IsConnected)
+        else if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient == false)
         {
             Pos = CPos.position;
+            LoginClient = true;
         }
 
+        // Player 생성
         GameObject objectViewID = PhotonNetwork.Instantiate("Cowboy", Pos, Quaternion.identity);
 
-        Debug.Log(objectViewID.transform.position);
+        Debug.Log("Lobby 생성" + objectViewID.transform.position);
 
         //objectViewID.GetComponent<PhotonView>();
         // 위와 같음
-        myViewID = objectViewID.GetPhotonView().ViewID;        
+        // 생성된 Player object의 ViewID를 가져옴
+        myViewID = objectViewID.GetPhotonView().ViewID;
     }
 
     void GunFightPos()
     {
+        Vector3 pos = Vector3.zero;
 
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
-            Vector3 MasterPos = new Vector3(0, -0.5f, -10);
-
-            PhotonNetwork.Instantiate("Cowboy", MasterPos, Quaternion.identity);
+            pos = MPos.position;
         }
 
-        else if (PhotonNetwork.IsConnected)
+        else if (PhotonNetwork.IsConnected & PhotonNetwork.IsMasterClient == false)
         {
-            Vector3 ClientPos = new Vector3(-6.5f, 0, 5.5f);
-
-            PhotonNetwork.Instantiate("Cowboy", ClientPos, Quaternion.Euler(0f, 125, 0));
+            pos = CPos.position;
         }
+
+        // Player 생성
+        GameObject objectViewID = PhotonNetwork.Instantiate("Cowboy", pos, Quaternion.identity);
+
+        Debug.Log("GunFight 생성" + objectViewID.transform.position);
+
+        myViewID = objectViewID.GetPhotonView().ViewID;
     }
 }

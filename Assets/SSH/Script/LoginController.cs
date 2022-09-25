@@ -16,6 +16,8 @@ public class LoginController : MonoBehaviourPunCallbacks
         // 포톤 기본설정을 가지고 마스터 서버 연결
         PhotonNetwork.ConnectUsingSettings();
 
+        // 빌드 창 크기 조절
+        Screen.SetResolution(960, 540, false);
         // 버튼 기능
         login = GameObject.Find("LogButton").GetComponent<Button>();
 

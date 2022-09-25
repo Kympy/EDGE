@@ -44,6 +44,7 @@ public class PlayerControl : MonoBehaviourPun
     // Lobby Scene일 경우 기능 활성화를 위한 변수 선언 및 초기화
     bool playerLobbyActive = false;
     
+
     /*
         Ray rayCamera;
         RaycastHit rayHit;
@@ -238,6 +239,8 @@ public class PlayerControl : MonoBehaviourPun
             if (rayHit.transform.tag == "Player")
             {
                 Debug.Log("죽음");
+
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl",RpcTarget.AllBuffered);
             }
 
             if (rayHit.transform.tag == "SaloonObject")
@@ -268,9 +271,7 @@ public class PlayerControl : MonoBehaviourPun
         // Lobby Scene 플레이어 일부 기능 활성화 
         if (SceneManager.GetActiveScene().name == "Lobby")
         {
-            Debug.Log("호출 실패");
             LobbyPlayerActive();
-            Debug.Log("호출");
             Unlock(); // 플레이어 회전 활성화
             // gameSceneLogic.LobbyPos();
         }
@@ -288,5 +289,10 @@ public class PlayerControl : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
+    void AnimControl()
+    {
+        anim.enabled = false;
+    }
 }
 
