@@ -24,13 +24,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (SceneManager.GetActiveScene().name == "Lobby")
         {
-            // Debug.Log("LobbyPos");
             LobbyPos();
 
             // Master와 Client 둘 다 접속 했을 경우 GunFight Scene으로 이동하는 함수 호출 //&& PhotonNetwork.IsMasterClient
             if (PhotonNetwork.IsConnected && LoginClient)
             {
-                Debug.Log("들어옴");
                 // RpcTarget.MasterClient일 경우 적용 범위와 NextScene에서 
                 // 호출 할 GameObject의 RPC를 지정해줘야됨
                 GameObject.Find("GameSceneLogic").GetComponent<PhotonView>().RPC("RPCScene", RpcTarget.AllBuffered);
@@ -39,7 +37,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         else if(SceneManager.GetActiveScene().name == "GunFight")
         {
-            // Debug.Log("GunFightPos");
             GunFightPos();
         }
 
@@ -58,12 +55,11 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (pC.gameObject.GetPhotonView().ViewID == myViewID)
                 {
                     playerControl = pC;
-                    Debug.Log("photonView.IsMine 두두둥장");
                 }
             }
-            // Cowboy라는 이름을 가진 GameObject를 찾아 GetComponent<PlayerControl>
+            // Player라는 이름을 가진 GameObject를 찾아 GetComponent<PlayerControl>
             // 단점 : prefab으로 생성 시 이름이 Name(Clone)으로 변경돼 찾지못함  
-            // playerList = GameObject.Find("Cowboy").GetComponent<PlayerControl>();
+            // playerList = GameObject.Find("Player").GetComponent<PlayerControl>();
         }
 
 
@@ -88,9 +84,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // Player 생성
-        GameObject objectViewID = PhotonNetwork.Instantiate("Cowboy", Pos, Quaternion.identity);
-
-        Debug.Log("Lobby 생성" + objectViewID.transform.position);
+        GameObject objectViewID = PhotonNetwork.Instantiate("Player", Pos, Quaternion.identity);
 
         //objectViewID.GetComponent<PhotonView>();
         // 위와 같음
@@ -113,9 +107,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // Player 생성
-        GameObject objectViewID = PhotonNetwork.Instantiate("Cowboy", pos, Quaternion.identity);
-
-        Debug.Log("GunFight 생성" + objectViewID.transform.position);
+        GameObject objectViewID = PhotonNetwork.Instantiate("Player", pos, Quaternion.identity);
 
         myViewID = objectViewID.GetPhotonView().ViewID;
     }

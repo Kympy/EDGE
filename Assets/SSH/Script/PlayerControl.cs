@@ -154,7 +154,7 @@ public class PlayerControl : MonoBehaviourPun
         mouseY = Mathf.Clamp(mouseY, limitMinMouseY, limitMaxMouseY);
 
         // 제한된 mouseY을 입력받아 Chest 회전
-        PlayerChest.transform.localEulerAngles = new Vector3(0, 0, mouseY);
+        PlayerChest.transform.localEulerAngles = new Vector3(0, 0, -mouseY);
 
         transform.rotation = Quaternion.Euler(0, mouseX, 0);        
     }
