@@ -43,7 +43,8 @@ public class PlayerControl : MonoBehaviourPun
 
     // Lobby Scene일 경우 기능 활성화를 위한 변수 선언 및 초기화
     bool playerLobbyActive = false;
-    
+
+    bool isAlive = true;
 
     /*
         Ray rayCamera;
@@ -129,7 +130,6 @@ public class PlayerControl : MonoBehaviourPun
     // chest 회전 후 animation에 의해 초기화되는 경우를 방지하기 위해 LaUpdate 사용 
     private void LateUpdate()
     {
-
         if (isStart)
         {
             PlayerRotate();
@@ -156,7 +156,7 @@ public class PlayerControl : MonoBehaviourPun
         // 제한된 mouseY을 입력받아 Chest 회전
         PlayerChest.transform.localEulerAngles = new Vector3(0, 0, mouseY);
 
-        transform.rotation = Quaternion.Euler(0, mouseX, 0);
+        transform.rotation = Quaternion.Euler(0, mouseX, 0);        
     }
 
     void PlayerMove()
@@ -240,7 +240,8 @@ public class PlayerControl : MonoBehaviourPun
             {
                 Debug.Log("죽음");
 
-                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl",RpcTarget.AllBuffered);
+                //rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
             }
 
             if (rayHit.transform.tag == "SaloonObject")
@@ -279,11 +280,11 @@ public class PlayerControl : MonoBehaviourPun
         else if (SceneManager.GetActiveScene().name == "GunFight")
         {
             // Lobby씬에서 활성화된 isStart, attackDelay 비활성화
-            isStart = true;
-            attackDelay = true;
+            isStart = false;
+            attackDelay = false;
 
             Invoke("Unlock", 3f); // 3초 뒤 플레이어 isStart, attackDelay
-
+            
             GunFightPlayerActive();
             // gameSceneLogic.GunFightPos();
         }
@@ -292,6 +293,9 @@ public class PlayerControl : MonoBehaviourPun
     [PunRPC]
     void AnimControl()
     {
+        isAlive = false;
+
+        Debug.Log($"isAlive  : {isAlive}");
         anim.enabled = false;
     }
 }

@@ -27,12 +27,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             // Debug.Log("LobbyPos");
             LobbyPos();
 
-            // Master와 Client 둘 다 접속 했을 경우 GunFight Scene으로 이동하는 함수 호출
-            if (PhotonNetwork.IsConnected && LoginClient && LoginMaster && PhotonNetwork.IsMasterClient)
+            // Master와 Client 둘 다 접속 했을 경우 GunFight Scene으로 이동하는 함수 호출 //&& PhotonNetwork.IsMasterClient
+            if (PhotonNetwork.IsConnected && LoginClient)
             {
+                Debug.Log("들어옴");
                 // RpcTarget.MasterClient일 경우 적용 범위와 NextScene에서 
-                // MasterClient 확인 불필요?
-                photonView.RPC("NextScene", RpcTarget.MasterClient);
+                // 호출 할 GameObject의 RPC를 지정해줘야됨
+                GameObject.Find("GameSceneLogic").GetComponent<PhotonView>().RPC("RPCScene", RpcTarget.AllBuffered);
             }
         }
 
