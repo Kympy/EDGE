@@ -161,6 +161,8 @@ public class PlayerController : MonoBehaviourPun
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
         movement.MoveTo(new Vector3(x, 0, z));
+
+        anim.SetBool("walk", (x != 0 || z != 0));
     }
 
 
