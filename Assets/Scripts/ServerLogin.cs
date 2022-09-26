@@ -24,6 +24,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
     {
         ForbiddenWords.Add("Fuck");
         ForbiddenWords.Add("fuck");
+        PhotonNetwork.GameVersion = "0.1";
         PhotonNetwork.ConnectUsingSettings(); // Applicate Connection to Master Server
         OKButton.onClick.AddListener(delegate
         {
@@ -35,6 +36,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
         NicknameInput.onEndEdit.AddListener(delegate { LoginStart(); });
         LoginButton.onClick.AddListener(() => LoginStart());
     }
+
     private void LoginStart()
     {
         if (IsSafeNickname() == false) return;
@@ -74,7 +76,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
     {
         NicknameWarningUI(PhotonNetwork.NetworkClientState.ToString());
         yield return new WaitForSecondsRealtime(1f);
-        PhotonNetwork.JoinLobby(TypedLobby.Default);
+        PhotonNetwork.JoinLobby();
         while (true)
         {
             NicknameWarningUI(PhotonNetwork.NetworkClientState.ToString());
