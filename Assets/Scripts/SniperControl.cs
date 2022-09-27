@@ -80,7 +80,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         
         PlayerCamera.transform.position = PlayerCameraPos.position;
         DoMovement();
-        photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, -mouseYUpper));
+        photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, new Vector3(0f, 0f, -mouseYUpper));
     }
     private void Update()
     {
@@ -98,7 +98,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         if (photonView.IsMine == false)
         {
-            UpperBody.eulerAngles = UpperRotation;
+            UpperBody.eulerAngles += UpperRotation;
             //photonView.RPC("UpdateServerBone", RpcTarget.All, UpperRotation);
             //UpperBody.Rotate(UpperRotation);
         }
@@ -386,13 +386,13 @@ public class SniperControl : PlayerHeader, IPunObservable
         {
             stream.SendNext(FakeMuzzle.activeSelf);
             stream.SendNext(FakeSmoke.activeSelf);
-            stream.SendNext(UpperBody.eulerAngles);
+            //stream.SendNext(UpperBody.eulerAngles);
         }
         else
         {
             FakeMuzzle.SetActive((bool)stream.ReceiveNext());
             FakeSmoke.SetActive((bool)stream.ReceiveNext());
-            UpperRotation = (Vector3)stream.ReceiveNext();
+            //UpperRotation = (Vector3)stream.ReceiveNext();
         }
     }
     [PunRPC]
@@ -407,7 +407,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     [PunRPC]
     public void UpdateServerBone(Vector3 rotation)
     {
-        UpperRotation += rotation;
+        UpperRotation = rotation;
     }
     [PunRPC]
     public void RPC_RigidbodyDisable()
