@@ -14,17 +14,16 @@ public class UserBox : MonoBehaviour
     {
         UserName.text = name;
         this.transform.position = position;
-        Transform tr = null;
-        tr.position = position;
-        tr.rotation = Quaternion.identity;
-        this.transform.SetParent(tr);
+        
         if (ID == 1)
         {
             UserInfo.alignment = TextAlignmentOptions.MidlineLeft;
+            this.transform.SetParent(GameObject.Find("User1Pos").transform);
         }
         else
         {
             UserInfo.alignment = TextAlignmentOptions.MidlineRight;
+            this.transform.SetParent(GameObject.Find("User2Pos").transform);
         }
         UserInfo.text = "Rating : " + rating + "%\n" + "Games : " + games;
     }
