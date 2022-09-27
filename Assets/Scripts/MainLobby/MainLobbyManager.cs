@@ -209,9 +209,9 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     }
     public int GetRoomPos()
     {
-        for(int i = 0; i < IsRoomExist.Length; i++)
+        for (int i = 0; i < IsRoomExist.Length; i++)
         {
-            if(IsRoomExist[i] == false)
+            if (IsRoomExist[i] == false)
             {
                 return i;
             }

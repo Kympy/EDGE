@@ -2434,6 +2434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8bd23e112bb5841aec4eede295565e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChannelName: Lobby
   Scroll: {fileID: 1466717448}
   ChatText: {fileID: 1200082287}
   ChatInput: {fileID: 1419944200}

@@ -28,12 +28,13 @@ public static class AppSettingExtensions
 public class ChatManager : MonoBehaviour, IChatClientListener
 {
     private ChatClient _ChatClient = null;
-
+    [SerializeField] private string ChannelName = null;
     [SerializeField] private ScrollRect Scroll = null;
     [SerializeField] private TextMeshProUGUI ChatText = null;
     [SerializeField] private TMP_InputField ChatInput = null;
     private void Start()
     {
+        ChannelName = PhotonNetwork.CurrentRoom.Name;
         ChatText.text = "";
         if(_ChatClient == null)
         {
@@ -65,7 +66,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void EnterMessage(string message)
     {
         if (message == "") return;
-        _ChatClient.PublishMessage("LobbyChannel", message);
+        _ChatClient.PublishMessage(ChannelName, message);
         ChatInput.text = "";
         Scroll.verticalNormalizedPosition = 0;
     }
@@ -89,7 +90,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnConnected()
     {
         //throw new System.NotImplementedException();
-        _ChatClient.Subscribe("LobbyChannel", 0);
+        _ChatClient.Subscribe(ChannelName, 0);
         AddChatLine("System" , "Chatting Server Connected");
     }
 
