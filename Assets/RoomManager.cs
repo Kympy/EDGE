@@ -24,8 +24,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private TextMeshProUGUI RoomTitle = null;
     [SerializeField] private TextMeshProUGUI BetAmount = null;
+
+    [SerializeField] private GameObject userbox = null;
     private void Awake()
     {
+        userbox = PhotonNetwork.Instantiate("Rooms/UserBox", Vector3.one, Quaternion.identity);
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true));
         CancelButton.onClick.AddListener(() => ToggleEditUI(false));
         RoomExitButton.onClick.AddListener(() => ExitRoom());
@@ -39,7 +42,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         EditCanvas.SetActive(false);
         lockedRoom.isOn = false;
         InitRoom();
-
+        Debug.Log(PhotonNetwork.NickName + " Awake");
+        
         photonView.RPC("ShowUser", RpcTarget.AllBuffered, GetPos());
         ShowUser(GetPos());
     }
@@ -122,23 +126,18 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ShowUser(int pos)
     {
-        GameObject box = PhotonNetwork.Instantiate("Rooms/UserBox", Vector3.zero, Quaternion.identity);
         if (pos == 1)
         {
-            box.transform.position = User1Pos.position;
-            box.transform.SetParent(User1Pos);
-            box.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 1);
+            userbox.transform.position = User1Pos.position;
+            userbox.transform.SetParent(User1Pos);
+            userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "20.0", "12", 1);
         }
         else
         {
-            box.transform.position = User2Pos.position;
-            box.transform.SetParent(User2Pos);
-            box.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 2);
+            userbox.transform.position = User2Pos.position;
+            userbox.transform.SetParent(User2Pos);
+            userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 2);
         }
-    }
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        
     }
     private void OnGUI()
     {

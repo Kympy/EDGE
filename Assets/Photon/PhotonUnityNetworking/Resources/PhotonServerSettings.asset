@@ -49,6 +49,8 @@ MonoBehaviour:
   - UpdateIndicator
   - RPC_RigidbodyDisable
   - ShowUser
+  - SlotCheck
+  - UserBoxInit
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
