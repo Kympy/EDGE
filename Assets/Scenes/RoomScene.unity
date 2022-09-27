@@ -2086,6 +2086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8bd23e112bb5841aec4eede295565e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChannelName: 
   Scroll: {fileID: 1474689247}
   ChatText: {fileID: 361374420}
   ChatInput: {fileID: 1151917086}
@@ -5465,7 +5466,7 @@ MonoBehaviour:
   EditCanvas: {fileID: 692403422}
   RoomTitle: {fileID: 1173931065}
   BetAmount: {fileID: 553089235}
-  userbox: {fileID: 0}
+  _ChatManager: {fileID: 632851036}
 --- !u!114 &1665838658
 MonoBehaviour:
   m_ObjectHideFlags: 0

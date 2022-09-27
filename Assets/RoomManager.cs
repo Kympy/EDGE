@@ -25,8 +25,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI RoomTitle = null;
     [SerializeField] private TextMeshProUGUI BetAmount = null;
 
-    [SerializeField] private GameObject userbox = null;
-    private bool[] slot = { false, false };
+    [SerializeField] private ChatManager _ChatManager = null;
+
     private void Awake()
     {
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true));
@@ -42,15 +42,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
         EditCanvas.SetActive(false);
         lockedRoom.isOn = false;
         InitRoom();
-        Debug.Log(PhotonNetwork.NickName + " Awake");
 
-        //photonView.RPC("ShowUser", RpcTarget.All);
         ShowUser();
     }
-    [PunRPC]
-    public void ChangeSlot(int index, bool value)
+    private void Start()
     {
-        slot[index] = value;
+        if(PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(CountDown());
+        }
     }
     public void InitRoom()
     {
@@ -121,23 +121,59 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void ShowUser()
     {
         Debug.Log("Created");
-        userbox = PhotonNetwork.Instantiate("Rooms/UserBox", Vector3.one, Quaternion.identity);
+        GameObject userbox = PhotonNetwork.Instantiate("Rooms/UserBox", Vector3.one, Quaternion.identity);
         if (photonView.IsMine)
         {
             Debug.Log("Master");
-            userbox.transform.position = User1Pos.position;
-            userbox.transform.SetParent(User1Pos);
             userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
-            //userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "20.0", "12", 1);
         }
         else
         {
             Debug.Log("Client");
-            userbox.transform.position = User2Pos.position;
-            userbox.transform.SetParent(User2Pos);
             userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "40.0", "232", 2, User2Pos.position);
-            //userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 2);
         }
+    }
+    public IEnumerator CountDown()
+    {
+        int time = 3;
+        float timer = 0f;
+        while(true)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            {
+                if (User1Pos.transform.childCount > 0 && User2Pos.transform.childCount > 0)
+                {
+                    if (User1Pos.GetChild(0).GetComponent<UserBox>().GetReadyText.activeSelf &&
+                        User2Pos.GetChild(0).GetComponent<UserBox>().GetReadyText.activeSelf)
+                    {
+                        timer += Time.deltaTime;
+                        if(timer > 1f)
+                        {
+                            if (time == 0)
+                            {
+                                PhotonNetwork.AutomaticallySyncScene = true;
+                                PhotonNetwork.LoadLevel(3);
+                                yield break;
+                            }
+                            photonView.RPC("ChatLineMsg", RpcTarget.All, "System", "Enter the game in a few moments..." + time);
+                            time--;
+                            timer = 0f;
+                        }
+                    }
+                    else
+                    {
+                        time = 3;
+                        timer = 0f;
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+    [PunRPC]
+    public void ChatLineMsg(string name, string msg)
+    {
+        _ChatManager.AddChatLine(name, msg);
     }
     private void OnGUI()
     {

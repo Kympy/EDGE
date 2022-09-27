@@ -32,6 +32,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     [SerializeField] private ScrollRect Scroll = null;
     [SerializeField] private TextMeshProUGUI ChatText = null;
     [SerializeField] private TMP_InputField ChatInput = null;
+
     private void Start()
     {
         if(PhotonNetwork.InLobby)
@@ -92,7 +93,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnChatStateChange(ChatState state)
     {
         //throw new System.NotImplementedException();
-        AddChatLine("System", "Chatting Server State : " + state);
+        //AddChatLine("System", "Chatting Server State : " + state);
     }
 
     public void OnConnected()

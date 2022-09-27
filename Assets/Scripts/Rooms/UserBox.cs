@@ -11,6 +11,8 @@ public class UserBox : MonoBehaviourPun
     [SerializeField] private GameObject ReadyText = null;
     [SerializeField] private Button ReadyButton = null;
 
+    public GameObject GetReadyText { get { return ReadyText; } }
+
     private void Awake()
     {
         ReadyText.SetActive(false);
