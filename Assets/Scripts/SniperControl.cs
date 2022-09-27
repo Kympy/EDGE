@@ -15,7 +15,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     private Coroutine CrouchCo = null;
 
     #region Variables
-    private Vector3 UpperRotation;
+    private float UpperRotation;
     private Text mode = null;
     private int ZoomLevel = 0;
 
@@ -80,7 +80,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         
         PlayerCamera.transform.position = PlayerCameraPos.position;
         DoMovement();
-        photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, new Vector3(0f, 0f, -mouseYUpper));
+        photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, -mouseYUpper);
     }
     private void Update()
     {
@@ -98,7 +98,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         if (photonView.IsMine == false)
         {
-            UpperBody.eulerAngles += UpperRotation;
+            UpperBody.eulerAngles = new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, UpperRotation);
             //photonView.RPC("UpdateServerBone", RpcTarget.All, UpperRotation);
             //UpperBody.Rotate(UpperRotation);
         }
@@ -405,9 +405,9 @@ public class SniperControl : PlayerHeader, IPunObservable
     }
 
     [PunRPC]
-    public void UpdateServerBone(Vector3 rotation)
+    public void UpdateServerBone(float rotation)
     {
-        UpperRotation = rotation;
+        UpperRotation += rotation;
     }
     [PunRPC]
     public void RPC_RigidbodyDisable()
