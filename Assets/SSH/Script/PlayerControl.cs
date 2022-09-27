@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerControl : MonoBehaviourPun
 {
     GameObject playerFollowCam = null;
@@ -53,6 +54,8 @@ public class PlayerControl : MonoBehaviourPun
         RaycastHit rayHit;
     */
 
+
+
     private void Awake()
     {
         if (photonView.IsMine == false)
@@ -74,7 +77,10 @@ public class PlayerControl : MonoBehaviourPun
         // 자식 오브젝트에 붙어있는 rigidBody
         rbChild = GetComponentsInChildren<Rigidbody>();
 
-        bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
+        if (SceneManager.GetActiveScene().name == "GunFight")
+        {
+            bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
+        }
     }
 
     void Start()
@@ -134,7 +140,7 @@ public class PlayerControl : MonoBehaviourPun
     // chest 회전 후 animation에 의해 초기화되는 경우를 방지하기 위해 LaUpdate 사용 
     private void LateUpdate()
     {
-        if (isStart)
+        if (isStart && isAlive)
         {
             PlayerRotate();
         }
@@ -209,7 +215,7 @@ public class PlayerControl : MonoBehaviourPun
             GunFire();
         }
 
-        else if (Input.GetButtonDown("Fire1") && !playerLobbyActive)
+        else if (Input.GetButtonDown("Fire1") && !playerLobbyActive && isAlive)
         {
             if (curBullet == maxBullet)
             {
@@ -246,7 +252,9 @@ public class PlayerControl : MonoBehaviourPun
                 Debug.Log("죽음");
 
                 //rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
-                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
+                //rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBufferedViaServer);
+
             }
 
             if (rayHit.transform.tag == "SaloonObject")
@@ -277,6 +285,7 @@ public class PlayerControl : MonoBehaviourPun
         // Lobby Scene 플레이어 일부 기능 활성화 
         if (SceneManager.GetActiveScene().name == "Lobby")
         {
+            Debug.Log("로비 입장");
             LobbyPlayerActive();
             Unlock(); // 플레이어 회전 활성화
             // gameSceneLogic.LobbyPos();
@@ -301,7 +310,10 @@ public class PlayerControl : MonoBehaviourPun
         isAlive = false;
 
         Debug.Log($"isAlive  : {isAlive}");
-        anim.enabled = false;
+
+        anim.SetTrigger("isDeath");
+        //anim.enabled = false;
+        
     }
 }
 
