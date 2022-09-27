@@ -220,7 +220,8 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     }
     public override void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
     {
-        UserCount.text = "Players : " + PhotonNetwork.CountOfPlayers.ToString();
+        Debug.Log(lobbyStatistics.Count);
+        Debug.Log("1");
     }
     private void OnGUI()
     {

@@ -25,6 +25,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
         ForbiddenWords.Add("Fuck");
         ForbiddenWords.Add("fuck");
         PhotonNetwork.GameVersion = "0.1";
+        PhotonNetwork.PhotonServerSettings.AppSettings.EnableLobbyStatistics = true;
         PhotonNetwork.ConnectUsingSettings(); // Applicate Connection to Master Server
         OKButton.onClick.AddListener(delegate
         {

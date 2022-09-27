@@ -2287,7 +2287,7 @@ MonoBehaviour:
   RealCreateButton: {fileID: 1054196428}
   PassInput: {fileID: 100153220}
   LockedRoom: {fileID: 1922525935}
-  UserCount: {fileID: 0}
+  UserCount: {fileID: 2145517747}
 --- !u!1 &773551402
 GameObject:
   m_ObjectHideFlags: 0
