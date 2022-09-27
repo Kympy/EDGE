@@ -9,9 +9,9 @@ public class Bullet : MonoBehaviourPunCallbacks
     private Rigidbody _Rigidbody;
 
     private AudioSource[] BulletSound = null;
-    private bool Used = false; // Has a first collision
     private void Awake()
     {
+        photonView.RPC("DisableRemoteRigidbody", RpcTarget.Others);
         _Rigidbody = GetComponent<Rigidbody>();
         BulletSound = GetComponents<AudioSource>();
     }
@@ -29,6 +29,11 @@ public class Bullet : MonoBehaviourPunCallbacks
         }
         */
         //Debug.Log(_Rigidbody.velocity.magnitude);
+    }
+    [PunRPC]
+    public void DisableRemoteRigidbody()
+    {
+        _Rigidbody.isKinematic = true;
     }
     private void OnCollisionEnter(Collision collision) // When Bullet gets a collision with an object
     {

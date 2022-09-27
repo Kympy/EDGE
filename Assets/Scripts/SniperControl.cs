@@ -100,9 +100,9 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (photonView.IsMine == false)
         {
             UpperRotation = UpperRotation > 180f ? UpperRotation - 360f : UpperRotation;
-            UpperRotation = Mathf.Clamp(UpperRotation, -110f, 10f);
+            UpperRotation = Mathf.Clamp(UpperRotation, -50f, 70f);
             Debug.Log(UpperRotation);
-            UpperBody.eulerAngles = new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, UpperRotation);
+            UpperBody.eulerAngles = new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, UpperBody.eulerAngles.z + UpperRotation);
             //photonView.RPC("UpdateServerBone", RpcTarget.All, UpperRotation);
             //UpperBody.Rotate(UpperRotation);
         }
@@ -398,7 +398,6 @@ public class SniperControl : PlayerHeader, IPunObservable
     public void GetDamage(float damage)
     {
         HP -= damage;
-        SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP);
         SniperGameManager.Instance.GetUI.ShowBlood();
         Debug.Log(HP);
         if(HP <= 0f)
@@ -407,6 +406,7 @@ public class SniperControl : PlayerHeader, IPunObservable
             _PlayerAnimator.enabled = false;
             RagdollToggle(false);
         }
+        SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP);
     }
 
     [PunRPC]
