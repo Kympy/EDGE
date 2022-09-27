@@ -116,7 +116,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     
     public override void OnLeftRoom()
     {
-        PhotonNetwork.JoinLobby(TypedLobby.Default);
         PhotonNetwork.LoadLevel(1);
     }
     public void ShowUser()
