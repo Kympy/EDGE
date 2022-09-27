@@ -113,15 +113,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LeaveRoom();
     }
-    
-    public override void OnLeftRoom()
-    {
-        //PhotonNetwork.LoadLevel(1);
-    }
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinLobby();
-        PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.JoinLobby(); // Rejoin Lobby when leave room
+        PhotonNetwork.LoadLevel(1); // Go to lobby scene
     }
     public void ShowUser()
     {

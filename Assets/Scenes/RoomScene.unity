@@ -5465,6 +5465,7 @@ MonoBehaviour:
   EditCanvas: {fileID: 692403422}
   RoomTitle: {fileID: 1173931065}
   BetAmount: {fileID: 553089235}
+  userbox: {fileID: 0}
 --- !u!114 &1665838658
 MonoBehaviour:
   m_ObjectHideFlags: 0
