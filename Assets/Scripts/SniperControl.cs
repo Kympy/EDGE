@@ -100,7 +100,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (photonView.IsMine == false)
         {
             UpperRotation = UpperRotation > 180f ? UpperRotation - 360f : UpperRotation;
-            UpperRotation = Mathf.Clamp(UpperRotation, -110f, 20f);
+            UpperRotation = Mathf.Clamp(UpperRotation, -110f, 10f);
             Debug.Log(UpperRotation);
             UpperBody.eulerAngles = new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, UpperRotation);
             //photonView.RPC("UpdateServerBone", RpcTarget.All, UpperRotation);

@@ -30,7 +30,7 @@ public class PlayerHeader : MonoBehaviourPun
     protected float mouseX = 0f;
     protected float mouseY = 0f;
     // Mouse Upper Rotation
-    protected float mouseYUpper = 90f;
+    protected float mouseYUpper = 0f;
     // Fire
     protected float shootRot; // Fire time's X Rotation
     protected float recoilPower; // Recoil X Rotation Value
