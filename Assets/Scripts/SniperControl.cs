@@ -42,6 +42,11 @@ public class SniperControl : PlayerHeader, IPunObservable
     }
     private void Start()
     {
+        RealSmoke = GameObject.Find("RealSmoke");
+        RealMuzzle = GameObject.Find("RealMuzzle");
+        RealSmoke.SetActive(false);
+        RealMuzzle.SetActive(false);
+
         if (photonView.IsMine == false) return;
 
         RagdollToggle(true);
@@ -62,13 +67,11 @@ public class SniperControl : PlayerHeader, IPunObservable
         shootPos = GameObject.Find("ShootPos").transform;
         ZoomShootPosition = GameObject.Find("ZoomShootPos").transform;
         // Effects
-        RealSmoke = GameObject.Find("RealSmoke");
-        RealMuzzle = GameObject.Find("RealMuzzle");
+
         ArmCasing = GameObject.Find("ArmCasing");
         // Initializing Active State
         ArmCasing.SetActive(false);
-        RealSmoke.SetActive(false);
-        RealMuzzle.SetActive(false);
+
         FakeMuzzle.SetActive(false);
         FakeSmoke.SetActive(false);
         // Set Arm Position
