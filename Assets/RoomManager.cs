@@ -24,8 +24,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private TextMeshProUGUI RoomTitle = null;
     [SerializeField] private TextMeshProUGUI BetAmount = null;
-
-    private bool[] slot = { false, false };
     private void Awake()
     {
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true));
@@ -41,6 +39,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         EditCanvas.SetActive(false);
         lockedRoom.isOn = false;
         InitRoom();
+
+        photonView.RPC("ShowUser", RpcTarget.AllBuffered, GetPos());
         ShowUser(GetPos());
     }
     public void InitRoom()
@@ -113,35 +113,32 @@ public class RoomManager : MonoBehaviourPunCallbacks
     
     private int GetPos()
     {
-        if (slot[0] == false)
+        if (PhotonNetwork.IsMasterClient)
         {
             return 1;
         }
         else return 2;
     }
+    [PunRPC]
     public void ShowUser(int pos)
     {
-        if(pos == 1)
+        GameObject box = PhotonNetwork.Instantiate("Rooms/UserBox", Vector3.zero, Quaternion.identity);
+        if (pos == 1)
         {
-            Debug.Log(pos);
-            GameObject box = PhotonNetwork.Instantiate("Rooms/UserBox", User1Pos.position, User1Pos.rotation);
+            box.transform.position = User1Pos.position;
             box.transform.SetParent(User1Pos);
-            box.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "50.0", "321", 1);
-            photonView.RPC("SlotCheck", RpcTarget.AllBuffered, 0, true);
+            box.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 1);
         }
         else
         {
-            Debug.Log(pos);
-            GameObject box = PhotonNetwork.Instantiate("Rooms/UserBox", User2Pos.position, User2Pos.rotation);
+            box.transform.position = User2Pos.position;
             box.transform.SetParent(User2Pos);
             box.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 2);
-            photonView.RPC("SlotCheck", RpcTarget.AllBuffered, 1, true);
         }
     }
-    [PunRPC]
-    public void SlotCheck(int index, bool value)
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        slot[index] = value;
+        
     }
     private void OnGUI()
     {
