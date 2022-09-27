@@ -231,6 +231,8 @@ MonoBehaviour:
   - {fileID: 8622178974795963248}
   - {fileID: 8622178974795989280}
   - {fileID: 8622178974795949668}
+  min: 0
+  max: 0
   NamePos: {fileID: 8376082758950361245}
 --- !u!114 &-7816350489669911867
 MonoBehaviour:

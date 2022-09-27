@@ -107,9 +107,11 @@ public class SniperControl : PlayerHeader, IPunObservable
             //UpperBody.Rotate(UpperRotation);
         }
     }
+    [PunRPC]
     private void RagdollToggle(bool toggle)
     {
-        for(int i = 0; i < Bones.Length; i++)
+        _PlayerAnimator.enabled = toggle;
+        for (int i = 0; i < Bones.Length; i++)
         {
             Bones[i].isKinematic = toggle;
         }
@@ -403,8 +405,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         if(HP <= 0f)
         {
             HP = 0f;
-            _PlayerAnimator.enabled = false;
-            RagdollToggle(false);
+            photonView.RPC("RagdollToggle", RpcTarget.All, false);
         }
         SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP);
     }

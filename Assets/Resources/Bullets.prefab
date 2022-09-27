@@ -118,10 +118,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.0001
-  m_Height: 0.00035
+  m_Radius: 0.0002
+  m_Height: 0.0008
   m_Direction: 2
-  m_Center: {x: -5.0931703e-11, y: 9.822543e-11, z: 0.00015}
+  m_Center: {x: -5.0931703e-11, y: 9.822543e-11, z: 0}
 --- !u!114 &2602794164913845043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 70
-  power: 20
+  power: 0
 --- !u!96 &502146934796964990
 TrailRenderer:
   serializedVersion: 2
