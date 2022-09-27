@@ -405,6 +405,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         HP -= damage;
         SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP);
+        SniperGameManager.Instance.GetUI.ShowBlood();
         Debug.Log(HP);
     }
 

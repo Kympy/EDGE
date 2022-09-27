@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviourPun
     [SerializeField] private GameObject TabPanel = null;
     [SerializeField] private TextMeshProUGUI User1Name = null;
     [SerializeField] private TextMeshProUGUI User2Name = null;
+
+    [SerializeField] private CanvasGroup BloodEffect = null;
+    private Coroutine bloodCoroutine = null;
     [System.Serializable]
     public struct Indicator
     {
@@ -33,6 +36,7 @@ public class UIManager : MonoBehaviourPun
 
     private void Start()
     {
+        BloodEffect.alpha = 0f;
         EnemyPlayerName.text = "";
         User1Name.text = PhotonNetwork.NickName;
         User2Name.text = "";
@@ -129,6 +133,30 @@ public class UIManager : MonoBehaviourPun
         {
             someone.LegR.sprite = MyGameManager.prefabData.LegRRed;
             someone.LegR.color = Color.white;
+        }
+    }
+    public void ShowBlood()
+    {
+        if(bloodCoroutine != null)
+        {
+            StopCoroutine(bloodCoroutine);
+            bloodCoroutine = null;
+        }
+        bloodCoroutine = StartCoroutine(BloodUI());
+    }
+    private IEnumerator BloodUI()
+    {
+        BloodEffect.alpha = 1f;
+        yield return new WaitForSecondsRealtime(1f);
+        while(true)
+        {
+            BloodEffect.alpha -= 0.05f;
+            if(BloodEffect.alpha < 0f)
+            {
+                BloodEffect.alpha = 0f;
+                yield break;
+            }
+            yield return null;
         }
     }
 }
