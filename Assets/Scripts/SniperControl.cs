@@ -405,11 +405,10 @@ public class SniperControl : PlayerHeader, IPunObservable
         if(HP <= 0f)
         {
             HP = 0f;
-            photonView.RPC("RagdollToggle", RpcTarget.All, false);
+            photonView.RPC("RagdollToggle", RpcTarget.All, false); // Ragdoll mode ON
         }
-        SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP);
+        SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP); // Update UI
     }
-
     [PunRPC]
     public void UpdateServerBone(float rotation)
     {
