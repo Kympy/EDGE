@@ -26,9 +26,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI BetAmount = null;
 
     [SerializeField] private GameObject userbox = null;
+    private bool[] slot = { false, false };
     private void Awake()
     {
-        userbox = PhotonNetwork.Instantiate("Rooms/UserBox", Vector3.one, Quaternion.identity);
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true));
         CancelButton.onClick.AddListener(() => ToggleEditUI(false));
         RoomExitButton.onClick.AddListener(() => ExitRoom());
@@ -43,9 +43,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
         lockedRoom.isOn = false;
         InitRoom();
         Debug.Log(PhotonNetwork.NickName + " Awake");
-        
-        photonView.RPC("ShowUser", RpcTarget.AllBuffered, GetPos());
-        ShowUser(GetPos());
+
+        //photonView.RPC("ShowUser", RpcTarget.All);
+        ShowUser();
+    }
+    [PunRPC]
+    public void ChangeSlot(int index, bool value)
+    {
+        slot[index] = value;
     }
     public void InitRoom()
     {
@@ -114,23 +119,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby(TypedLobby.Default);
         PhotonNetwork.LoadLevel(1);
     }
-    
-    private int GetPos()
+    public void ShowUser()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            return 1;
-        }
-        else return 2;
-    }
-    [PunRPC]
-    public void ShowUser(int pos)
-    {
-        if (pos == 1)
+        userbox = PhotonNetwork.Instantiate("Rooms/UserBox", Vector3.one, Quaternion.identity);
+        if (slot[0] == false)
         {
             userbox.transform.position = User1Pos.position;
             userbox.transform.SetParent(User1Pos);
             userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "20.0", "12", 1);
+            photonView.RPC("ChangeSlot", RpcTarget.AllBuffered, 0, true);
         }
         else
         {
