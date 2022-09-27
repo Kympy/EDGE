@@ -25,6 +25,8 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private Button RealCreateButton = null;
     [SerializeField] private TMP_InputField PassInput = null;
     [SerializeField] private Toggle LockedRoom = null;
+    [Header("User")]
+    [SerializeField] private TextMeshProUGUI UserCount = null;
 
     private Dictionary<string, GameObject> TotalRoomList = new Dictionary<string, GameObject>();
     private GameObject SniperRoomPrefab = null;
@@ -216,7 +218,10 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         }
         return 0;
     }
-
+    public override void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
+    {
+        UserCount.text = "Players : " + PhotonNetwork.CountOfPlayers.ToString();
+    }
     private void OnGUI()
     {
         GUI.Label(new Rect(20f, 50f, 200f, 20f), "Client State : " + PhotonNetwork.NetworkClientState.ToString());

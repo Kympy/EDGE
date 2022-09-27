@@ -65,7 +65,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void EnterMessage(string message)
     {
         if (message == "") return;
-        _ChatClient.PublishMessage("Public", message);
+        _ChatClient.PublishMessage("LobbyChannel", message);
         ChatInput.text = "";
         Scroll.verticalNormalizedPosition = 0;
     }
@@ -89,7 +89,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnConnected()
     {
         //throw new System.NotImplementedException();
-        _ChatClient.Subscribe("Public", 0);
+        _ChatClient.Subscribe("LobbyChannel", 0);
         AddChatLine("System" , "Chatting Server Connected");
     }
 
