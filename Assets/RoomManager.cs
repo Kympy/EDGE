@@ -29,6 +29,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true));
         CancelButton.onClick.AddListener(() => ToggleEditUI(false));
         RoomExitButton.onClick.AddListener(() => ExitRoom());
@@ -111,6 +112,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     private void ExitRoom()
     {
+        PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.LeaveRoom();
     }
     public override void OnConnectedToMaster()
@@ -149,9 +151,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
                         timer += Time.deltaTime;
                         if(timer > 1f)
                         {
-                            if (time == 0)
+                            if (time <= 0)
                             {
-                                PhotonNetwork.AutomaticallySyncScene = true;
                                 PhotonNetwork.LoadLevel(3);
                                 yield break;
                             }
