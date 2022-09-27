@@ -34,7 +34,15 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     [SerializeField] private TMP_InputField ChatInput = null;
     private void Start()
     {
-        ChannelName = PhotonNetwork.CurrentRoom.Name;
+        if(PhotonNetwork.InLobby)
+        {
+            ChannelName = "Lobby";
+        }
+        else if(PhotonNetwork.InRoom)
+        {
+            ChannelName = PhotonNetwork.CurrentRoom.Name;
+        }
+
         ChatText.text = "";
         if(_ChatClient == null)
         {
