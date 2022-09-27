@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // Player »ý¼º
+        //GameObject objectViewID = PhotonNetwork.Instantiate("Player", pos, Quaternion.identity);
         GameObject objectViewID = PhotonNetwork.Instantiate("Player", pos, Quaternion.identity);
 
         myViewID = objectViewID.GetPhotonView().ViewID;

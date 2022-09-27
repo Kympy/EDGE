@@ -312,8 +312,9 @@ public class PlayerControl : MonoBehaviourPun
         Debug.Log($"isAlive  : {isAlive}");
 
         anim.SetTrigger("isDeath");
-        //anim.enabled = false;
-        
+        //anim.enabled = false;        
+
+        Destroy(gameObject, 4f);
     }
 }
 
