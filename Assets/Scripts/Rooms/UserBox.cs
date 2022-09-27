@@ -15,10 +15,16 @@ public class UserBox : MonoBehaviourPun
     {
         ReadyText.SetActive(false);
         ReadyButton.onClick.AddListener(() => ClickReady());
+        photonView.RPC("DisableRemoteButton", RpcTarget.OthersBuffered);
     }
     public void ClickReady()
     {
         photonView.RPC("PlayerReady", RpcTarget.AllBuffered, !ReadyText.activeSelf);
+    }
+    [PunRPC]
+    public void DisableRemoteButton()
+    {
+        ReadyButton.gameObject.SetActive(false);
     }
     [PunRPC]
     public void PlayerReady(bool isReady)
