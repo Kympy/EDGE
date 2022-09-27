@@ -15,7 +15,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     private Coroutine CrouchCo = null;
 
     #region Variables
-    private float UpperRotation;
+    private float UpperRotation = 0f;
     private Text mode = null;
     private int ZoomLevel = 0;
 
@@ -81,6 +81,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         PlayerCamera.transform.position = PlayerCameraPos.position;
         DoMovement();
         photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, -mouseYUpper);
+        Debug.Log(PhotonNetwork.NickName + " : " + HP);
     }
     private void Update()
     {
@@ -236,11 +237,6 @@ public class SniperControl : PlayerHeader, IPunObservable
             mouseY = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
             mouseYUpper = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
         }
-
-        //mouseX = mouseX > 180f ? mouseX - 360f : mouseX;
-        //mouseY = mouseY > 180f ? mouseY - 360f : mouseY;
-        //mouseYUpper = mouseYUpper > 180f ? mouseYUpper - 360f : mouseYUpper;
-        //mouseYUpper = Mathf.Clamp(mouseYUpper, 20f, 150f); // mouse Y + 90f
 
         PlayerCamera.transform.eulerAngles += new Vector3(-mouseY + recoilPower, mouseX, 0f);
 
@@ -402,6 +398,11 @@ public class SniperControl : PlayerHeader, IPunObservable
         SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP);
         SniperGameManager.Instance.GetUI.ShowBlood();
         Debug.Log(HP);
+        if(HP <= 0f)
+        {
+            HP = 0f;
+            _PlayerAnimator.enabled = false;
+        }
     }
 
     [PunRPC]
