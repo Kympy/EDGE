@@ -75,7 +75,8 @@ Version 4.1.6.4 (26. July 2021 - rev6143)
     Removed: Surplus logging in PhotonClientWebSocket implementation.
     Added: Null-check in PhotonClientWebSocket.Send() if the socket may be disconnecting already. Added fitting error log.
     Changed: TCP implementation to avoid memory allocations. It now uses a Queue<StreamBuffer> which is pooled and re-used. DispatchIncomingCommands() releases the StreamBuffers back into the pool.
-    Fixed: TrafficStats counting of ping-result command size. This was still counting the buffer size instead of received-data size (usually less).
+    Fixed: TrafficStats 
+    ing of ping-result command size. This was still counting the buffer size instead of received-data size (usually less).
 
 Version 4.1.6.3 (24. June 2021 - rev6099)
     Fixed: An issue with deserialization of custom types.

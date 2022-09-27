@@ -19,7 +19,7 @@ public class GameSceneLogic : MonoBehaviourPun
     {
         yield return new WaitForSeconds(10f);
 
-       // if (PhotonNetwork.IsConnected) // && PhotonNetwork.IsMasterClient
+        // if (PhotonNetwork.IsConnected) // && PhotonNetwork.IsMasterClient
         
             // 모든 클라이언트와 마스터 클라이언트의 LoadLevel 동기화
             PhotonNetwork.AutomaticallySyncScene = true;

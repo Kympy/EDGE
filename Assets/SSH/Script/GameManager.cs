@@ -94,16 +94,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void GunFightPos()
     {
+
         Vector3 pos = Vector3.zero;
 
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
             pos = MPos.position;
+            Debug.Log(pos);
         }
 
         else if (PhotonNetwork.IsConnected & PhotonNetwork.IsMasterClient == false)
         {
             pos = CPos.position;
+            Debug.Log(pos);
         }
 
         // Player »ý¼º

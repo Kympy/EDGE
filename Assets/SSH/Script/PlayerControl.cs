@@ -21,6 +21,8 @@ public class PlayerControl : MonoBehaviourPun
     // = ragdoll
     Rigidbody[] rbChild = new Rigidbody[13];
 
+    BullCount bulletUI = null;
+
     float mouseX = 0f;
     float mouseY = 0f;
 
@@ -71,6 +73,8 @@ public class PlayerControl : MonoBehaviourPun
 
         // 자식 오브젝트에 붙어있는 rigidBody
         rbChild = GetComponentsInChildren<Rigidbody>();
+
+        bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
     }
 
     void Start()
@@ -220,6 +224,7 @@ public class PlayerControl : MonoBehaviourPun
             Debug.Log("발사");
             GunFire();
 
+            bulletUI.countBullet(curBullet);
             curBullet++;
         }
     }

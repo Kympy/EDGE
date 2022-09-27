@@ -44,6 +44,7 @@ MonoBehaviour:
   - NextScene
   - AnimControl
   - RPCScene
+  - countBullet
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
