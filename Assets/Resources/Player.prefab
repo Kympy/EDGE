@@ -3571,7 +3571,7 @@ MonoBehaviour:
   hasAxe: 00
   hasKnife: 00
   anim: {fileID: 2669615613400881885}
-  ItemFactory: {fileID: 1354652782723037568, guid: cc506e824ce185046a029a17f33cbc5b,
+  ItemFactory: {fileID: 1685989091703175018, guid: 7d549c0a91955664d92172f7c2c3b1a6,
     type: 3}
   ThrowPoint: {fileID: 8376893509249504374}
   cam: {fileID: 0}
