@@ -18,7 +18,8 @@ public class SniperControl : PlayerHeader, IPunObservable
     private float UpperRotation = 0f;
     private Text mode = null;
     private int ZoomLevel = 0;
-
+    public float min;
+    public float max;
     public GameObject NamePos = null; // Player Nickname Position
     // Player Control Values
     public bool Is_Move { get { return IsMove; } }
@@ -98,7 +99,9 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         if (photonView.IsMine == false)
         {
-            UpperBody.eulerAngles = new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, UpperRotation);
+            UpperRotation = UpperRotation > 180f ? UpperRotation - 360f : UpperRotation;
+            UpperRotation = Mathf.Clamp(UpperRotation, -70f, 50f);
+            UpperBody.eulerAngles = new Vector3(0f, 0f, UpperRotation);
             //photonView.RPC("UpdateServerBone", RpcTarget.All, UpperRotation);
             //UpperBody.Rotate(UpperRotation);
         }
@@ -409,8 +412,9 @@ public class SniperControl : PlayerHeader, IPunObservable
     public void UpdateServerBone(float rotation)
     {
         UpperRotation += rotation;
-        UpperRotation = UpperRotation > 180 ? UpperRotation - 360f : UpperRotation;
-        UpperRotation = Mathf.Clamp(UpperRotation, -50f, 70f);
+        //UpperRotation = UpperRotation > 180 ? UpperRotation - 360f : UpperRotation;
+        Debug.Log(UpperRotation);
+        //UpperRotation = Mathf.Clamp(UpperRotation, min, max);
     }
     [PunRPC]
     public void RPC_RigidbodyDisable()
