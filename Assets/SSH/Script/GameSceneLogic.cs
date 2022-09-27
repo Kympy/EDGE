@@ -15,6 +15,13 @@ public class GameSceneLogic : MonoBehaviourPun
         StartCoroutine(NextScene());
     }
 
+    [PunRPC]
+    // ½Â¸®
+    // void WinUI()
+    // ÆÐ¹è
+    // void LoseUI()
+
+
     IEnumerator NextScene()
     {
         yield return new WaitForSeconds(10f);
@@ -31,4 +38,6 @@ public class GameSceneLogic : MonoBehaviourPun
         PhotonNetwork.LoadLevel("GunFight");
 
     }
+
+
 }

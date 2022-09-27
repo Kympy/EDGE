@@ -6,7 +6,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
-
 public class PlayerControl : MonoBehaviourPun
 {
     GameObject playerFollowCam = null;
@@ -53,8 +52,6 @@ public class PlayerControl : MonoBehaviourPun
         Ray rayCamera;
         RaycastHit rayHit;
     */
-
-
 
     private void Awake()
     {
@@ -103,7 +100,7 @@ public class PlayerControl : MonoBehaviourPun
 
         // ragdoll의 isKinematic : true
         // Player Death 전에 isKinematic false로 변환 필요
-        for (int i = 0; i < rbChild.Length ; i++ )
+        for (int i = 0; i < rbChild.Length; i++)
         {
             if (i >= 1)
             {
@@ -166,7 +163,7 @@ public class PlayerControl : MonoBehaviourPun
         // 제한된 mouseY을 입력받아 Chest 회전
         PlayerChest.transform.localEulerAngles = new Vector3(0, 0, -mouseY);
 
-        transform.rotation = Quaternion.Euler(0, mouseX, 0);        
+        transform.rotation = Quaternion.Euler(0, mouseX, 0);
     }
 
     void PlayerMove()
@@ -185,10 +182,10 @@ public class PlayerControl : MonoBehaviourPun
             rb.position += moveVec * moveSpeed * Time.deltaTime;
             //transform.Translate(new Vector3(moveX, 0, moveZ).normalized * moveSpeed * Time.deltaTime);
 
-            anim.SetBool("isRun", true);        
+            anim.SetBool("isRun", true);
         }
 
-        else if(moveX == 0 && moveZ == 0)
+        else if (moveX == 0 && moveZ == 0)
         {
             anim.SetBool("isRun", false);
         }
@@ -211,7 +208,7 @@ public class PlayerControl : MonoBehaviourPun
             attackDelay = false;
             Invoke("AttackDelay", 0.5f); // 재장전 시간 0.5초
             Debug.Log("[로비] 발사");
-            
+
             GunFire();
         }
 
@@ -251,8 +248,7 @@ public class PlayerControl : MonoBehaviourPun
             {
                 Debug.Log("죽음");
 
-                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBufferedViaServer);
-
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
             }
 
             if (rayHit.transform.tag == "SaloonObject")
@@ -296,7 +292,7 @@ public class PlayerControl : MonoBehaviourPun
             attackDelay = false;
 
             Invoke("Unlock", 3f); // 3초 뒤 플레이어 isStart, attackDelay
-            
+
             GunFightPlayerActive();
             // gameSceneLogic.GunFightPos();
         }
