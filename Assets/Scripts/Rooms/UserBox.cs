@@ -9,14 +9,14 @@ public class UserBox : MonoBehaviour
     [SerializeField] private TextMeshProUGUI UserName = null;
     [SerializeField] private TextMeshProUGUI UserInfo = null;
 
-
     [PunRPC]
-    public void InitUserUI(string name, string rating, string games, int ID)
+    public void InitUserUI(string name, string rating, string games, int ID, Vector3 position)
     {
         UserName.text = name;
         if(ID == 1)
         {
             UserInfo.alignment = TextAlignmentOptions.MidlineLeft;
+            this.transform.position = position;
         }
         else
         {

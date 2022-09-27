@@ -128,7 +128,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Debug.Log("Master");
             userbox.transform.position = User1Pos.position;
             userbox.transform.SetParent(User1Pos);
-            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1);
+            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
             //userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "20.0", "12", 1);
         }
         else
@@ -136,7 +136,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Debug.Log("Client");
             userbox.transform.position = User2Pos.position;
             userbox.transform.SetParent(User2Pos);
-            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "40.0", "232", 2);
+            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "40.0", "232", 2, User2Pos.position);
             //userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 2);
         }
     }
