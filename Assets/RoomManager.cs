@@ -26,6 +26,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private TextMeshProUGUI BetAmount = null;
     private void Awake()
     {
+        if (photonView.IsMine == false) return;
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true));
         CancelButton.onClick.AddListener(() => ToggleEditUI(false));
         RoomExitButton.onClick.AddListener(() => ExitRoom());
@@ -39,7 +40,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         EditCanvas.SetActive(false);
         lockedRoom.isOn = false;
         InitRoom();
-        ShowUser(GetPos());
+        photonView.RPC("ShowUser", RpcTarget.AllBuffered, GetPos());
+        //ShowUser(GetPos());
     }
     public void InitRoom()
     {
@@ -111,22 +113,27 @@ public class RoomManager : MonoBehaviourPunCallbacks
     
     private int GetPos()
     {
+        Debug.Log(User1Pos.transform.childCount);
+
         if (User1Pos.transform.childCount == 0)
         {
             return 1;
         }
         else return 2;
     }
+    [PunRPC]
     public void ShowUser(int pos)
     {
         if(pos == 1)
         {
+            Debug.Log(pos);
             GameObject box = PhotonNetwork.Instantiate("Rooms/UserBox", User1Pos.position, User1Pos.rotation);
             box.transform.SetParent(User1Pos);
             box.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "50.0", "321", 1);
         }
         else
         {
+            Debug.Log(pos);
             GameObject box = PhotonNetwork.Instantiate("Rooms/UserBox", User2Pos.position, User2Pos.rotation);
             box.transform.SetParent(User2Pos);
             box.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 2);

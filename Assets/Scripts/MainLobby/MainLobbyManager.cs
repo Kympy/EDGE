@@ -216,6 +216,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         }
         return 0;
     }
+
     private void OnGUI()
     {
         GUI.Label(new Rect(20f, 50f, 200f, 20f), "Client State : " + PhotonNetwork.NetworkClientState.ToString());
