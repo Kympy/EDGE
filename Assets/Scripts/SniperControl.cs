@@ -376,13 +376,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         _PlayerAnimator.SetFloat("Vertical", vertical);
         _PlayerAnimator.SetBool("IsCrouch", IsCrouch);
     } // Control Animator
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Dirt"))
-        {
-            
-        }
-    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
