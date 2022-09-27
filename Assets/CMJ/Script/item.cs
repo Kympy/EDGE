@@ -18,8 +18,8 @@ public class item : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed*1.5f + transform.up * itemSpeed*0.8f);
-        GetComponent<Rigidbody>().AddTorque(transform.right * itemSpeed * 100000f);
+        GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed*1.5f /*+ *//*transform.up * itemSpeed*0.8f*/);
+        /*GetComponent<Rigidbody>().AddTorque(transform.right * itemSpeed * 100000f);*/
     }
 
   
@@ -34,13 +34,6 @@ public class item : MonoBehaviour
 
 
     }
- 
-
-
-
-    /*GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed + transform.up * 300f);
-    GetComponent<Rigidbody>().AddTorque(transform.right * 7f);*/
-
 }
 
 

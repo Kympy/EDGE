@@ -20,7 +20,8 @@ public class TargetEvent : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade")
+        if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade"
+            || collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Knife")
         {
             collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             collision.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
@@ -28,7 +29,8 @@ public class TargetEvent : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody>().isKinematic = true;
             /*Debug.Log("¹ÚÇû´ç");*/
 
-            if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade")
+            if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade"
+                || collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Knife")
             {
                 ST.getScore += targetscore;
                 ST.UpdateScore();

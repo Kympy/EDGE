@@ -49,7 +49,6 @@ public class PlayerController : MonoBehaviourPun
         UpdateRotate();
         UpdateMove();
         GetInput();
-        Interation();
 
 
 
@@ -112,40 +111,6 @@ public class PlayerController : MonoBehaviourPun
         /*idown = Input.GetButtonDown("Interation");*/
 
     }
-
-
-
-    void Interation()
-    {
-        if (idown && nearObject != null)
-        {
-            if (nearObject.tag == "Axe")
-            {
-                item item = nearObject.GetComponent<item>();
-                int AxeIndex = item.value;
-                hasAxe[AxeIndex] = true;
-                /*Debug.Log("µµ³¢¸Ô¾ú´ç");*/
-
-                if (hasAxe[AxeIndex] == true)
-                {
-                    Axe.SetActive(true);
-                    Knife.SetActive(false);
-
-                }
-
-            }
-
-            if (nearObject.tag == "Knife")
-            {
-                item item = nearObject.GetComponent<item>();
-                int KnifeIndex = item.value;
-                hasKnife[KnifeIndex] = true;
-                /*Debug.Log("Ä®¸Ô¾ú´ç");*/
-            }
-        }
-    }
-
-
 
     private void UpdateRotate()
     {
