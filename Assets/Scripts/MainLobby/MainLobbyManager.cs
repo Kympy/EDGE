@@ -36,7 +36,6 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        StartCoroutine(ReJoinLobby());
         SniperRoomPrefab = Resources.Load<GameObject>("Rooms/SniperRoom");
         PistolRoomPrefab = Resources.Load<GameObject>("Rooms/PistolRoom");
         DartRoomPrefab = Resources.Load<GameObject>("Rooms/DartRoom");
@@ -55,21 +54,6 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         for(int i = 0; i < IsRoomExist.Length; i++)
         {
             IsRoomExist[i] = false;
-        }
-    }
-    private IEnumerator ReJoinLobby()
-    {
-        while(true)
-        {
-            if(PhotonNetwork.IsConnectedAndReady)
-            {
-                if(PhotonNetwork.InLobby == false)
-                {
-                    PhotonNetwork.JoinLobby();
-                    yield break;
-                }
-            }
-            yield return null;
         }
     }
     private void CreateUI()
