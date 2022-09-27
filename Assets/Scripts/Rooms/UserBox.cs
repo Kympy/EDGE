@@ -13,10 +13,14 @@ public class UserBox : MonoBehaviour
     public void InitUserUI(string name, string rating, string games, int ID, Vector3 position)
     {
         UserName.text = name;
-        if(ID == 1)
+        this.transform.position = position;
+        Transform tr = null;
+        tr.position = position;
+        tr.rotation = Quaternion.identity;
+        this.transform.SetParent(tr);
+        if (ID == 1)
         {
             UserInfo.alignment = TextAlignmentOptions.MidlineLeft;
-            this.transform.position = position;
         }
         else
         {
