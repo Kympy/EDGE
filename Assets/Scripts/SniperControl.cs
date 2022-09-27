@@ -81,7 +81,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         PlayerCamera.transform.position = PlayerCameraPos.position;
         DoMovement();
         photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, -mouseYUpper);
-        Debug.Log(PhotonNetwork.NickName + " : " + HP);
     }
     private void Update()
     {
@@ -402,6 +401,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         {
             HP = 0f;
             _PlayerAnimator.enabled = false;
+            RagdollToggle(false);
         }
     }
 
@@ -409,6 +409,8 @@ public class SniperControl : PlayerHeader, IPunObservable
     public void UpdateServerBone(float rotation)
     {
         UpperRotation += rotation;
+        UpperRotation = UpperRotation > 180 ? UpperRotation - 360f : UpperRotation;
+        UpperRotation = Mathf.Clamp(UpperRotation, -50f, 70f);
     }
     [PunRPC]
     public void RPC_RigidbodyDisable()
