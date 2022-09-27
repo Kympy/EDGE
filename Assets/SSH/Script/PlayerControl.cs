@@ -247,12 +247,10 @@ public class PlayerControl : MonoBehaviourPun
 
         if (Physics.Raycast(playerFollowCam.transform.position, playerFollowCam.transform.forward * 5f, out RaycastHit rayHit, Mathf.Infinity))
         {
-            if (rayHit.transform.tag == "Player")
+            if (rayHit.transform.tag == "Player" && SceneManager.GetActiveScene().name != "Lobby")
             {
                 Debug.Log("Á×À½");
 
-                //rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
-                //rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
                 rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBufferedViaServer);
 
             }
