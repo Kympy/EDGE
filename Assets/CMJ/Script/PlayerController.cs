@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviourPun
     public GameObject ItemFactory;
     public Transform ThrowPoint;
     public Camera cam;
-    
+
 
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviourPun
         Cursor.lockState = CursorLockMode.Locked;
 
         rb = GetComponent<Rigidbody>();
-        
+
 
         rotateToMouse = GetComponent<RotateToMouse>();
         movement = GetComponent<MovementChracterController>();
@@ -50,26 +50,25 @@ public class PlayerController : MonoBehaviourPun
         UpdateMove();
         GetInput();
         Interation();
-        
-        
+
+
 
         if (Input.GetButtonUp("Fire1"))
         {
-            
-         /*   Debug.Log("던졌다");*/
+
+            /*   Debug.Log("던졌다");*/
         }
 
-            if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            anim.SetBool("hold", true);   
-        }
+            anim.SetBool("hold", true);
 
+            
+        }
         if (Input.GetMouseButtonUp(0))
         {
             anim.SetBool("hold", false);
             anim.SetTrigger("throw");
-            
-            
         }
 
         if (Input.GetMouseButton(0))
@@ -86,12 +85,12 @@ public class PlayerController : MonoBehaviourPun
         if (Input.GetMouseButtonUp(0))
         {
             Throwing();
-            press = 0f;          
+            press = 0f;
         }
     }
 
 
-    
+
 
     private void Throwing()
     {
@@ -111,10 +110,10 @@ public class PlayerController : MonoBehaviourPun
     void GetInput()
     {
         /*idown = Input.GetButtonDown("Interation");*/
-        
+
     }
 
-   
+
 
     void Interation()
     {
@@ -146,7 +145,7 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
- 
+
 
     private void UpdateRotate()
     {
@@ -162,7 +161,19 @@ public class PlayerController : MonoBehaviourPun
         float z = Input.GetAxisRaw("Vertical");
         movement.MoveTo(new Vector3(x, 0, z));
 
-        anim.SetBool("walk", (x != 0 || z != 0));
+
+        if (x != 0 || z != 0)
+        {
+    
+            anim.SetBool("walk", true);
+
+        }
+
+        else
+        {
+            anim.SetBool("walk", false);
+        }
+        //anim.SetBool("walk", (x != 0 || z != 0));
     }
 
 
@@ -175,7 +186,7 @@ public class PlayerController : MonoBehaviourPun
         }
 
         if (other.tag == "Knife")
-        { 
+        {
             nearObject = other.gameObject;
             /*Debug.Log("칼이당");*/
         }
