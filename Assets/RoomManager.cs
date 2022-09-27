@@ -121,16 +121,18 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     public void ShowUser()
     {
+        Debug.Log("Created");
         userbox = PhotonNetwork.Instantiate("Rooms/UserBox", Vector3.one, Quaternion.identity);
-        if (slot[0] == false)
+        if (photonView.IsMine)
         {
+            Debug.Log("Master");
             userbox.transform.position = User1Pos.position;
             userbox.transform.SetParent(User1Pos);
             userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "20.0", "12", 1);
-            photonView.RPC("ChangeSlot", RpcTarget.AllBuffered, 0, true);
         }
         else
         {
+            Debug.Log("Client");
             userbox.transform.position = User2Pos.position;
             userbox.transform.SetParent(User2Pos);
             userbox.GetComponent<UserBox>().InitUserUI(PhotonNetwork.NickName, "60.0", "357", 2);
