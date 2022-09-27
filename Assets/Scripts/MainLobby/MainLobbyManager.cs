@@ -61,7 +61,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     {
         while(true)
         {
-            if(PhotonNetwork.IsConnected)
+            if(PhotonNetwork.IsConnectedAndReady)
             {
                 if(PhotonNetwork.InLobby == false)
                 {
