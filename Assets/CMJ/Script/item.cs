@@ -19,7 +19,7 @@ public class item : MonoBehaviour
     private void Start()
     {
         GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed*1.5f + transform.up * itemSpeed*0.8f);
-        GetComponent<Rigidbody>().AddTorque(transform.right * itemSpeed*1000f);
+        GetComponent<Rigidbody>().AddTorque(transform.right * itemSpeed*100f);
     }
 
   
