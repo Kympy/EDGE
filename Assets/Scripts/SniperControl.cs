@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using Cinemachine;
 
 [RequireComponent (typeof(PlayerAudio))]
 
@@ -30,7 +31,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject); // Add Me On Player List
         HP = MaxHP;
-
+        DeathCam.enabled = false;
         if (photonView.IsMine == false) return;
         photonView.RPC("RPC_RigidbodyDisable", RpcTarget.OthersBuffered);
         Cursor.lockState = CursorLockMode.Locked;
@@ -51,7 +52,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         _Rigidbody = GetComponent<Rigidbody>();
         // Virtual Arm
-        PlayerCamera = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+        PlayerCamera = GameObject.Find("PlayerCamera").GetComponent<CinemachineVirtualCamera>();
         _ArmAnimator = PlayerCamera.GetComponentInChildren<Animator>();
         Arm = GameObject.Find("PlayerArmPivot");
         // Positions
@@ -124,12 +125,12 @@ public class SniperControl : PlayerHeader, IPunObservable
             if (IsZoom)
             {
                 Arm.transform.localPosition = Vector3.MoveTowards(Arm.transform.localPosition, ZoomInPos.localPosition, Time.deltaTime * 2f);
-                PlayerCamera.fieldOfView -= 4f;
-                if (PlayerCamera.fieldOfView < 9f)
+                PlayerCamera.m_Lens.FieldOfView -= 4f;
+                if (PlayerCamera.m_Lens.FieldOfView < 9f)
                 {
-                    PlayerCamera.fieldOfView = 9f;
+                    PlayerCamera.m_Lens.FieldOfView = 9f;
                 }
-                if (Arm.transform.localPosition == ZoomInPos.transform.localPosition && PlayerCamera.fieldOfView == 9f)
+                if (Arm.transform.localPosition == ZoomInPos.transform.localPosition && PlayerCamera.m_Lens.FieldOfView == 9f)
                 {
                     yield break;
                 }
@@ -137,12 +138,12 @@ public class SniperControl : PlayerHeader, IPunObservable
             else
             {
                 Arm.transform.localPosition = Vector3.MoveTowards(Arm.transform.localPosition, ZoomOutPos.localPosition, Time.deltaTime * 2f);
-                PlayerCamera.fieldOfView += 4f;
-                if (PlayerCamera.fieldOfView > 60f)
+                PlayerCamera.m_Lens.FieldOfView += 4f;
+                if (PlayerCamera.m_Lens.FieldOfView > 60f)
                 {
-                    PlayerCamera.fieldOfView = 60f;
+                    PlayerCamera.m_Lens.FieldOfView = 60f;
                 }
-                if (Arm.transform.localPosition == ZoomOutPos.transform.localPosition && PlayerCamera.fieldOfView == 60f)
+                if (Arm.transform.localPosition == ZoomOutPos.transform.localPosition && PlayerCamera.m_Lens.FieldOfView == 60f)
                 {
                     yield break;
                 }
@@ -405,6 +406,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         if(HP <= 0f)
         {
             HP = 0f;
+            DeathCam.enabled = true;
             photonView.RPC("RagdollToggle", RpcTarget.All, false); // Ragdoll mode ON
         }
         SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP); // Update UI

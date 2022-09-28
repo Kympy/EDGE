@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using Cinemachine;
 public class PlayerHeader : MonoBehaviourPun
 {
     // Sensitivity
@@ -50,7 +50,8 @@ public class PlayerHeader : MonoBehaviourPun
     protected bool IsCrouch = false;
 
     // Camera
-    protected Camera PlayerCamera; // Player Following Camera
+    protected CinemachineVirtualCamera PlayerCamera; // Player Following Camera
+    [SerializeField] protected CinemachineVirtualCamera DeathCam;
     protected Camera ScopeCamera; // Sniper rifle scope
     protected float ClampedX = 0f; // Fixed Camera X rotation
     // Zoom Coroutine

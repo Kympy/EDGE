@@ -8,10 +8,21 @@ using Photon.Realtime;
 
 public class MainLobbyManager : MonoBehaviourPunCallbacks
 {
+    [Header("UserInfo")]
+    [SerializeField] private TextMeshProUGUI UserName = null;
+    [SerializeField] private TextMeshProUGUI PopUserName = null;
+    [SerializeField] private TextMeshProUGUI UserEmail = null;
+    [SerializeField] private TextMeshProUGUI ACEBalance = null;
+    [SerializeField] private TextMeshProUGUI ZERABalance = null;
+    [SerializeField] private TextMeshProUGUI DAPPXBalance = null;
+    [SerializeField] private GameObject UserInfoCanvas = null;
+    [SerializeField] private Button CloseButton = null;
+    [SerializeField] private Button ShowButton = null;
     [Header("Room Info")] // Rooms
     [SerializeField] private RectTransform[] RoomPosition = new RectTransform[6];
     [SerializeField] private bool[] IsRoomExist = new bool[6]; // Is there a room
     [SerializeField] private Button CreateButton = null;
+    [SerializeField] private TextMeshProUGUI UserCount = null;
     [Header("Page Info")] // Pages
     [SerializeField] private Button NextPage = null;
     [SerializeField] private Button PreviousPage = null;
@@ -25,10 +36,9 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private Button RealCreateButton = null;
     [SerializeField] private TMP_InputField PassInput = null;
     [SerializeField] private Toggle LockedRoom = null;
-    [Header("User")]
-    [SerializeField] private TextMeshProUGUI UserCount = null;
 
     private Dictionary<string, GameObject> TotalRoomList = new Dictionary<string, GameObject>();
+
     private GameObject SniperRoomPrefab = null;
     private GameObject PistolRoomPrefab = null;
     private GameObject DartRoomPrefab = null;
@@ -38,9 +48,11 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        // ========= Resource Load ================================================
         SniperRoomPrefab = Resources.Load<GameObject>("Rooms/SniperRoom");
         PistolRoomPrefab = Resources.Load<GameObject>("Rooms/PistolRoom");
         DartRoomPrefab = Resources.Load<GameObject>("Rooms/DartRoom");
+        // ======== Create UI =====================================================
         CreateButton.onClick.AddListener(() => CreateUI());
         ExitButton.onClick.AddListener(() => CloseCreateUI());
         RealCreateButton.onClick.AddListener(() => CreateRoom());
@@ -51,12 +63,29 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
             }
         });
         GameMode.onValueChanged.AddListener(delegate { Debug.Log(GameMode.options[GameMode.value].text); });
-        CreateCanvas.gameObject.SetActive(false);
 
+        CreateCanvas.gameObject.SetActive(false);
+        // ======== User Info UI ====================================================
+        CloseButton.onClick.AddListener(delegate { UserInfoCanvas.SetActive(false); });
+        ShowButton.onClick.AddListener(delegate { UserInfoCanvas.SetActive(true); });
+        UserInfoCanvas.SetActive(false);
+        // ======== Init Bool Value =================================================
         for(int i = 0; i < IsRoomExist.Length; i++)
         {
             IsRoomExist[i] = false;
         }
+    }
+    private IEnumerator Start()
+    {
+        UserName.text = OceanAPIHandler.Instance.GetUserProfile().userProfile.username;
+        PopUserName.text = OceanAPIHandler.Instance.GetUserProfile().userProfile.username;
+        UserEmail.text = OceanAPIHandler.Instance.GetUserProfile().userProfile.email_id;
+        yield return OceanAPIHandler.Instance.ProcessGetBalance(OceanAPIHandler.COIN_TYPE.ace);
+        yield return OceanAPIHandler.Instance.ProcessGetBalance(OceanAPIHandler.COIN_TYPE.zera);
+        yield return OceanAPIHandler.Instance.ProcessGetBalance(OceanAPIHandler.COIN_TYPE.dappx);
+        ACEBalance.text = OceanAPIHandler.Instance.GetBalance(OceanAPIHandler.COIN_TYPE.ace).Value.data.balance;
+        ZERABalance.text = OceanAPIHandler.Instance.GetBalance(OceanAPIHandler.COIN_TYPE.zera).Value.data.balance;
+        DAPPXBalance.text = OceanAPIHandler.Instance.GetBalance(OceanAPIHandler.COIN_TYPE.dappx).Value.data.balance;
     }
     private void CreateUI()
     {
@@ -75,6 +104,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         }
         LockedRoom.isOn = false;
         PassInput.text = "";
+        StartCoroutine(UpdateUserCount());
     }
     private void CloseCreateUI() // Close UI
     {
@@ -218,10 +248,14 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         }
         return 0;
     }
-    public override void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
+    private IEnumerator UpdateUserCount()
     {
-        Debug.Log(lobbyStatistics.Count);
-        Debug.Log("1");
+        WaitForSeconds UpdateTime = new WaitForSeconds(3f);
+        while(true)
+        {
+            UserCount.text = "ONLINE : " + PhotonNetwork.CountOfPlayers.ToString();
+            yield return UpdateTime;
+        }
     }
     private void OnGUI()
     {

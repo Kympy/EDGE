@@ -13,8 +13,6 @@ public class ServerLogin : MonoBehaviourPunCallbacks
 
     [SerializeField] private Button LoginButton = null;
     [SerializeField] private TMP_InputField NicknameInput = null;
-    // Slang
-    public List<string> ForbiddenWords = new List<string>();
 
     [SerializeField] private Canvas Warning = null;
     [SerializeField] private Button OKButton = null;
@@ -22,10 +20,10 @@ public class ServerLogin : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        ForbiddenWords.Add("Fuck");
-        ForbiddenWords.Add("fuck");
+        LoginButton.interactable = false;
+        StartCoroutine(GetMyInfo());
+
         PhotonNetwork.GameVersion = "0.1";
-        PhotonNetwork.PhotonServerSettings.AppSettings.EnableLobbyStatistics = true;
         PhotonNetwork.ConnectUsingSettings(); // Applicate Connection to Master Server
         OKButton.onClick.AddListener(delegate
         {
@@ -37,36 +35,27 @@ public class ServerLogin : MonoBehaviourPunCallbacks
         NicknameInput.onEndEdit.AddListener(delegate { LoginStart(); });
         LoginButton.onClick.AddListener(() => LoginStart());
     }
-
+    private IEnumerator GetMyInfo()
+    {
+        yield return OceanAPIHandler.Instance.ProcessGetUserInfo();
+        yield return OceanAPIHandler.Instance.ProcessGetUserSessionID();
+        RequestedData.UserProfile userProfile = OceanAPIHandler.Instance.GetUserProfile();
+        NicknameInput.text = userProfile.userProfile.username;
+        
+        while(true)
+        {
+            if(PhotonNetwork.IsConnectedAndReady)
+            {
+                LoginButton.interactable = true;
+                yield break;
+            }
+            yield return null;
+        }
+    }
     private void LoginStart()
     {
-        if (IsSafeNickname() == false) return;
-
         PhotonNetwork.NickName = NicknameInput.text; // Set Nickname
         StartCoroutine(JoinLobbyCo());
-        //PhotonNetwork.JoinOrCreateRoom("TestRoom", new RoomOptions { MaxPlayers = 2 }, null); // Check Room and Join or Create
-    }
-    private bool IsSafeNickname()
-    {
-        if (NicknameInput.text == "") // Not satisfying Name Rule
-        {
-            NicknameWarningUI("Please Input Your Nickname.");
-            return false;
-        }
-        if(NicknameInput.text.Length < 2 || NicknameInput.text.Length > 12)
-        {
-            NicknameWarningUI("Nickname length must in range\nbetween 2 to 12.");
-            return false;
-        }
-        foreach(string text in ForbiddenWords) // Has forbidden word?
-        {
-            if(NicknameInput.text.Contains(text))
-            {
-                NicknameWarningUI("\"" + text + "\"" + " is forbidden word.");
-                return false;
-            }
-        }
-        return true;
     }
     private void NicknameWarningUI(string Message)
     {
@@ -75,13 +64,16 @@ public class ServerLogin : MonoBehaviourPunCallbacks
     }
     private IEnumerator JoinLobbyCo()
     {
-        NicknameWarningUI(PhotonNetwork.NetworkClientState.ToString());
-        yield return new WaitForSecondsRealtime(1f);
+        NicknameWarningUI("Connecting.");
+        OKButton.gameObject.SetActive(false);
+        yield return new WaitForSecondsRealtime(0.5f);
+        WarningMsg.text += ".";
+        yield return new WaitForSecondsRealtime(0.5f);
+        WarningMsg.text += ".";
+        yield return new WaitForSecondsRealtime(0.5f);
         PhotonNetwork.JoinLobby();
         while (true)
         {
-            NicknameWarningUI(PhotonNetwork.NetworkClientState.ToString());
-            OKButton.gameObject.SetActive(false);
             if(PhotonNetwork.InLobby)
             {
                 yield break;

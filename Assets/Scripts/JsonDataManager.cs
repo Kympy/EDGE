@@ -6,7 +6,6 @@ using System.IO;
 public static class JsonDataManager // Save And Load Data System
 {
     // Save Path
-    private static readonly string ForbiddenWordDBPath = Application.persistentDataPath + "/DB/";
     private static readonly string UserSettingPath = Application.persistentDataPath + "/UserSettings/";
 
     // Data Struct
