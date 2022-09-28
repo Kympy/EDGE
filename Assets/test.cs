@@ -14,7 +14,6 @@ public class test : MonoBehaviourPun
         GUI.Label(new Rect(20f,90f,200f,20f), "付胶磐 咯何 : " + PhotonNetwork.IsMasterClient.ToString());
         GUI.Label(new Rect(20f,110f,200f,20f), "规 - 立加磊 荐 : " + PhotonNetwork.CurrentRoom.PlayerCount.ToString());
         GUI.Label(new Rect(20f,130f,200f,20f), "规 : " + PhotonNetwork.InRoom.ToString());
-        GUI.Label(new Rect(20f,150f,200f,20f), "立加 瘤开 : " + PhotonNetwork.PhotonServerSettings.DevRegion.ToString());
-        
+        GUI.Label(new Rect(20f,150f,200f,20f), "立加 瘤开 : " + PhotonNetwork.PhotonServerSettings.DevRegion.ToString());        
     }
 }

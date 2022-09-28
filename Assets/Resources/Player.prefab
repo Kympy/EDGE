@@ -3040,6 +3040,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: isRun
+  - Type: 9
+    SynchronizeType: 0
+    Name: isDeath
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -3057,6 +3060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followCameraPos: {fileID: 2241945964804612604}
   anim: {fileID: 583276475499438704}
+  PlayerChest: {fileID: 4678566877122020729}
 --- !u!114 &7610657896669226198
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,10 +11,12 @@ public class PlayerControl : MonoBehaviourPun
     GameObject playerFollowCam = null;
     [SerializeField]
     GameObject followCameraPos = null;
-    [SerializeField]
+    [SerializeField] // isMine
     Animator anim = null;
 
+    [SerializeField]
     Transform PlayerChest;
+
     Rigidbody rb;
 
     // 자식 오브젝트에 있는 rigidBody
@@ -24,6 +26,7 @@ public class PlayerControl : MonoBehaviourPun
     BullCount bulletUI = null;
 
     float mouseX = 0f;
+    float inputMouseY = 0f;
     float mouseY = 0f;
     float punMouseY = 0f;
 
@@ -82,26 +85,34 @@ public class PlayerControl : MonoBehaviourPun
         {
             bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
         }
-
     }
 
     void Start()
     {
+        // Player의 photonView가 IsMine일때 PlayerChest에 BoneTransform 넣기
+        if (anim && photonView.IsMine)
+        {
+            PlayerChest = anim.GetBoneTransform(HumanBodyBones.Chest);
+        }
+        /*
+                // Player의 photonView가 IsMine==false (나에게 보여지는 상대방 Player Clone)일때 BoneTransform 넣기
+                if (anim && photonView.IsMine == false)
+                {
+                    OtherPlayerChest = anim.GetBoneTransform(HumanBodyBones.Chest);
+                }
+        */
         if (photonView.IsMine == false)
         {
             return;
         }
         // photonView가 IsMine 일때만 실행 
 
+
         Invoke("Unlock", 3f); // 시작 3초뒤 마우스 회전 활성화
 
         // Debug.Log("player     " + transform.position);
 
-        // PlayerChest에 BoneTransform 넣기
-        if (anim)
-        {
-            PlayerChest = anim.GetBoneTransform(HumanBodyBones.Chest);
-        }
+
 
         // ragdoll의 isKinematic : true
         // Player Death 전에 isKinematic false로 변환 필요
@@ -138,27 +149,26 @@ public class PlayerControl : MonoBehaviourPun
         }
 
         // trans to PUNRpc : MouseY
-        InPutMouseY(); 
+        // InPutMouseY();
     }
 
     // 진행 순서 : Update -> animation -> LateUpdate
     // chest 회전 후 animation에 의해 초기화되는 경우를 방지하기 위해 LaUpdate 사용 
     private void LateUpdate()
     {
+        // Player PhotonView == IsMine
         if (isStart && isAlive && photonView.IsMine)
         {
             PlayerRotate();
         }
 
-        else if (isStart && isAlive && photonView.IsMine == false)
+        // PRC target.ohter로 상대방에게 보여지는 PlayerClone에 Mouse Y값 누적
+        // 상대방의 누적된 mouseY 값을 내 Client의 상대방 Player Clone에 반영 
+        // else if (isStart && isAlive && photonView.IsMine == false)
+        else if(photonView.IsMine == false)
         {
-            if (punMouseY < -360) punMouseY += 360;
-            if (punMouseY > 360) punMouseY -= 360;
-
-            // 회전각 제한
-            mouseY = Mathf.Clamp(punMouseY, limitMinMouseY, limitMaxMouseY);
-
-            PlayerChest.transform.localEulerAngles = new Vector3(0, 0, -punMouseY);
+            // 나에게 보여질 상대방의 mouseY 값이 누적된 함수 호출 필요
+            InPutMouseY();
         }
     }
 
@@ -171,7 +181,8 @@ public class PlayerControl : MonoBehaviourPun
     void PlayerRotate()
     {
         mouseX += Input.GetAxis("Mouse X") * Time.deltaTime * rotateSpeed;
-        mouseY += Input.GetAxis("Mouse Y") * Time.deltaTime * rotateSpeed;
+        inputMouseY = Input.GetAxis("Mouse Y");
+        mouseY += inputMouseY * Time.deltaTime * rotateSpeed;
 
         if (mouseY < -360) mouseY += 360;
         if (mouseY > 360) mouseY -= 360;
@@ -185,12 +196,19 @@ public class PlayerControl : MonoBehaviourPun
         PlayerChest.transform.localEulerAngles = new Vector3(0, 0, -mouseY);
 
         transform.rotation = Quaternion.Euler(0, mouseX, 0);
+
+        photonView.RPC("PlayerRotateY", RpcTarget.OthersBuffered, inputMouseY);
     }
 
     void InPutMouseY()
     {
-        mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotateSpeed;
-        photonView.RPC("PlayerRotateY", RpcTarget.OthersBuffered, mouseY);
+        if (punMouseY < -360) punMouseY += 360;
+        if (punMouseY > 360) punMouseY -= 360;
+
+        // 회전각 제한
+        punMouseY = Mathf.Clamp(punMouseY, limitMinMouseY, limitMaxMouseY);
+
+        PlayerChest.transform.localEulerAngles = new Vector3(0, 0, -punMouseY);
     }
 
     void PlayerMove()
@@ -231,7 +249,8 @@ public class PlayerControl : MonoBehaviourPun
     {
         if (Input.GetButtonDown("Fire1") && playerLobbyActive)
         {
-            anim.SetTrigger("isAttack");
+            photonView.RPC("FireAnim", RpcTarget.AllBuffered);
+
             attackDelay = false;
             Invoke("AttackDelay", 0.5f); // 재장전 시간 0.5초
             Debug.Log("[로비] 발사");
@@ -322,9 +341,13 @@ public class PlayerControl : MonoBehaviourPun
 
             GunFightPlayerActive();
             // gameSceneLogic.GunFightPos();
-
-
         }
+    }
+
+    [PunRPC]
+    void FireAnim()
+    {
+        anim.SetTrigger("isAttack");
     }
 
     [PunRPC]
@@ -341,10 +364,12 @@ public class PlayerControl : MonoBehaviourPun
     }
 
     [PunRPC]
-    void PlayerRotateY(float mouseY)
+    void PlayerRotateY(float inputMouseY)
     {
-        punMouseY += mouseY;
-        // Debug.Log(punMouseY);
+
+        punMouseY += inputMouseY;
+
+        Debug.Log("Chest 움직임 : " + inputMouseY);
     }
 
     [PunRPC]

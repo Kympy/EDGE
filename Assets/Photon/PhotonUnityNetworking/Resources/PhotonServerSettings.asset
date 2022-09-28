@@ -49,6 +49,7 @@ MonoBehaviour:
   - ResultLose
   - ResultWin
   - PhyPlayer
+  - FireAnim
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
