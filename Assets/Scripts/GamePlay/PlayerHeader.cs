@@ -50,10 +50,15 @@ public class PlayerHeader : MonoBehaviourPun
     protected bool IsCrouch = false;
 
     // Camera
+    protected Camera BrainCam;
     protected CinemachineVirtualCamera PlayerCamera; // Player Following Camera
     [SerializeField] protected CinemachineVirtualCamera DeathCam;
     protected Camera ScopeCamera; // Sniper rifle scope
     protected float ClampedX = 0f; // Fixed Camera X rotation
+    [SerializeField] protected int PlayerCamCulling;
+    [SerializeField] protected int ScopeCamCulling;
+    [SerializeField] protected int DeathCamCulling;
+
     // Zoom Coroutine
     protected Coroutine ZoomCoroutine = null;
     // Recoil Coroutine

@@ -29,6 +29,7 @@ public class SniperControl : PlayerHeader, IPunObservable
 
     private void Awake()
     {
+        SetLayer();
         GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject); // Add Me On Player List
         HP = MaxHP;
         DeathCam.enabled = false;
@@ -47,6 +48,7 @@ public class SniperControl : PlayerHeader, IPunObservable
 
         RagdollToggle(true);
         // Components
+        BrainCam = GameObject.Find("BrainCam").GetComponent<Camera>();
         _PlayerAudio = GetComponent<PlayerAudio>();
         _PlayerAnimator = GetComponent<Animator>();
         UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
@@ -198,6 +200,8 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (Input.GetMouseButtonDown(1))
         {
             IsZoom = !IsZoom;
+            if (IsZoom) BrainCam.cullingMask = ScopeCamCulling;
+            else BrainCam.cullingMask = PlayerCamCulling;
             if (ZoomCoroutine != null)
             {
                 StopCoroutine(ZoomCoroutine);
@@ -407,6 +411,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         {
             HP = 0f;
             DeathCam.enabled = true;
+            BrainCam.cullingMask = DeathCamCulling;
             photonView.RPC("RagdollToggle", RpcTarget.All, false); // Ragdoll mode ON
         }
         SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP); // Update UI
@@ -420,5 +425,38 @@ public class SniperControl : PlayerHeader, IPunObservable
     public void RPC_RigidbodyDisable()
     {
         _Rigidbody.isKinematic = true;
+    }
+    private void SetLayer()
+    {
+        PlayerCamCulling = 1 << LayerMask.NameToLayer("Default") |
+        1 << LayerMask.NameToLayer("TransparentFX") |
+        1 << LayerMask.NameToLayer("Ignore Raycast") |
+        1 << LayerMask.NameToLayer("Water") |
+        1 << LayerMask.NameToLayer("UI") |
+        1 << LayerMask.NameToLayer("Scope") |
+        1 << LayerMask.NameToLayer("Player") |
+        1 << LayerMask.NameToLayer("PlayerArm") |
+        1 << LayerMask.NameToLayer("DeadZone") |
+        1 << LayerMask.NameToLayer("Bullet");
+
+        ScopeCamCulling = 1 << LayerMask.NameToLayer("Default") |
+        1 << LayerMask.NameToLayer("TransparentFX") |
+        1 << LayerMask.NameToLayer("Ignore Raycast") |
+        1 << LayerMask.NameToLayer("Water") |
+        1 << LayerMask.NameToLayer("UI") |
+        1 << LayerMask.NameToLayer("Scope") |
+        1 << LayerMask.NameToLayer("Player") |
+        1 << LayerMask.NameToLayer("DeadZone") |
+        1 << LayerMask.NameToLayer("Bullet");
+
+        DeathCamCulling = 1 << LayerMask.NameToLayer("Default") |
+        1 << LayerMask.NameToLayer("TransparentFX") |
+        1 << LayerMask.NameToLayer("Ignore Raycast") |
+        1 << LayerMask.NameToLayer("Water") |
+        1 << LayerMask.NameToLayer("UI") |
+        1 << LayerMask.NameToLayer("Scope") |
+        1 << LayerMask.NameToLayer("Player") |
+        1 << LayerMask.NameToLayer("DeadZone") |
+        1 << LayerMask.NameToLayer("Bullet");
     }
 }
