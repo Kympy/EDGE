@@ -200,8 +200,8 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (Input.GetMouseButtonDown(1))
         {
             IsZoom = !IsZoom;
-            if (IsZoom) BrainCam.cullingMask = ScopeCamCulling;
-            else BrainCam.cullingMask = PlayerCamCulling;
+            //if (IsZoom) BrainCam.cullingMask = ScopeCamCulling;
+            //else BrainCam.cullingMask = PlayerCamCulling;
             if (ZoomCoroutine != null)
             {
                 StopCoroutine(ZoomCoroutine);
