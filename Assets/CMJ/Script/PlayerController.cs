@@ -93,12 +93,12 @@ public class PlayerController : MonoBehaviourPun
 
     private void Throwing()
     {
-        GameObject Axe = Instantiate(ItemFactory);
-        Axe.transform.position = ThrowPoint.position;
-        Axe.transform.rotation = ThrowPoint.rotation;
+        GameObject throwingObj = Instantiate(ItemFactory);
+        throwingObj.transform.position = ThrowPoint.position;
+        throwingObj.transform.rotation = ThrowPoint.rotation;
         /*Axe.transform.up = ThrowPoint.up;*/
 
-        Axe.GetComponent<item>().itemSpeed = press;
+        throwingObj.GetComponent<item>().itemSpeed = press;
 
         //Axe.transform.forward = ThrowPoint.forward;
 

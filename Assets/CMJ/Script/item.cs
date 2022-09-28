@@ -18,13 +18,12 @@ public class item : MonoBehaviour
 
     private void Start()
     {
-        if (gameObject.tag == "Axe")
+        if (this.gameObject.tag == "Axe")
         {
             GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed*1.5f + transform.up * itemSpeed * 0.8f);
             GetComponent<Rigidbody>().AddTorque(transform.right * itemSpeed * 100000f);
         }
-
-        if (gameObject.tag == "Knife")
+        else if (this.gameObject.tag == "Knife")
         {
             GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed * 1.5f);
         }
