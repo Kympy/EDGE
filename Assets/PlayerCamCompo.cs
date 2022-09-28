@@ -7,6 +7,7 @@ public class PlayerCamCompo : MonoBehaviour
     public GameObject RealMuzzle;
     public GameObject RealSmoke;
     public GameObject ArmCasing;
+    public Camera ScopeCamera;
 
     private void Awake()
     {

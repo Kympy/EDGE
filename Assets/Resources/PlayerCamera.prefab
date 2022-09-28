@@ -3402,7 +3402,7 @@ MonoBehaviour:
       colorBlindnessStrength: 1
   m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
   m_ShowToolkit: 0
-  m_ShowCustomSorter: 0
+  m_ShowCustomSorter: 1
   breakBeforeColorGrading: 0
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
@@ -3439,6 +3439,7 @@ MonoBehaviour:
   RealMuzzle: {fileID: 9110501499915496013}
   RealSmoke: {fileID: 5538170907059820243}
   ArmCasing: {fileID: 8329008328779725888}
+  ScopeCamera: {fileID: 2869337551590464804}
 --- !u!114 &5912458541816576603
 MonoBehaviour:
   m_ObjectHideFlags: 0

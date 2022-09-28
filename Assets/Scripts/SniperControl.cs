@@ -58,7 +58,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         _ArmAnimator = PlayerCamera.GetComponentInChildren<Animator>();
         Arm = GameObject.Find("PlayerArmPivot");
         // Positions
-        ScopeCamera = GameObject.Find("ScopeCamera").GetComponent<Camera>();
+        ScopeCamera = PlayerCamera.gameObject.GetComponent<PlayerCamCompo>().ScopeCamera;
         ZoomInPos = GameObject.Find("ZoomInPos").transform;
         ZoomOutPos = GameObject.Find("ZoomOutPos").transform;
         CasingPos = GameObject.Find("CasingPos").transform;
