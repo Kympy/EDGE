@@ -18,17 +18,17 @@ public class PlayerControl : MonoBehaviourPun
     Rigidbody rb;
 
     // 자식 오브젝트에 있는 rigidBody
-    // = ragdoll
+    // = ragdoll 
     Rigidbody[] rbChild = new Rigidbody[13];
 
     BullCount bulletUI = null;
 
     float mouseX = 0f;
     float mouseY = 0f;
+    float punMouseY = 0f;
 
     float limitMinMouseY = -40f;
     float limitMaxMouseY = 40f;
-
 
     float rotateSpeed = 100f;
 
@@ -131,15 +131,29 @@ public class PlayerControl : MonoBehaviourPun
         {
             PlayerMove();
         }
+
+        // trans to PUNRpc : MouseY
+        InPutMouseY(); 
     }
 
     // 진행 순서 : Update -> animation -> LateUpdate
     // chest 회전 후 animation에 의해 초기화되는 경우를 방지하기 위해 LaUpdate 사용 
     private void LateUpdate()
     {
-        if (isStart && isAlive)
+        if (isStart && isAlive && photonView.IsMine)
         {
             PlayerRotate();
+        }
+
+        else if (isStart && isAlive && photonView.IsMine == false)
+        {
+            if (punMouseY < -360) punMouseY += 360;
+            if (punMouseY > 360) punMouseY -= 360;
+
+            // 회전각 제한
+            mouseY = Mathf.Clamp(punMouseY, limitMinMouseY, limitMaxMouseY);
+
+            PlayerChest.transform.localEulerAngles = new Vector3(0, 0, -punMouseY);
         }
     }
 
@@ -160,10 +174,18 @@ public class PlayerControl : MonoBehaviourPun
         // 회전각 제한
         mouseY = Mathf.Clamp(mouseY, limitMinMouseY, limitMaxMouseY);
 
+        Debug.Log(mouseY);
+
         // 제한된 mouseY을 입력받아 Chest 회전
         PlayerChest.transform.localEulerAngles = new Vector3(0, 0, -mouseY);
 
         transform.rotation = Quaternion.Euler(0, mouseX, 0);
+    }
+
+    void InPutMouseY()
+    {
+        mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotateSpeed;
+        photonView.RPC("PlayerRotateY", RpcTarget.OthersBuffered, mouseY);
     }
 
     void PlayerMove()
@@ -295,6 +317,10 @@ public class PlayerControl : MonoBehaviourPun
 
             GunFightPlayerActive();
             // gameSceneLogic.GunFightPos();
+
+
+            // GunFight Scene : other Client Player error -> photonView Other isKinematic == false 
+            photonView.RPC("PhyPlayer", RpcTarget.OthersBuffered);
         }
     }
 
@@ -310,5 +336,19 @@ public class PlayerControl : MonoBehaviourPun
 
         Destroy(gameObject, 4f);
     }
+
+    [PunRPC]
+    void PlayerRotateY(float mouseY)
+    {
+        punMouseY += mouseY;
+        Debug.Log(punMouseY);
+    }
+
+    [PunRPC]
+    void PhyPlayer()
+    {
+        rb.isKinematic = true;
+    }
+
 }
 

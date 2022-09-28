@@ -35,8 +35,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
 
-        else if(SceneManager.GetActiveScene().name == "GunFight")
+        else if (SceneManager.GetActiveScene().name == "GunFight")
         {
+            // GunFight Scene : Master Pos, Client Pos setting
             GunFightPos();
         }
 
@@ -90,8 +91,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         // 위와 같음
         // 생성된 Player object의 ViewID를 가져옴
         myViewID = objectViewID.GetPhotonView().ViewID;
-        
-        
+
+
     }
 
     void GunFightPos()
