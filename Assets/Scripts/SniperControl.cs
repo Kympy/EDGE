@@ -76,11 +76,11 @@ public class SniperControl : PlayerHeader, IPunObservable
         FakeSmoke.SetActive(false);
         // Set Arm Position
         Arm.transform.localPosition = ZoomOutPos.localPosition;
-        /*
+        
         if (ScopeCamera.gameObject.TryGetComponent<CinemachineBrain>(out CinemachineBrain brain))
         {
             brain.enabled = false;
-        }*/
+        }
     } // Find Components & Initialize
 
     private void FixedUpdate()
