@@ -55,6 +55,9 @@ public class PlayerControl : MonoBehaviourPun
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
+
         if (photonView.IsMine == false)
         {
             return;
@@ -71,8 +74,6 @@ public class PlayerControl : MonoBehaviourPun
         // Find : 최초 1회 사용은 괜찮지만 Update에 사용시 성능저하의 원인
         // followCameraPos = transform.GetChild(2).gameObject; 
 
-        anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
 
         // 자식 오브젝트에 붙어있는 rigidBody
         rbChild = GetComponentsInChildren<Rigidbody>();
@@ -94,7 +95,7 @@ public class PlayerControl : MonoBehaviourPun
 
         Invoke("Unlock", 3f); // 시작 3초뒤 마우스 회전 활성화
 
-        Debug.Log("player     " + transform.position);
+        // Debug.Log("player     " + transform.position);
 
         // PlayerChest에 BoneTransform 넣기
         if (anim)
@@ -178,7 +179,7 @@ public class PlayerControl : MonoBehaviourPun
         // 회전각 제한
         mouseY = Mathf.Clamp(mouseY, limitMinMouseY, limitMaxMouseY);
 
-        Debug.Log(mouseY);
+        // Debug.Log(mouseY);
 
         // 제한된 mouseY을 입력받아 Chest 회전
         PlayerChest.transform.localEulerAngles = new Vector3(0, 0, -mouseY);
@@ -343,7 +344,7 @@ public class PlayerControl : MonoBehaviourPun
     void PlayerRotateY(float mouseY)
     {
         punMouseY += mouseY;
-        Debug.Log(punMouseY);
+        // Debug.Log(punMouseY);
     }
 
     [PunRPC]

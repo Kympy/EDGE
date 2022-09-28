@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 
 
+
 public class GameSceneLogic : MonoBehaviourPun
 {
     [PunRPC]
@@ -33,7 +34,14 @@ public class GameSceneLogic : MonoBehaviourPun
 
         Debug.Log($"코루틴 호출  {PhotonNetwork.AutomaticallySyncScene}");
 
-        GameObject.FindObjectOfType<PlayerControl>().gameObject.SetActive(false);
+        GameObject curPlay = FindObjectOfType<PlayerControl>().gameObject;
+
+        if (curPlay != null)
+        {
+            Debug.Log(curPlay.name);
+            Destroy(curPlay.gameObject);            
+        }
+
 
         yield return new WaitForSeconds(1f);
         // MasterClient Scene 이동        
