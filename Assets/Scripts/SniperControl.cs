@@ -183,16 +183,19 @@ public class SniperControl : PlayerHeader, IPunObservable
                 case 0:
                     {
                         ScopeCamera.fieldOfView = 20f;
+                        Debug.Log("1");
                         break;
                     }
                 case 1:
                     {
                         ScopeCamera.fieldOfView = 5f;
+                        Debug.Log("2");
                         break;
                     }
                 case 2:
                     {
                         ScopeCamera.fieldOfView = 1f;
+                        Debug.Log("3");
                         break;
                     }
             }
@@ -457,6 +460,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         1 << LayerMask.NameToLayer("Scope") |
         1 << LayerMask.NameToLayer("Player") |
         1 << LayerMask.NameToLayer("DeadZone") |
-        1 << LayerMask.NameToLayer("Bullet");
+        1 << LayerMask.NameToLayer("Bullet") | 
+        1 << LayerMask.NameToLayer("MyServerPlayer");
     }
 }
