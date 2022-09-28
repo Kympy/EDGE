@@ -61,6 +61,9 @@ public class PlayerControl : MonoBehaviourPun
         }
         // photonView가 IsMine 일때만 실행 
 
+        // GunFight Scene : other Client Player error -> photonView Other isKinematic == false 
+        photonView.RPC("PhyPlayer", RpcTarget.OthersBuffered);
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -78,6 +81,7 @@ public class PlayerControl : MonoBehaviourPun
         {
             bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
         }
+
     }
 
     void Start()
@@ -319,8 +323,6 @@ public class PlayerControl : MonoBehaviourPun
             // gameSceneLogic.GunFightPos();
 
 
-            // GunFight Scene : other Client Player error -> photonView Other isKinematic == false 
-            photonView.RPC("PhyPlayer", RpcTarget.OthersBuffered);
         }
     }
 

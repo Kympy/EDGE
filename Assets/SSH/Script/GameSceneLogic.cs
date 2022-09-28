@@ -33,8 +33,11 @@ public class GameSceneLogic : MonoBehaviourPun
 
         Debug.Log($"코루틴 호출  {PhotonNetwork.AutomaticallySyncScene}");
 
+        GameObject.FindObjectOfType<PlayerControl>().gameObject.SetActive(false);
+
         yield return new WaitForSeconds(1f);
-        // MasterClient Scene 이동
+        // MasterClient Scene 이동        
+
         PhotonNetwork.LoadLevel("GunFight");
 
     }
