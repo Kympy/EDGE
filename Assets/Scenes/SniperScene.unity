@@ -589,7 +589,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2869337551590464804, guid: b455ab0f6dc54ce428a8c7460ff3ca94, type: 3}
       propertyPath: field of view
-      value: 10
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2869337551590464804, guid: b455ab0f6dc54ce428a8c7460ff3ca94, type: 3}
       propertyPath: far clip plane
@@ -681,7 +681,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8968321410168621323, guid: b455ab0f6dc54ce428a8c7460ff3ca94, type: 3}
       propertyPath: field of view
-      value: 10
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8968321410168621326, guid: b455ab0f6dc54ce428a8c7460ff3ca94, type: 3}
       propertyPath: m_Name
@@ -726,7 +726,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 10
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.3
     FarClipPlane: 2000
@@ -777,6 +777,23 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &398528496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398528492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729aad4491e915a41bda2b8325cf757a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusTracking: 0
+  m_FocusTarget: {fileID: 0}
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: 6300aec8ed0cd9444bb7f0426a0dfb05, type: 2}
 --- !u!1 &416170923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,13 +1074,13 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 2000
-  field of view: 10
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 3575
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
