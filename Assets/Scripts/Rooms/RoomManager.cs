@@ -73,7 +73,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         if (mode != null)
         {
-            RoomTitle.text += mode.ToString();
+            RoomTitle.text += " - " + mode.ToString();
 
             if(mode.ToString() == "Sniper Mode")
             {
