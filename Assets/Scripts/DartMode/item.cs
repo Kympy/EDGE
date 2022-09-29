@@ -21,7 +21,7 @@ public class item : MonoBehaviour
     {
         if (this.gameObject.tag == "Axe")
         {
-            GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed*1.5f + transform.up * itemSpeed * 0.8f);
+            GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed * 1.5f + transform.up * itemSpeed * 0.8f);
             GetComponent<Rigidbody>().AddTorque(transform.right * itemSpeed * 100000f);
         }
         else if (this.gameObject.tag == "Knife")

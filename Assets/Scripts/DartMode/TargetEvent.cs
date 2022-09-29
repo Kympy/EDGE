@@ -38,7 +38,7 @@ public class TargetEvent : MonoBehaviour
             collision.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().useGravity = false;
             collision.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-          
+
 
             if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade"
                 || collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Knife")
@@ -46,7 +46,7 @@ public class TargetEvent : MonoBehaviour
                 ST.getScore += targetscore;
                 ST.UpdateScore();
             }
-            Debug.Log(ST.getScore);
+            /*Debug.Log(ST.getScore);*/
         }
 
         else

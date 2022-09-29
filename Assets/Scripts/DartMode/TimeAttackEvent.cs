@@ -44,7 +44,7 @@ public class TimeAttackEvent : MonoBehaviour
                 || collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Knife")
             {
                 /*ST.getScore += targetscore;
-                ST.UpdateScore();*/
+                /*ST.UpdateScore();*/
             }
             /*Debug.Log(ST.getScore);*/
         }

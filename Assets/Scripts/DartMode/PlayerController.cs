@@ -164,13 +164,13 @@ public class PlayerController : MonoBehaviourPun
         if (other.tag == "Axe")
         {
             nearObject = other.gameObject;
-            /*Debug.Log("µµ³¢´ç");*/
+            Debug.Log("µµ³¢´ç");
         }
 
         if (other.tag == "Knife")
         {
             nearObject = other.gameObject;
-            /*Debug.Log("Ä®ÀÌ´ç");*/
+            Debug.Log("Ä®ÀÌ´ç");
         }
     }
 
