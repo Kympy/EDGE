@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 
-public class PlayerAudio : MonoBehaviourPun
+public class SniperAudio : MonoBehaviourPun
 {
     //private PlayerControl _PlayerControl = null;
 
@@ -23,11 +23,11 @@ public class PlayerAudio : MonoBehaviourPun
         if(photonView.IsMine)
         {
             PlayerSound = GetComponents<AudioSource>();
-            //_PlayerControl = this.GetComponent<PlayerControl>();
-            Foot = Resources.LoadAll<AudioClip>("Sound/Foot");
+
+            Foot = Resources.LoadAll<AudioClip>("SniperMode/Sound/Foot");
             PlayerSound[0].clip = Foot[0];
-            Fire = Resources.Load<AudioClip>("Sound/SniperFire");
-            Reload = Resources.Load<AudioClip>("Sound/Reload");
+            Fire = Resources.Load<AudioClip>("SniperMode/Sound/SniperFire");
+            Reload = Resources.Load<AudioClip>("SniperMode/Sound/Reload");
         }
     }
     public void WalkSound()

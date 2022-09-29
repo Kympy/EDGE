@@ -8,7 +8,7 @@ public class WeatherManager : MonoBehaviourPun
     [SerializeField] public Material[] Skyboxes;
     private void Awake()
     {
-        Skyboxes = Resources.LoadAll<Material>("Skyboxes");
+        Skyboxes = Resources.LoadAll<Material>("SniperMode/Skyboxes");
     }
     public void ApplyRandomSky()
     {

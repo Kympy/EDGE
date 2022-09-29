@@ -83,7 +83,7 @@ public class PlayerHeader : MonoBehaviourPun
     // Ragdoll
     [SerializeField] protected Rigidbody[] Bones = new Rigidbody[12];
 
-    protected PlayerAudio _PlayerAudio = null;
+    protected SniperAudio _PlayerAudio = null;
 
     public float CurrentHP { get { return HP; } }
     public float Max_HP { get { return MaxHP; } }

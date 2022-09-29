@@ -7,7 +7,7 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using Cinemachine;
 
-[RequireComponent (typeof(PlayerAudio))]
+[RequireComponent (typeof(SniperAudio))]
 
 public class SniperControl : PlayerHeader, IPunObservable
 {
@@ -49,7 +49,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         RagdollToggle(true);
         // Components
         BrainCam = GameObject.Find("BrainCam").GetComponent<Camera>();
-        _PlayerAudio = GetComponent<PlayerAudio>();
+        _PlayerAudio = GetComponent<SniperAudio>();
         _PlayerAnimator = GetComponent<Animator>();
         UpperBody = _PlayerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         _Rigidbody = GetComponent<Rigidbody>();
@@ -109,7 +109,6 @@ public class SniperControl : PlayerHeader, IPunObservable
         {
             UpperRotation = UpperRotation > 180f ? UpperRotation - 360f : UpperRotation;
             UpperRotation = Mathf.Clamp(UpperRotation, -50f, 70f);
-            Debug.Log(UpperRotation);
             UpperBody.eulerAngles = new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, UpperBody.eulerAngles.z + UpperRotation);
             //photonView.RPC("UpdateServerBone", RpcTarget.All, UpperRotation);
             //UpperBody.Rotate(UpperRotation);
