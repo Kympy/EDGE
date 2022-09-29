@@ -109,7 +109,8 @@ namespace Photon.Realtime.Demo
         {
         }
 
-        public void OnCreateRoomFailed(short returnCode, string message)
+        public void OnCreateRoo
+            ailed(short returnCode, string message)
         {
         }
 

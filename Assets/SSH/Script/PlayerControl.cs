@@ -21,6 +21,7 @@ public class PlayerControl : MonoBehaviourPun
 
     PlayerAudio PA;
 
+    
 
     // 자식 오브젝트에 있는 rigidBody
     // = ragdoll 
@@ -54,6 +55,12 @@ public class PlayerControl : MonoBehaviourPun
 
     bool isAlive = true;
 
+    // Particle 호출
+    [SerializeField]
+    GameObject MF = null;
+
+
+    
     /*
         Ray rayCamera;
         RaycastHit rayHit;
@@ -64,6 +71,8 @@ public class PlayerControl : MonoBehaviourPun
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         PA = GetComponent<PlayerAudio>();
+
+        MF.GetComponent<ParticleSystem>().Play();
 
         if (photonView.IsMine == false)
         {
@@ -93,6 +102,8 @@ public class PlayerControl : MonoBehaviourPun
 
     void Start()
     {
+        MF.SetActive(false);
+
         // Player의 photonView가 IsMine일때 PlayerChest에 BoneTransform 넣기
         if (anim && photonView.IsMine)
         {
@@ -298,6 +309,8 @@ public class PlayerControl : MonoBehaviourPun
         // Revolver Fire Audio
         PA.FireAudio();
 
+        MF.gameObject.GetComponent<Muzzleflash>().MuzzleflashActive();
+
         // rayCamera = Camera.main.ViewportPointToRay(transform.position);
         Debug.DrawRay(playerFollowCam.transform.position, playerFollowCam.transform.forward * 50f, Color.red);
 
@@ -324,7 +337,7 @@ public class PlayerControl : MonoBehaviourPun
     public void LobbyPlayerActive()
     {
         // 로비 씬으로 전환됐을 때 플레이어 
-        playerLobbyActive = true;
+        playerLobbyActive = true;        
     }
 
     public void GunFightPlayerActive()
