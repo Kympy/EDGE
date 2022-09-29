@@ -18,7 +18,9 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+
     blendWeights: 1
+
     skinWeights: 1
     textureQuality: 1
     anisotropicTextures: 0
@@ -55,7 +57,9 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+
     blendWeights: 2
+
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 0
@@ -92,7 +96,9 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+
     blendWeights: 2
+
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
@@ -129,7 +135,9 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+
     blendWeights: 2
+
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
@@ -166,7 +174,9 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+
     blendWeights: 4
+
     skinWeights: 4
     textureQuality: 0
     anisotropicTextures: 2
@@ -203,8 +213,10 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+
     blendWeights: 4
     skinWeights: 255
+
     textureQuality: 0
     anisotropicTextures: 2
     antiAliasing: 2
@@ -213,7 +225,9 @@ QualitySettings:
     realtimeReflectionProbes: 1
     billboardsFaceCameraPosition: 1
     vSyncCount: 1
+
     lodBias: 2
+
     maximumLODLevel: 0
     streamingMipmapsActive: 0
     streamingMipmapsAddAllCameras: 1
@@ -226,6 +240,7 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
+
     customRenderPipeline: {fileID: 0}
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
@@ -239,6 +254,7 @@ QualitySettings:
     PS4: 5
     PS5: 5
     Server: 5
+
     Stadia: 5
     Standalone: 5
     WebGL: 3
