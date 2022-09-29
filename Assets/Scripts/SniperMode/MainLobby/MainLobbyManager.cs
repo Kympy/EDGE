@@ -127,7 +127,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         op.CustomRoomProperties = custom;
         yield return ODINAPIHandler.Instance.ProcessGetBetSettings(); // Request Betting Settings
         //ODINAPIHandler.Instance.GetBetSettings();
-        PhotonNetwork.CreateRoom(RoomNameInput.text, op);
+        PhotonNetwork.CreateRoom(PhotonNetwork.NetworkingClient.UserId, op);
     }
     #endregion
     public override void OnJoinedRoom() // When joined room

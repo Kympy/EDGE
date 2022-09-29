@@ -44,12 +44,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
         });
         EditCanvas.SetActive(false);
         lockedRoom.isOn = false;
-        InitRoom();
-
-        ShowUser();
+        //InitRoom();
+        //ShowUser();
+        Debug.Log(PhotonNetwork.CurrentRoom.Name);
     }
     private IEnumerator Start()
     {
+        yield return InitRoom();
         while(true)
         {
             if (PhotonNetwork.IsMasterClient && PhotonNetwork.IsConnectedAndReady)
@@ -60,8 +61,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
             yield return null;
         }
     }
-    public void InitRoom()
+    public IEnumerator InitRoom()
     {
+        while(true)
+        {
+            if(PhotonNetwork.IsConnectedAndReady)
+            {
+                break;
+            }
+            yield return null;
+        }
+
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("RoomName", out object name))
         {
             RoomTitle.text = name.ToString();
@@ -74,12 +84,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         else BetAmount.text = "Error";
 
-        PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("GameMode", out object mode);
-
+        PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Mode", out object mode);
         if (mode != null)
         {
             RoomTitle.text += " - " + mode.ToString();
-
             if(mode.ToString() == "Sniper Mode")
             {
                 CurrentMode = 1;
@@ -92,6 +100,21 @@ public class RoomManager : MonoBehaviourPunCallbacks
             {
                 CurrentMode = 3;
             }
+        }
+        ShowUser();
+        yield return null;
+    }
+    public void ShowUser()
+    {
+        Debug.Log("Created");
+        GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
+        if (photonView.IsMine)
+        {
+            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
+        }
+        else
+        {
+            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "40.0", "232", 2, User2Pos.position);
         }
     }
     private void ToggleEditUI(bool isTrue)
@@ -140,21 +163,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby(); // Rejoin Lobby when leave room
         PhotonNetwork.LoadLevel(1); // Go to lobby scene
     }
-    public void ShowUser()
-    {
-        Debug.Log("Created");
-        GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
-        if (photonView.IsMine)
-        {
-            Debug.Log("Master");
-            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
-        }
-        else
-        {
-            Debug.Log("Client");
-            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "40.0", "232", 2, User2Pos.position);
-        }
-    }
     public IEnumerator CountDown()
     {
         int time = 3;
@@ -177,7 +185,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                                 {
                                     if(CurrentMode == 1)
                                     {
-                                        PhotonNetwork.LoadLevel(3);
+                                        PhotonNetwork.LoadLevel("SniperScene");
                                     }
                                     else if(CurrentMode == 2)
                                     {
