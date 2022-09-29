@@ -19,14 +19,14 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private Button CloseButton = null;
     [SerializeField] private Button ShowButton = null;
     [Header("Room Info")] // Rooms
-    [SerializeField] private RectTransform[] RoomPosition = new RectTransform[6];
-    [SerializeField] private bool[] IsRoomExist = new bool[6]; // Is there a room
+    [SerializeField] private RectTransform[] RoomPosition = new RectTransform[18];
     [SerializeField] private Button CreateButton = null;
     [SerializeField] private TextMeshProUGUI UserCount = null;
     [Header("Page Info")] // Pages
     [SerializeField] private Button NextPage = null;
     [SerializeField] private Button PreviousPage = null;
     [SerializeField] private TextMeshProUGUI PageInfo = null;
+
     [Header("CreateUI")]
     [SerializeField] private Canvas CreateCanvas = null;
     [SerializeField] private TMP_Dropdown GameMode = null;
@@ -38,6 +38,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private Toggle LockedRoom = null;
 
     private Dictionary<string, GameObject> TotalRoomList = new Dictionary<string, GameObject>();
+    private bool[] IsRoomExist = new bool[18];
 
     private GameObject SniperRoomPrefab = null;
     private GameObject PistolRoomPrefab = null;
@@ -70,7 +71,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         ShowButton.onClick.AddListener(delegate { UserInfoCanvas.SetActive(true); });
         UserInfoCanvas.SetActive(false);
         // ======== Init Bool Value =================================================
-        for(int i = 0; i < IsRoomExist.Length; i++)
+        for(int i = 0; i < 18; i++)
         {
             IsRoomExist[i] = false;
         }
@@ -138,13 +139,6 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        Debug.Log("enter");
-        Debug.Log(roomList.Count);
-        for(int i = 0; i < roomList.Count; i++)
-        {
-            Debug.Log(roomList[i].Name);
-        }
-
         foreach(RoomInfo room in roomList)
         {
             if (room.RemovedFromList)
@@ -167,8 +161,12 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                         }
                         else isLocked = true;
 
-                        Transform roomPos = RoomPosition[GetRoomPos()];
                         GameObject newRoom = null;
+
+                        int index = GetRoomPos();
+                        Transform roomPos = RoomPosition[index];
+                        IsRoomExist[index] = true;
+    
                         string mode = modeName.ToString();
                         string betAmount = "0";
                         if (room.CustomProperties.TryGetValue("Bet", out object value))
@@ -225,7 +223,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     }
     public int GetRoomPos()
     {
-        for (int i = 0; i < IsRoomExist.Length; i++)
+        for(int i = 0; i < 18; i++)
         {
             if (IsRoomExist[i] == false)
             {

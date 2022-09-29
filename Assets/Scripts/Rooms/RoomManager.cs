@@ -48,11 +48,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         ShowUser();
     }
-    private void Start()
+    private IEnumerator Start()
     {
-        if(PhotonNetwork.IsMasterClient)
+        while(true)
         {
-            StartCoroutine(CountDown());
+            if (PhotonNetwork.IsMasterClient && PhotonNetwork.IsConnectedAndReady)
+            {
+                StartCoroutine(CountDown());
+                yield break;
+            }
+            yield return null;
         }
     }
     public void InitRoom()
@@ -156,7 +161,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         float timer = 0f;
         while(true)
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.CurrentRoom.PlayerCount == 2)
             {
                 if (User1Pos.transform.childCount > 0 && User2Pos.transform.childCount > 0)
                 {
