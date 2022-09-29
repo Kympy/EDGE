@@ -22,10 +22,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private RectTransform[] RoomPosition = new RectTransform[18];
     [SerializeField] private Button CreateButton = null;
     [SerializeField] private TextMeshProUGUI UserCount = null;
-    [Header("Page Info")] // Pages
-    [SerializeField] private Button NextPage = null;
-    [SerializeField] private Button PreviousPage = null;
-    [SerializeField] private TextMeshProUGUI PageInfo = null;
+    [SerializeField] private TextMeshProUGUI RoomCount = null;
 
     [Header("CreateUI")]
     [SerializeField] private Canvas CreateCanvas = null;
@@ -91,8 +88,6 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     private void CreateUI()
     {
         CreateButton.interactable = false; // Lock Buttons
-        NextPage.interactable = false;
-        PreviousPage.interactable = false;
         CreateCanvas.gameObject.SetActive(true); // Show UI
         // Drop down menu initializing
         GameMode.ClearOptions(); // Clear Options
@@ -110,8 +105,6 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     private void CloseCreateUI() // Close UI
     {
         CreateButton.interactable = true; // Allow Buttons
-        NextPage.interactable = true;
-        PreviousPage.interactable = true;
         CreateCanvas.gameObject.SetActive(false);
     }
     private IEnumerator CreateRoom()
@@ -139,6 +132,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        RoomCount.text = PhotonNetwork.CountOfRooms.ToString() + " Rooms";
         foreach(RoomInfo room in roomList)
         {
             if (room.RemovedFromList)
