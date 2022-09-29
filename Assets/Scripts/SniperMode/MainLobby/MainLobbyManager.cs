@@ -50,9 +50,9 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         // ========= Resource Load ================================================
-        SniperRoomPrefab = Resources.Load<GameObject>("Rooms/SniperRoom");
-        PistolRoomPrefab = Resources.Load<GameObject>("Rooms/PistolRoom");
-        DartRoomPrefab = Resources.Load<GameObject>("Rooms/DartRoom");
+        SniperRoomPrefab = Resources.Load<GameObject>("SniperMode/Rooms/SniperRoom");
+        PistolRoomPrefab = Resources.Load<GameObject>("SniperMode/Rooms/PistolRoom");
+        DartRoomPrefab = Resources.Load<GameObject>("SniperMode/Rooms/DartRoom");
         // ======== Create UI =====================================================
         CreateButton.onClick.AddListener(() => CreateUI());
         ExitButton.onClick.AddListener(() => CloseCreateUI());
