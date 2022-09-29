@@ -55,7 +55,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         // ======== Create UI =====================================================
         CreateButton.onClick.AddListener(() => CreateUI());
         ExitButton.onClick.AddListener(() => CloseCreateUI());
-        RealCreateButton.onClick.AddListener(() => CreateRoom());
+        RealCreateButton.onClick.AddListener(() => StartCoroutine(CreateRoom()));
         LockedRoom.onValueChanged.AddListener(delegate { PassInput.interactable = LockedRoom.isOn; 
         if(LockedRoom.isOn == false)
             {
@@ -113,7 +113,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         PreviousPage.interactable = true;
         CreateCanvas.gameObject.SetActive(false);
     }
-    private void CreateRoom()
+    private IEnumerator CreateRoom()
     {
         ExitGames.Client.Photon.Hashtable custom = new ExitGames.Client.Photon.Hashtable();
         custom.Add("Mode", GameMode.options[GameMode.value].text);
@@ -128,6 +128,8 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         op.MaxPlayers = 2;
         op.CustomRoomPropertiesForLobby = forLobbyCustom;
         op.CustomRoomProperties = custom;
+        yield return OceanAPIHandler.Instance.ProcessGetBetSettings();
+        OceanAPIHandler.Instance.GetBetSettings();
         PhotonNetwork.CreateRoom(RoomNameInput.text, op);
     }
     public override void OnJoinedRoom()
@@ -145,48 +147,38 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
 
         foreach(RoomInfo room in roomList)
         {
-            Debug.Log("ente2r");
             if (room.RemovedFromList)
             {
-                Debug.Log("three");
                 TotalRoomList.TryGetValue(room.Name, out GameObject roomObj);
                 Destroy(roomObj);
                 TotalRoomList.Remove(room.Name);
             }
             else 
             {
-                Debug.Log("asdf");
                 if (TotalRoomList.ContainsKey(room.Name) == false)
                 {
-                    Debug.Log("Create New Room : Get Mode Value");
                     if (room.CustomProperties.TryGetValue("Mode", out object modeName))
                     {
                         bool isLocked = false;
                         room.CustomProperties.TryGetValue("Password", out object password);
                         if (password.ToString() == "")
                         {
-                            Debug.Log("six");
                             isLocked = false;
                         }
                         else isLocked = true;
-                        Debug.Log("seven");
 
                         Transform roomPos = RoomPosition[GetRoomPos()];
                         GameObject newRoom = null;
                         string mode = modeName.ToString();
-                        Debug.Log("Create New Room : Get BetAmount");
                         string betAmount = "0";
                         if (room.CustomProperties.TryGetValue("Bet", out object value))
                         {
                             betAmount = value.ToString();
-                            Debug.Log("New Room Bets : " + betAmount);
                         }
-                        Debug.Log("one");
                         string realName = null;
                         if (room.CustomProperties.TryGetValue("RoomName", out object roomName))
                         {
                             realName = roomName.ToString();
-                            Debug.Log("two");
                         }
                         if (mode == "Sniper Mode")
                         {
@@ -212,12 +204,10 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                             continue;
                         }
                         TotalRoomList.Add(room.Name, newRoom);
-                        Debug.Log("Last");
                     }
                 }
                 else
                 {
-                    Debug.Log("enter3");
                     TotalRoomList.TryGetValue(room.Name, out GameObject roomObj);
                     room.CustomProperties.TryGetValue("Bet", out object value);
                     room.CustomProperties.TryGetValue("RoomName", out object newName);
@@ -229,12 +219,9 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                     }
                     else isLocked = true;
                     roomObj.GetComponent<RoomInformation>().InitRoom(newName.ToString(), value.ToString(), isLocked, room.Name, pass.ToString());
-                    Debug.Log("enter4");
                 }
             }
-            Debug.Log("enter123");
         }
-        Debug.Log("enter1234");
     }
     public int GetRoomPos()
     {
@@ -256,10 +243,11 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
             yield return UpdateTime;
         }
     }
+#if UNITY_EDITOR
     private void OnGUI()
     {
         GUI.Label(new Rect(20f, 50f, 200f, 20f), "Client State : " + PhotonNetwork.NetworkClientState.ToString());
-        //GUI.Label(new Rect(20f, 70f, 200f, 20f), "LobbyName : " + PhotonNetwork.CurrentLobby.Name);
         GUI.Label(new Rect(20f, 90f, 200f, 20f), "Server State : " + PhotonNetwork.Server);
     }
+#endif
 }

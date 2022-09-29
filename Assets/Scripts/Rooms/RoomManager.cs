@@ -112,10 +112,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     private void EditRoom()
     {
-        //RoomOptions op = new RoomOptions();
-
-        //op.IsVisible = true;
-        //op.IsOpen = true;
         Debug.Log("Edit");
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
         hash.Remove("Bet");
@@ -124,10 +120,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         hash.Add("Bet", BetInput.text);
         hash.Add("RoomName", NameInput.text);
         hash.Add("Password", PassInput.text);
-        //op.CustomRoomProperties = hash;
 
-        //string[] forLobbyCustom = { "Mode", "Bet", "RoomName", "Password" };
-        //op.CustomRoomPropertiesForLobby = forLobbyCustom;
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
         InitRoom();
         ToggleEditUI(false);
@@ -216,10 +209,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         _ChatManager.AddChatLine(name, msg);
     }
+#if UNITY_EDITOR
     private void OnGUI()
     {
         GUI.Label(new Rect(20f, 50f, 200f, 20f), "Client State : " + PhotonNetwork.NetworkClientState.ToString());
-        //GUI.Label(new Rect(20f, 70f, 200f, 20f), "RoomName : " + PhotonNetwork.CurrentRoom.Name);
         GUI.Label(new Rect(20f, 90f, 200f, 20f), "Server State : " + PhotonNetwork.Server);
     }
+#endif
 }

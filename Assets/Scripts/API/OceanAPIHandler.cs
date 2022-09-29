@@ -70,11 +70,11 @@ public class OceanAPIHandler : Singleton<OceanAPIHandler>
     }
     #endregion
     #region Bet Settings
-    public void GetBetSettings()
+    public RequestedData.BetSettings GetBetSettings()
     {
-        StartCoroutine(ProcessGetBetSettings());
+        return ResponseBetSettings;
     }
-    private IEnumerator ProcessGetBetSettings()
+    public IEnumerator ProcessGetBetSettings()
     {
         string TargetURL = GetBettingURL(DEV_MODE) + "/v1/betting/settings";
 
@@ -82,7 +82,6 @@ public class OceanAPIHandler : Singleton<OceanAPIHandler>
         Process.SetRequestHeader("api-key", ProjectAPIKey);
         yield return Process.SendWebRequest();
         Debug.Log(Process.downloadHandler.text);
-        //txtInputField.text = www.downloadHandler.text;
         RequestedData.BetSettings? betSettings = JsonUtility.FromJson<RequestedData.BetSettings>(Process.downloadHandler.text);
 
         if (betSettings != null)
