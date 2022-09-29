@@ -17,7 +17,6 @@ public class SniperControl : PlayerHeader, IPunObservable
 
     #region Variables
     private float UpperRotation = 0f;
-    private Text mode = null;
     private int ZoomLevel = 0;
     public float min;
     public float max;

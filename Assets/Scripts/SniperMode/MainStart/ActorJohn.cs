@@ -5,7 +5,6 @@ using UnityEngine;
 public class ActorJohn : MonoBehaviour
 {
     [SerializeField] private Animator _Animator = null;
-    [SerializeField] private Rigidbody _Rigidbody = null;
     [SerializeField] private GameObject _Blood = null;
     [SerializeField] private Rigidbody _Spine = null;
     [SerializeField] private Rigidbody _Hip = null;

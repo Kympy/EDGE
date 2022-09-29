@@ -16,7 +16,7 @@ public class MetaTrendAPIHandler : MonoBehaviour
 
 
 	[Header("[Betting Backend Base URL")]
-	[SerializeField] string FullAppsProductionURL = "https://odin-api.browseosiris.com";
+	//[SerializeField] string FullAppsProductionURL = "https://odin-api.browseosiris.com";
 	[SerializeField] string FullAppsStagingURL = "https://odin-api-sat.browseosiris.com";
 	//
 	// 현재 개발단계에 따라서 사용하는 BaseURL이 달라진다.
