@@ -74,6 +74,8 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         {
             IsRoomExist[i] = false;
         }
+        GameMode.value = 0;
+        CreateButton.interactable = false;
     }
     private IEnumerator Start() // Get Datas And Update UI
     {
@@ -87,6 +89,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         ZERABalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.zera).Value.data.balance;
         DAPPXBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.dappx).Value.data.balance;
         yield return ODINAPIHandler.Instance.ProcessGetBetSettings(); // Request Betting Settings
+        CreateButton.interactable = true;
         StartCoroutine(UpdateUserCount()); // Start Updating Online user count
     }
     #region Creating Room
