@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // Player 积己
-        GameObject objectViewID = PhotonNetwork.Instantiate("Player", Pos, Quaternion.identity);
+        GameObject objectViewID = PhotonNetwork.Instantiate("PistolMode/Player", Pos, Quaternion.identity);
 
         //objectViewID.GetComponent<PhotonView>();
         // 困客 鞍澜
@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // Player 积己
         //GameObject objectViewID = PhotonNetwork.Instantiate("Player", pos, Quaternion.identity);
-        GameObject objectViewID = PhotonNetwork.Instantiate("Player", pos, Quaternion.identity);
+        GameObject objectViewID = PhotonNetwork.Instantiate("PistolMode/Player", pos, Quaternion.identity);
 
         myViewID = objectViewID.GetPhotonView().ViewID;
     }

@@ -4,25 +4,49 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Weapon
+  - Target
   - Bullet
-  - SaloonObject
+  - Weapon
+  - SecondCamera
+  - BulletSpawn
+  - FxTemporaire
+  - Building
+  - Dirt
+  - PlayerHead
+  - PlayerBody
+  - PlayerArmL
+  - PlayerArmR
+  - PlayerLegL
+  - PlayerLegR
+  - WillDisable
+  - ActorBullet
+  - Score5
+  - Score4
+  - Score2
+  - Score1
+  - Score3
+  - Score8
+  - Score9
+  - Knife
+  - Axe
+  - Wood
+  - Blade
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - lgonreBullet
   - Water
   - UI
+  - Scope
+  - Player
+  - PlayerArm
+  - PlayerBones
+  - DeadZone
+  - Bullet
+  - MyServerPlayer
   - Saloon
   - Player Pelvis
-  - Player
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 
