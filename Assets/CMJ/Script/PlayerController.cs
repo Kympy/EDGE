@@ -23,7 +23,11 @@ public class PlayerController : MonoBehaviourPun
     public GameObject ItemFactory;
     public Transform ThrowPoint;
     public Camera cam;
+    AudioSource audioSource;
+    public AudioClip audioWalk;
+    public AudioClip audiothrowing;
 
+    float delayTime = 0;
 
     private void Awake()
     {
@@ -38,6 +42,8 @@ public class PlayerController : MonoBehaviourPun
 
         rotateToMouse = GetComponent<RotateToMouse>();
         movement = GetComponent<MovementChracterController>();
+
+        this.audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -68,6 +74,8 @@ public class PlayerController : MonoBehaviourPun
         {
             anim.SetBool("hold", false);
             anim.SetTrigger("throw");
+            audioSource.clip = audiothrowing;
+            audioSource.Play();
         }
 
         if (Input.GetMouseButton(0))
@@ -120,6 +128,7 @@ public class PlayerController : MonoBehaviourPun
         rotateToMouse.UpdateRotate(mouseX, mouseY);
     }
 
+
     private void UpdateMove()
     {
         float x = Input.GetAxisRaw("Horizontal");
@@ -129,9 +138,17 @@ public class PlayerController : MonoBehaviourPun
 
         if (x != 0 || z != 0)
         {
-    
+            delayTime += Time.deltaTime;
             anim.SetBool("walk", true);
 
+
+            audioSource.clip = audioWalk;
+
+            if (delayTime > audioSource.clip.length)
+            {
+                audioSource.Play();
+                delayTime = 0;
+            }
         }
 
         else

@@ -10,6 +10,7 @@ public class item : MonoBehaviour
     public int value;
     public float itemSpeed;
     
+    
 
     private void Awake()
     {

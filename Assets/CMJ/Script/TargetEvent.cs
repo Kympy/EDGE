@@ -6,7 +6,14 @@ public class TargetEvent : MonoBehaviour
 {   
     [SerializeField] private int targetscore;
     [SerializeField] ScoreText ST;
+    AudioSource audioSource;
+    public AudioClip audioHit;
+    public GameObject HitEffect;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        this.audioSource = GetComponent<AudioSource>();
+    }
     void Start()
     {
 
@@ -23,11 +30,14 @@ public class TargetEvent : MonoBehaviour
         if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade"
             || collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Knife")
         {
+            audioSource.clip = audioHit;
+            audioSource.Play();
+            Instantiate(HitEffect, transform.position, transform.rotation);
             collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             collision.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().useGravity = false;
             collision.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            /*Debug.Log("¹ÚÇû´ç");*/
+          
 
             if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade"
                 || collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Knife")

@@ -204,6 +204,7 @@ MonoBehaviour:
   type: 0
   value: 0
   itemSpeed: 0
+  HitEffect: {fileID: 100002, guid: ac1aa04288fad804ba1cd769f4377aaf, type: 3}
 --- !u!1 &1354652782894624891
 GameObject:
   m_ObjectHideFlags: 0

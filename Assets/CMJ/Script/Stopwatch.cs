@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Stopwatch : MonoBehaviour
 {
@@ -22,8 +23,12 @@ public class Stopwatch : MonoBehaviour
     {
         if (isEnded)
             return;
-
-        Check_Timer();
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("스톱워치 시작");
+            Check_Timer();
+        }
     }
 
     void Check_Timer()
