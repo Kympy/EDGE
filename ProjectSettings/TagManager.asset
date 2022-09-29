@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Target
+  - Bullet
+  - Weapon
+  - SecondCamera
+  - BulletSpawn
+  - FxTemporaire
+  - Building
+  - Dirt
+  - PlayerHead
+  - PlayerBody
+  - PlayerArmL
+  - PlayerArmR
+  - PlayerLegL
+  - PlayerLegR
+  - WillDisable
+  - ActorBullet
+  - Score5
+  - Score4
+  - Score2
+  - Score1
+  - Score3
+  - Score8
+  - Score9
+  - Knife
+  - Axe
+  - Wood
+  - Blade
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - IgonreBullet
+  - Water
+  - UI
+  - Scope
+  - Player
+  - PlayerArm
+  - PlayerBones
+  - DeadZone
+  - Bullet
+  - MyServerPlayer
+  - Saloon
+  - Player Pelvis
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
