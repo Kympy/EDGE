@@ -22,6 +22,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     public float min;
     public float max;
     public GameObject NamePos = null; // Player Nickname Position
+    private bool IsDead = false;
     // Player Control Values
     public bool Is_Move { get { return IsMove; } }
     public bool Is_Fire { get { return IsFire; } }
@@ -86,7 +87,8 @@ public class SniperControl : PlayerHeader, IPunObservable
     private void FixedUpdate()
     {
         if (photonView.IsMine == false) return;
-        
+        if (IsDead) return;
+
         PlayerCamera.transform.position = PlayerCameraPos.position;
         DoMovement();
         photonView.RPC("UpdateServerBone", RpcTarget.AllBuffered, -mouseYUpper);
@@ -94,6 +96,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     private void Update()
     {
         if (photonView.IsMine == false) return;
+        if (IsDead) return;
 
         InputMovement();
         CameraRotation();
@@ -105,13 +108,12 @@ public class SniperControl : PlayerHeader, IPunObservable
     }
     private void LateUpdate()
     {
+        if (IsDead) return;
         if (photonView.IsMine == false)
         {
             UpperRotation = UpperRotation > 180f ? UpperRotation - 360f : UpperRotation;
             UpperRotation = Mathf.Clamp(UpperRotation, -50f, 70f);
             UpperBody.eulerAngles = new Vector3(UpperBody.eulerAngles.x, UpperBody.eulerAngles.y, UpperBody.eulerAngles.z + UpperRotation);
-            //photonView.RPC("UpdateServerBone", RpcTarget.All, UpperRotation);
-            //UpperBody.Rotate(UpperRotation);
         }
     }
     [PunRPC]
@@ -416,6 +418,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         Debug.Log(HP);
         if(HP <= 0f)
         {
+            IsDead = true;
             HP = 0f;
             DeathCam.enabled = true;
             BrainCam.cullingMask = DeathCamCulling;
