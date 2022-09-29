@@ -11,6 +11,6 @@ public class ImpactDestroy : MonoBehaviourPun
     }
     private void DestroyThis()
     {
-        //PhotonNetwork.Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
 }

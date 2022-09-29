@@ -286,11 +286,11 @@ public class SniperControl : PlayerHeader, IPunObservable
 
             if (IsZoom)
             {
-                PhotonNetwork.Instantiate("Bullets", ZoomShootPosition.position, ZoomShootPosition.rotation);
+                PhotonNetwork.Instantiate("SniperMode/Bullets", ZoomShootPosition.position, ZoomShootPosition.rotation);
             }
             else
             {
-                PhotonNetwork.Instantiate("Bullets", shootPos.position, shootPos.rotation);
+                PhotonNetwork.Instantiate("SniperMode/Bullets", shootPos.position, shootPos.rotation);
 
                 if (ReCoilCoroutine != null)
                 {
@@ -311,7 +311,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     public void Casing() // Animation Event
     {
         ArmCasing.SetActive(true);
-        PhotonNetwork.Instantiate("Case", CasingPos.position, CasingPos.rotation);
+        PhotonNetwork.Instantiate("SniperMode/Case", CasingPos.position, CasingPos.rotation);
     }
     #endregion
     private void Crouch()

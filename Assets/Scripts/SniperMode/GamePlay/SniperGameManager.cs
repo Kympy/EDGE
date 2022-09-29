@@ -55,7 +55,7 @@ public class SniperGameManager : Singleton<SniperGameManager>
 
         if (PhotonNetwork.IsConnected)
         {
-            GameObject player = PhotonNetwork.Instantiate("Player", Vector3.one, Quaternion.identity); // Create First
+            GameObject player = PhotonNetwork.Instantiate("SniperMode/Player", Vector3.one, Quaternion.identity); // Create First
             if (PhotonNetwork.IsMasterClient) // Master == Player 1
             {
                 player.transform.position = _1PPos.position; // Move
@@ -85,18 +85,7 @@ public class SniperGameManager : Singleton<SniperGameManager>
 
             Vector3 screenPoint = Vector3.zero;
             Vector3 namePoint = Vector3.zero;
-            /*
-            if (PlayerList[0].GetComponent<SniperControl>().Is_Zoom)
-            {
-                screenPoint = MyCamera.GetComponentInChildren<Camera>().WorldToViewportPoint(Enemy.transform.position); // Scope Camera
-                namePoint = MyCamera.GetComponentInChildren<Camera>().WorldToScreenPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
-            }
-            else
-            {
-                screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position); // Player Arm Camera
-                namePoint = MyCamera.WorldToScreenPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
-            }
-            */
+
             screenPoint = MyCamera.WorldToViewportPoint(Enemy.transform.position); // Player Arm Camera
             namePoint = MyCamera.WorldToScreenPoint(Enemy.GetComponent<SniperControl>().NamePos.transform.position);
 
