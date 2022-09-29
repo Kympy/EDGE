@@ -188,11 +188,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
                                     }
                                     else if(CurrentMode == 2)
                                     {
-                                        PhotonNetwork.LoadLevel(4);
+                                        PhotonNetwork.LoadLevel("Lobby");
                                     }
                                     else if(CurrentMode == 3)
                                     {
-                                        PhotonNetwork.LoadLevel(5);
+                                        PhotonNetwork.LoadLevel("DartGameScene");
                                     }
                                     else
                                     {
