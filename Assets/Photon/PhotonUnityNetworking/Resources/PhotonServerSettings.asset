@@ -59,6 +59,15 @@ MonoBehaviour:
   - ChatLineMsg
   - DisableRemoteRigidbody
   - RagdollToggle
+  - AnimControl
+  - FireAnim
+  - FireHit
+  - NextScene
+  - PhyPlayer
+  - PlayerRotateY
+  - ResultLose
+  - ResultWin
+  - RPCScene
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
