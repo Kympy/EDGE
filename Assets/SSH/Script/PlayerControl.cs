@@ -19,6 +19,9 @@ public class PlayerControl : MonoBehaviourPun
 
     Rigidbody rb;
 
+    PlayerAudio PA;
+
+
     // 자식 오브젝트에 있는 rigidBody
     // = ragdoll 
     Rigidbody[] rbChild = new Rigidbody[13];
@@ -60,6 +63,7 @@ public class PlayerControl : MonoBehaviourPun
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        PA = GetComponent<PlayerAudio>();
 
         if (photonView.IsMine == false)
         {
@@ -228,12 +232,17 @@ public class PlayerControl : MonoBehaviourPun
             //transform.Translate(new Vector3(moveX, 0, moveZ).normalized * moveSpeed * Time.deltaTime);
 
             anim.SetBool("isRun", true);
+
+            // PlayerWalk Audio
+            PA.WalkAudio();
         }
 
         else if (moveX == 0 && moveZ == 0)
         {
             anim.SetBool("isRun", false);
         }
+
+
     }
 
     void FollowCameraTrans()
@@ -247,6 +256,7 @@ public class PlayerControl : MonoBehaviourPun
 
     void PlayerAttack()
     {
+
         if (Input.GetButtonDown("Fire1") && playerLobbyActive)
         {
             photonView.RPC("FireAnim", RpcTarget.AllBuffered);
@@ -285,6 +295,9 @@ public class PlayerControl : MonoBehaviourPun
 
     void GunFire()
     {
+        // Revolver Fire Audio
+        PA.FireAudio();
+
         // rayCamera = Camera.main.ViewportPointToRay(transform.position);
         Debug.DrawRay(playerFollowCam.transform.position, playerFollowCam.transform.forward * 50f, Color.red);
 
