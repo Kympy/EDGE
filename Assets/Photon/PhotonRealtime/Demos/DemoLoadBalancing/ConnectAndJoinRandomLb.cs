@@ -109,8 +109,7 @@ namespace Photon.Realtime.Demo
         {
         }
 
-        public void OnCreateRoo
-            ailed(short returnCode, string message)
+        public void OnCreateRooFailed(short returnCode, string message)
         {
         }
 
@@ -141,6 +140,11 @@ namespace Photon.Realtime.Demo
             Debug.Log("OnRegionPingCompleted " + regionHandler.BestRegion);
             Debug.Log("RegionPingSummary: " + regionHandler.SummaryToCache);
             this.lbc.ConnectToRegionMaster(regionHandler.BestRegion.Code);
+        }
+
+        public void OnCreateRoomFailed(short returnCode, string message)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
