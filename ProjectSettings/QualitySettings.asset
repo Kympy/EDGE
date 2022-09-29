@@ -18,6 +18,7 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+    blendWeights: 1
     skinWeights: 1
     textureQuality: 1
     anisotropicTextures: 0
@@ -54,6 +55,7 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+    blendWeights: 2
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 0
@@ -90,6 +92,7 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
+    blendWeights: 2
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
@@ -126,6 +129,7 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+    blendWeights: 2
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
@@ -162,6 +166,7 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+    blendWeights: 4
     skinWeights: 4
     textureQuality: 0
     anisotropicTextures: 2
@@ -198,6 +203,7 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 1
+    blendWeights: 4
     skinWeights: 255
     textureQuality: 0
     anisotropicTextures: 2
