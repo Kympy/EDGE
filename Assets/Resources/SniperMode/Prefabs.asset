@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636f50ce5494cb2419c338d6ee752fc9, type: 3}
+  m_Name: Prefabs
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 7617552417125362175, guid: 6e9f46a6f75dea748bf4ad7699e2f254, type: 3}
+  Bullet: {fileID: 5349962391610308525, guid: 29c38ada919f2c4419f89fde13ba535d, type: 3}
+  BulletHole: {fileID: 8901696298529907863, guid: cb16c3b0d6c0eb844a28b4907435b427, type: 3}
+  DirtImpact: {fileID: 100002, guid: 3c1fef66b9b449e46848d66496183373, type: 3}
+  SandImpact: {fileID: 100002, guid: dcc8d6d23d7acb24cbeeced108693513, type: 3}
+  Head: {fileID: 21300000, guid: 40d186a41d545b346a2ea00a23f0b8b5, type: 3}
+  Body: {fileID: 21300000, guid: 48fa69d635909d54cadc6e6186d8a28c, type: 3}
+  ArmL: {fileID: 21300000, guid: ce251997168ffe64785bb88d75e0af7a, type: 3}
+  ArmR: {fileID: 21300000, guid: d9a44abaddf4103459f25853cb7f7120, type: 3}
+  LegL: {fileID: 21300000, guid: 5663895d047895248b1532b925b18691, type: 3}
+  LegR: {fileID: 21300000, guid: a5c36a981bb269344845073edfc01d54, type: 3}
+  HeadRed: {fileID: 21300000, guid: bc67f4be06520754ebb78ab3b7cb53e8, type: 3}
+  BodyRed: {fileID: 21300000, guid: 54953ab3c6dc69d4b9e65c7263c4125d, type: 3}
+  ArmLRed: {fileID: 21300000, guid: dbcfa9fda6c1e37408be8857d2cf5870, type: 3}
+  ArmRRed: {fileID: 21300000, guid: dfd63c104d7492449bbf14ee02447866, type: 3}
+  LegLRed: {fileID: 21300000, guid: b22158e78b0144d4e9545c58636dab90, type: 3}
+  LegRRed: {fileID: 21300000, guid: 1e6af5b41b0874246b40e213e73ce5ff, type: 3}
