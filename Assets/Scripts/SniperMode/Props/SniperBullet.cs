@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-public class Bullet : MonoBehaviourPunCallbacks
+public class SniperBullet : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float speed = 940f;
     [SerializeField] private float power = 50f;

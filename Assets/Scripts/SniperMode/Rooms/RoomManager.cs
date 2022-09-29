@@ -8,6 +8,7 @@ using Photon.Realtime;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
+    #region Variables
     [SerializeField] private RectTransform User1Pos = null;
     [SerializeField] private RectTransform User2Pos = null;
 
@@ -27,18 +28,19 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private ChatManager _ChatManager = null;
 
-    private int CurrentMode = 0;
-
+    private int CurrentMode = 0; // Current Game Mode ID
+    #endregion
     private void Awake()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true));
-        CancelButton.onClick.AddListener(() => ToggleEditUI(false));
-        RoomExitButton.onClick.AddListener(() => ExitRoom());
-        EditButton.onClick.AddListener(() => EditRoom());
-        lockedRoom.onValueChanged.AddListener(delegate { PassInput.interactable = lockedRoom.isOn;
-            if (lockedRoom.isOn == false)
+        PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
+        RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true)); // Show setting UI button
+        CancelButton.onClick.AddListener(() => ToggleEditUI(false)); // Hide setting UI button
+        RoomExitButton.onClick.AddListener(() => ExitRoom()); // Exit room button
+        EditButton.onClick.AddListener(() => EditRoom()); // Confirm editing room properties button
+        lockedRoom.onValueChanged.AddListener(delegate { PassInput.interactable = lockedRoom.isOn; // Locking room button
+            if (lockedRoom.isOn == false) // When change to public, previous password is deleted
             {
+                
                 PassInput.text = "";
             }
         });
@@ -140,12 +142,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     private void EditRoom()
     {
-        Debug.Log("Edit");
         ExitGames.Client.Photon.Hashtable hash = PhotonNetwork.CurrentRoom.CustomProperties;
-        hash.Remove("Bet");
         hash.Remove("RoomName");
         hash.Remove("Password");
-        hash.Add("Bet", BetInput.text);
         hash.Add("RoomName", NameInput.text);
         hash.Add("Password", PassInput.text);
 

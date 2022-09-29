@@ -54,29 +54,28 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         PistolRoomPrefab = Resources.Load<GameObject>("SniperMode/Rooms/PistolRoom");
         DartRoomPrefab = Resources.Load<GameObject>("SniperMode/Rooms/DartRoom");
         // ======== Create UI =====================================================
-        CreateButton.onClick.AddListener(() => CreateUI());
-        ExitButton.onClick.AddListener(() => CloseCreateUI());
-        RealCreateButton.onClick.AddListener(() => StartCoroutine(CreateRoom()));
+        CreateButton.onClick.AddListener(() => CreateUI()); // Show Create UI button
+        ExitButton.onClick.AddListener(() => CloseCreateUI()); // Close UI
+        RealCreateButton.onClick.AddListener(() => CreateRoom()); // Real Room Create
         LockedRoom.onValueChanged.AddListener(delegate { PassInput.interactable = LockedRoom.isOn; 
         if(LockedRoom.isOn == false)
             {
                 PassInput.text = ""; // Can only input password when lock toggle is on
             }
         });
-        GameMode.onValueChanged.AddListener(delegate { Debug.Log(GameMode.options[GameMode.value].text); });
-
+        BetAmountInput.interactable = false;
         CreateCanvas.gameObject.SetActive(false); // Hide when start
         // ======== User Info UI ====================================================
-        CloseButton.onClick.AddListener(delegate { UserInfoCanvas.SetActive(false); });
-        ShowButton.onClick.AddListener(delegate { UserInfoCanvas.SetActive(true); });
-        UserInfoCanvas.SetActive(false);
+        CloseButton.onClick.AddListener(delegate { UserInfoCanvas.SetActive(false); }); // Close Button
+        ShowButton.onClick.AddListener(delegate { UserInfoCanvas.SetActive(true); }); // Show Button
+        UserInfoCanvas.SetActive(false); // Hide when start
         // ======== Init Bool Value =================================================
         for(int i = 0; i < MAX_ROOM; i++)
         {
             IsRoomExist[i] = false;
         }
     }
-    private IEnumerator Start()
+    private IEnumerator Start() // Get Datas And Update UI
     {
         UserName.text = ODINAPIHandler.Instance.GetUserProfile().userProfile.username; // Set profile UI
         PopUserName.text = ODINAPIHandler.Instance.GetUserProfile().userProfile.username;
@@ -87,6 +86,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         ACEBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.ace).Value.data.balance; // Set UI
         ZERABalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.zera).Value.data.balance;
         DAPPXBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.dappx).Value.data.balance;
+        yield return ODINAPIHandler.Instance.ProcessGetBetSettings(); // Request Betting Settings
         StartCoroutine(UpdateUserCount()); // Start Updating Online user count
     }
     #region Creating Room
@@ -94,6 +94,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     {
         CreateButton.interactable = false; // Lock Buttons
         CreateCanvas.gameObject.SetActive(true); // Show UI
+        BetAmountInput.text = ODINAPIHandler.Instance.GetBetSettings().data.bets[0].amount.ToString();
         // Drop down menu initializing
         GameMode.ClearOptions(); // Clear Options
         for (int i = 0; i < ModeList.Length; i++)// Add Option
@@ -111,11 +112,11 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         CreateButton.interactable = true; // Allow Buttons
         CreateCanvas.gameObject.SetActive(false);
     }
-    private IEnumerator CreateRoom()
+    private void CreateRoom()
     {
         ExitGames.Client.Photon.Hashtable custom = new ExitGames.Client.Photon.Hashtable();
         custom.Add("Mode", GameMode.options[GameMode.value].text);
-        custom.Add("Bet", BetAmountInput.text);
+        custom.Add("Bet", ODINAPIHandler.Instance.GetBetSettings().data.bets[0].amount.ToString());
         custom.Add("RoomName", RoomNameInput.text);
         custom.Add("Password", PassInput.text);
         string[] forLobbyCustom = { "Mode", "Bet", "RoomName", "Password"};
@@ -125,7 +126,6 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         op.MaxPlayers = 2;
         op.CustomRoomPropertiesForLobby = forLobbyCustom;
         op.CustomRoomProperties = custom;
-        yield return ODINAPIHandler.Instance.ProcessGetBetSettings(); // Request Betting Settings
         //ODINAPIHandler.Instance.GetBetSettings();
         PhotonNetwork.CreateRoom(PhotonNetwork.NetworkingClient.UserId, op);
     }

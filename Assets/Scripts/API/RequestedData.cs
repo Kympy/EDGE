@@ -55,37 +55,37 @@ public class RequestedData
     #endregion
     #region Bettings
     [Serializable]
-    public struct BetSettings
+    public struct Res_Settings
     {
-        // Response Result
-        public string Message;
-        public string ID;
-        public string Game_ID;
-        public bool Betting;
-        public bool Maintenance;
-        public string CreatedAt;
-        public string UpdatedAt;
-        public int __V;
+        public string message;
+        public Settings data;
+    }
+    [Serializable]
+    public struct Settings
+    {
+        public string _id;
+        public string game_id;
+        public bool betting;
+        public bool maintenance;
+        public string createdAt;
+        public string updatedAt;
+        public int __v;
+
+        public BetInfo[] bets;
     }
     [Serializable]
     public struct BetInfo
     {
-        public string ID;
-        public string Game_ID;
-        public int Amount;
-        public int Platform_Fee;
-        public int Developer_Fee;
-        public int Win_Reward;
-        public int Win_Amount;
-        public string CreatedAt;
-        public string UpdatedAt;
-        public int __V;
-    }
-    [Serializable]
-    public struct BetData
-    {
-        public BetSettings betSettings;
-        public BetInfo[] betInfo;
+        public string _id;
+        public string game_id;
+        public int amount;
+        public int platform_fee;
+        public int developer_fee;
+        public int win_reward;
+        public int win_amount;
+        public string createdAt;
+        public string updatedAt;
+        public int __v;
     }
     [Serializable]
     public struct RequestingBettingPlaceBet

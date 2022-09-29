@@ -20,6 +20,17 @@ TagManager:
   - PlayerLegR
   - WillDisable
   - ActorBullet
+  - Score5
+  - Score4
+  - Score2
+  - Score1
+  - Score3
+  - Score8
+  - Score9
+  - Knife
+  - Axe
+  - Wood
+  - Blade
   layers:
   - Default
   - TransparentFX
@@ -34,8 +45,8 @@ TagManager:
   - DeadZone
   - Bullet
   - MyServerPlayer
-  - 
-  - 
+  - Saloon
+  - Player Pelvis
   - 
   - 
   - 

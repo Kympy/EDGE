@@ -17,11 +17,11 @@ public class SniperGameManager : Singleton<SniperGameManager>
     private float _2PrandX = 0f; // Player 2 Random X position
     #endregion
     [SerializeField] private WeatherManager _WeatherManager = null;
-    [SerializeField] private UIManager _UIManager = null;
+    [SerializeField] private SniperUIManager _UIManager = null;
     [SerializeField] private Camera MyCamera = null; // Player Arm Camera
     [SerializeField] private GameObject Enemy = null;
 
-    public UIManager GetUI { get { return _UIManager; } }
+    public SniperUIManager GetUI { get { return _UIManager; } }
     public PrefabData prefabData = null;
     public GameObject GetEnemy { get { return Enemy; } }
     private SniperGameManager() { }

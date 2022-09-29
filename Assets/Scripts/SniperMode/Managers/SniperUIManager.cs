@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 
-public class UIManager : MonoBehaviourPun
+public class SniperUIManager : MonoBehaviourPun
 {
     [SerializeField] private TextMeshProUGUI EnemyPlayerName = null;
 

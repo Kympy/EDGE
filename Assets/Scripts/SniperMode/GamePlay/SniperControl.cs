@@ -440,7 +440,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         PlayerCamCulling = 1 << LayerMask.NameToLayer("Default") |
         1 << LayerMask.NameToLayer("TransparentFX") |
-        1 << LayerMask.NameToLayer("Ignore Raycast") |
+        1 << LayerMask.NameToLayer("Igonre Raycast") |
         1 << LayerMask.NameToLayer("Water") |
         1 << LayerMask.NameToLayer("UI") |
         1 << LayerMask.NameToLayer("Scope") |
@@ -451,7 +451,7 @@ public class SniperControl : PlayerHeader, IPunObservable
 
         ScopeCamCulling = 1 << LayerMask.NameToLayer("Default") |
         1 << LayerMask.NameToLayer("TransparentFX") |
-        1 << LayerMask.NameToLayer("Ignore Raycast") |
+        1 << LayerMask.NameToLayer("Igonre Raycast") |
         1 << LayerMask.NameToLayer("Water") |
         1 << LayerMask.NameToLayer("UI") |
         1 << LayerMask.NameToLayer("Scope") |
@@ -461,7 +461,7 @@ public class SniperControl : PlayerHeader, IPunObservable
 
         DeathCamCulling = 1 << LayerMask.NameToLayer("Default") |
         1 << LayerMask.NameToLayer("TransparentFX") |
-        1 << LayerMask.NameToLayer("Ignore Raycast") |
+        1 << LayerMask.NameToLayer("Igonre Raycast") |
         1 << LayerMask.NameToLayer("Water") |
         1 << LayerMask.NameToLayer("UI") |
         1 << LayerMask.NameToLayer("Scope") |

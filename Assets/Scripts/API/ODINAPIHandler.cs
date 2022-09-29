@@ -25,7 +25,7 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     // Responses
     [SerializeField] private RequestedData.UserProfile ResponseUserProfile;
     [SerializeField] private RequestedData.UserSessionID ResponseUserSessionID;
-    [SerializeField] private RequestedData.BetSettings ResponseBetSettings;
+    [SerializeField] private RequestedData.Res_Settings ResponseBetSettings;
     [SerializeField] private RequestedData.BalanceInfo ResponseBalanceAce;
     [SerializeField] private RequestedData.BalanceInfo ResponseBalanceZera;
     [SerializeField] private RequestedData.BalanceInfo ResponseBalanceDappx;
@@ -70,7 +70,7 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     }
     #endregion
     #region Bet Settings
-    public RequestedData.BetSettings GetBetSettings() // Get Betting Settings Data
+    public RequestedData.Res_Settings GetBetSettings() // Get Betting Info
     {
         return ResponseBetSettings;
     }
@@ -82,11 +82,11 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
         Process.SetRequestHeader("api-key", ProjectAPIKey); // Give API Key to header
         yield return Process.SendWebRequest();
         Debug.Log(Process.downloadHandler.text);
-        RequestedData.BetSettings? betSettings = JsonUtility.FromJson<RequestedData.BetSettings>(Process.downloadHandler.text);
+        RequestedData.Res_Settings? betSettings = JsonUtility.FromJson<RequestedData.Res_Settings>(Process.downloadHandler.text);
 
         if (betSettings != null)
         {
-            ResponseBetSettings = (RequestedData.BetSettings)betSettings;
+            ResponseBetSettings = (RequestedData.Res_Settings)betSettings;
         }
     }
     #endregion
