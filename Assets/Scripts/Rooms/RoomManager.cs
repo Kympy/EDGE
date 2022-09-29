@@ -27,6 +27,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private ChatManager _ChatManager = null;
 
+    private int CurrentMode = 0;
+
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -66,6 +68,26 @@ public class RoomManager : MonoBehaviourPunCallbacks
             BetAmount.text = value.ToString();
         }
         else BetAmount.text = "Error";
+
+        PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("GameMode", out object mode);
+
+        if (mode != null)
+        {
+            RoomTitle.text += mode.ToString();
+
+            if(mode.ToString() == "Sniper Mode")
+            {
+                CurrentMode = 1;
+            }
+            else if(mode.ToString() == "Pistol Mode")
+            {
+                CurrentMode = 2;
+            }
+            else if(mode.ToString() == "Dart Mode")
+            {
+                CurrentMode = 3;
+            }
+        }
     }
     private void ToggleEditUI(bool isTrue)
     {
@@ -153,8 +175,26 @@ public class RoomManager : MonoBehaviourPunCallbacks
                         {
                             if (time <= 0)
                             {
-                                PhotonNetwork.LoadLevel(3);
-                                yield break;
+                                if(CurrentMode != 0)
+                                {
+                                    if(CurrentMode == 1)
+                                    {
+                                        PhotonNetwork.LoadLevel(3);
+                                    }
+                                    else if(CurrentMode == 2)
+                                    {
+                                        PhotonNetwork.LoadLevel(4);
+                                    }
+                                    else if(CurrentMode == 3)
+                                    {
+                                        PhotonNetwork.LoadLevel(5);
+                                    }
+                                    else
+                                    {
+                                        _ChatManager.AddChatLine("System", "Load Game Mode Failed");
+                                    }
+                                    yield break;
+                                }
                             }
                             photonView.RPC("ChatLineMsg", RpcTarget.All, "System", "Enter the game in a few moments..." + time);
                             time--;

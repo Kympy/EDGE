@@ -190,7 +190,6 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                         }
                         if (mode == "Sniper Mode")
                         {
-                            Debug.Log("Sniper Mode Room");
                             newRoom = Instantiate(SniperRoomPrefab, roomPos.position, Quaternion.identity);
                             newRoom.transform.SetParent(roomPos);
                             newRoom.GetComponent<RoomInformation>().InitRoom(realName, betAmount, isLocked, room.Name, password.ToString());
