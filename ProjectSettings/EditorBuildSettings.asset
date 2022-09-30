@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DartScene/DartGameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/PistolMode/Lobby.unity
+    guid: 4d2186dad2da23a40b8c7eeca253b18d
+  - enabled: 1
+    path: Assets/Scenes/PistolMode/GunFight.unity
+    guid: d458c569dfb164e4f9c0c331e7ad1fce
   m_configObjects: {}

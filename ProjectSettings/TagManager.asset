@@ -35,9 +35,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-
   - IgonreBullet
-
   - Water
   - UI
   - Scope
