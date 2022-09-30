@@ -30,10 +30,14 @@ public class TimeAttackEvent : MonoBehaviour
         if (collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Blade"
             || collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Knife")
         {
+            
             audioSource.clip = audioHit;
             audioSource.Play();
 
-            Instantiate(HitEffect, transform.position, transform.rotation);
+            Vector3 contact = collision.contacts[0].point;
+            Quaternion rot = Quaternion.FromToRotation(-Vector3.forward, contact);
+            Instantiate(HitEffect, contact, rot);
+
             collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             collision.gameObject.GetComponentInChildren<BoxCollider>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().useGravity = false;
