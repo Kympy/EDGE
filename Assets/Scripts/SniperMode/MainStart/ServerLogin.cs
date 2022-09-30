@@ -92,12 +92,13 @@ public class ServerLogin : MonoBehaviourPunCallbacks
     }
     private IEnumerator JoinLobbyCo() // Wait and load
     {
+        WaitForSeconds halfSecond = new WaitForSeconds(0.5f);
         PopUpMsg("Connecting."); // Pop up box message
-        yield return new WaitForSecondsRealtime(0.5f); // Wait (Because of the dynamic effect)
+        yield return halfSecond; // Wait (Because of the dynamic effect)
         WarningMsg.text += "."; // Add Dot
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return halfSecond;
         WarningMsg.text += "."; // Add Dot
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return halfSecond;
         PhotonNetwork.JoinLobby(); // Load Lobby After 1.5 seconds
         while (true)
         {
