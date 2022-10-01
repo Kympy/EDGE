@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class CutSceneManager : MonoBehaviour
 {
     #region Variables
+    // Light
+    [SerializeField] private GameObject Thunder = null;
     // Actor : Characters and effects on cut scene
     [SerializeField] private GameObject Player = null;
     [SerializeField] private GameObject Actor2 = null;
@@ -43,6 +45,7 @@ public class CutSceneManager : MonoBehaviour
         Muzzle.SetActive(false); // Hide effect
 
         CutCoroutine = StartCoroutine(Cut1()); // Start first cut scenen coroutine
+        StartCoroutine(ThunderCo());
     }
     private IEnumerator Cut1() // Move close to the building and rotate
     {
@@ -169,6 +172,23 @@ public class CutSceneManager : MonoBehaviour
                 yield break;
             }
             yield return null;
+        }
+    }
+    private IEnumerator ThunderCo()
+    {
+        WaitForSecondsRealtime sec = new WaitForSecondsRealtime(4f);
+        WaitForSecondsRealtime toggle = new WaitForSecondsRealtime(0.1f);
+        while(true)
+        {
+            yield return sec;
+            sec = new WaitForSecondsRealtime(Random.Range(3f, 7f));
+            Thunder.SetActive(true);
+            yield return toggle;
+            Thunder.SetActive(false);
+            yield return toggle;
+            Thunder.SetActive(true);
+            yield return toggle;
+            Thunder.SetActive(false);
         }
     }
 }
