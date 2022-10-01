@@ -33,7 +33,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        PressAnyKey.alpha = Mathf.PingPong(Time.time, 1f); // Ping Pong Text Blink (Bottom Text)
+        PressAnyKey.alpha = Mathf.PingPong(Time.unscaledTime, 1f); // Ping Pong Text Blink (Bottom Text)
 
         if(FinishLogin && Input.anyKeyDown) // When finished getting user data and input any key
         {
