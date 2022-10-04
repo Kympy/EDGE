@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class PlayerController : MonoBehaviourPun
 {

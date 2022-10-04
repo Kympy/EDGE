@@ -19720,7 +19720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 606be3338c51c3443bd8777aae9409bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text_Timer: {fileID: 0}
 --- !u!1 &2146095967
 GameObject:
   m_ObjectHideFlags: 0
@@ -19811,16 +19810,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 973011239357009960, guid: 0a38618a115446246b131fbfd85520c2,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 973011239357009960, guid: 0a38618a115446246b131fbfd85520c2,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2669615613400881885, guid: 0a38618a115446246b131fbfd85520c2,
         type: 3}
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: d042c79857d886f4e91e75a3e3a87ca8, type: 3}
-    - target: {fileID: 4771106931026252949, guid: 0a38618a115446246b131fbfd85520c2,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5948981815387188297, guid: 0a38618a115446246b131fbfd85520c2,
         type: 3}
       propertyPath: ThrowPoint
