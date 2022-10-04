@@ -157,14 +157,14 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     }
     #endregion
     #region Bet Coin
-    public void Bet_Coin(COIN_TYPE type)
+    public void Bet_Coin(COIN_TYPE type, string otherSessionID)
     {
-        StartCoroutine(ProcessBettingCoin(type));
+        StartCoroutine(ProcessBettingCoin(type , otherSessionID));
     }
-    private IEnumerator ProcessBettingCoin(COIN_TYPE type)
+    private IEnumerator ProcessBettingCoin(COIN_TYPE type, string otherSessionID)
     {
         RequestedData.RequestingBettingPlaceBet request_BPB;
-        request_BPB.Players_Session_ID = new string[] { ResponseUserSessionID.sessionId, "asdf" };
+        request_BPB.Players_Session_ID = new string[] { ResponseUserSessionID.sessionId, otherSessionID };
         request_BPB.Bet_ID = SelectedBettingID;
 
         string URL = GetBettingURL(DEV_MODE) + "/v1/betting/" + type.ToString() + "/place-bet";

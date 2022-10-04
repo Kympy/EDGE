@@ -68,6 +68,7 @@ MonoBehaviour:
   - ResultLose
   - ResultWin
   - RPCScene
+  - InitOtherSessionID
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
