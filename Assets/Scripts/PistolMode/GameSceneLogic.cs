@@ -39,9 +39,8 @@ public class GameSceneLogic : MonoBehaviourPun
         if (curPlay != null)
         {
             Debug.Log(curPlay.name);
-            Destroy(curPlay.gameObject);            
+            Destroy(curPlay.gameObject);
         }
-
 
         yield return new WaitForSeconds(1f);
         // MasterClient Scene ¿Ãµø        

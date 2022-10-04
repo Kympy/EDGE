@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform MPos;
     [SerializeField] Transform CPos;
 
-    bool LoginMaster = false;
+    // bool LoginMaster = false;
     bool LoginClient = false;
 
     public int myViewID = 0;
@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             // playerList = GameObject.Find("Player").GetComponent<PlayerControl>();
         }
 
-
         // GameSceneLogic라는 이름을 가진 GameObject를 찾아 GameSceneLogic Component를 받아옴
         gameSceneLogic = GameObject.Find("GameSceneLogic").GetComponent<GameSceneLogic>();
     }
@@ -75,7 +74,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
             Pos = MPos.position;
-            LoginMaster = true;
+            //LoginMaster = true;
         }
 
         else if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient == false)
@@ -103,13 +102,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
             pos = MPos.position;
-            Debug.Log(pos);
+            //Debug.Log(pos);
         }
 
         else if (PhotonNetwork.IsConnected & PhotonNetwork.IsMasterClient == false)
         {
             pos = CPos.position;
-            Debug.Log(pos);
+            //Debug.Log(pos);
         }
 
         // Player 생성
