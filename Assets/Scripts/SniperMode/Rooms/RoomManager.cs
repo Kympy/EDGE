@@ -37,6 +37,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     #endregion
     private void Awake()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         MySessionID = ODINAPIHandler.Instance.GetUserSessionID().sessionId.ToString(); // Init My session ID
         photonView.RPC("InitOtherSessionID", RpcTarget.AllBuffered, MySessionID); // Init other session ID
         MyUserID = ODINAPIHandler.Instance.GetUserProfile().userProfile._id;
