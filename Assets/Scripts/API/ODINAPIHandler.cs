@@ -38,6 +38,10 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     public string OtherSessionID { get { return otherSessionID; } set { otherSessionID = value; } }
     private string otherUserID = "";
     public string OtherUserID { get { return otherUserID; } set { otherUserID = value; } }
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     #region User Profile
     public RequestedData.UserProfile GetUserProfile() // Get User ODIN Profile
     {
