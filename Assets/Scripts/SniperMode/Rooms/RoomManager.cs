@@ -44,8 +44,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         photonView.RPC("InitOtherSessionID", RpcTarget.AllBuffered, MySessionID); // Init other session ID
         MyUserID = ODINAPIHandler.Instance.GetUserProfile().userProfile._id;
         photonView.RPC("InitOtherUserID", RpcTarget.AllBuffered, MyUserID);
-
-        PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true)); // Show setting UI button
         CancelButton.onClick.AddListener(() => ToggleEditUI(false)); // Hide setting UI button
         RoomExitButton.onClick.AddListener(() => ExitRoom()); // Exit room button
@@ -121,7 +119,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Created");
         GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
-        if (photonView.IsMine)
+        if (PhotonNetwork.IsMasterClient)
         {
             userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
         }
@@ -193,7 +191,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
                             {
                                 if(CurrentMode != 0)
                                 {
-                                    if(CurrentMode == 1)
+                                    PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
+                                    if (CurrentMode == 1)
                                     {
                                         PhotonNetwork.LoadLevel("SniperScene");
                                     }

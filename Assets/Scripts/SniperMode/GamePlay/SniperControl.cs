@@ -164,9 +164,9 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && IsZoom)
         {
             ScopeCamera.fieldOfView += -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime;
-            if (ScopeCamera.fieldOfView > 20f)
+            if (ScopeCamera.fieldOfView > 10f)
             {
-                ScopeCamera.fieldOfView = 20f;
+                ScopeCamera.fieldOfView = 10f;
             }
             else if(ScopeCamera.fieldOfView < 0.1f)
             {
@@ -188,20 +188,17 @@ public class SniperControl : PlayerHeader, IPunObservable
             {
                 case 0:
                     {
-                        ScopeCamera.fieldOfView = 20f;
-                        Debug.Log("1");
+                        ScopeCamera.fieldOfView = 10f;
                         break;
                     }
                 case 1:
                     {
                         ScopeCamera.fieldOfView = 5f;
-                        Debug.Log("2");
                         break;
                     }
                 case 2:
                     {
                         ScopeCamera.fieldOfView = 1f;
-                        Debug.Log("3");
                         break;
                     }
             }
@@ -416,14 +413,14 @@ public class SniperControl : PlayerHeader, IPunObservable
         HP -= damage;
         SniperGameManager.Instance.GetUI.ShowBlood();
         Debug.Log(HP);
-        if(HP <= 0f)
+        if(HP <= 0f && IsDead == false)
         {
             IsDead = true;
             HP = 0f;
             DeathCam.enabled = true;
             BrainCam.cullingMask = DeathCamCulling;
             photonView.RPC("RagdollToggle", RpcTarget.All, false); // Ragdoll mode ON
-            gameManager.GameEnd(ODINAPIHandler.Winner.Other);
+            gameManager.gameObject.GetPhotonView().RPC("GameEnd", RpcTarget.MasterClient, ODINAPIHandler.Winner.Other);
         }
         SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP); // Update UI
     }

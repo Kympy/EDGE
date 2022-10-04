@@ -205,7 +205,7 @@ public class SniperUIManager : MonoBehaviourPun
             default: { Debug.Log("UIManager : Winner declare error"); break; }
         }
         TabPanel.SetActive(true);
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(5f);
         PhotonNetwork.LoadLevel("RoomScene");
     }
 }
