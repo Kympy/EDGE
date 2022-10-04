@@ -146,4 +146,10 @@ public class SniperGameManager : Singleton<SniperGameManager>
         }
         _UIManager.gameObject.GetPhotonView().RPC("ProcessGameEnd", RpcTarget.All, winner);
     }
+    [PunRPC]
+    public void GoBackToRoom()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.LoadLevel("RoomScene");
+    }
 }
