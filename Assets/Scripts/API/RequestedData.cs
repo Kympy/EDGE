@@ -95,15 +95,15 @@ public class RequestedData
     [Serializable]
     public struct RequestingBettingPlaceBet
     {
-        public string[] Players_Session_ID;
-        public string Bet_ID;
+        public string[] players_session_id;
+        public string bet_id;
     }
 
     [Serializable]
     public struct ResponseBettingPlaceBet
     {
         // Response Result
-        public string Message;
+        public string message;
         // Data
         [Serializable]
         public struct Data
@@ -115,33 +115,33 @@ public class RequestedData
     [Serializable]
     public struct RequestDeclareWinner
     {
-        public string Betting_ID;
-        public string Winner_ID;
-        public object Match_Details;
+        public string betting_id;
+        public string winner_player_id;
+        public object match_details;
     }
     [Serializable]
     public struct ResponseDeclareWinner
     {
         // Response Result
-        public string Message;
+        public string message;
         // Amount of Winner Earn
         [Serializable]
         public struct Data
         {
-            public int amount_win;
+            public int amount_won;
         }
         public Data data;
     }
     [Serializable]
     public struct RequestBettingDisconnect
     {
-        public string Betting_ID;
+        public string betting_id;
     }
     [Serializable]
     public struct ResponseBettingDisconnect
     {
         // Response Result
-        public string Message;
+        public string message;
         [Serializable]
         public struct Data
         {

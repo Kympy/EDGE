@@ -1576,6 +1576,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bcca2cb7583285e439ede8314f28d54d, type: 2}
+    - target: {fileID: 4039779074169314792, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4186184002115527568, guid: 1e05f42fb8577b64194222c13d671bf7,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1586,6 +1591,41 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bcca2cb7583285e439ede8314f28d54d, type: 2}
+    - target: {fileID: 4295457955348954796, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295457955909906588, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295457955951123155, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295457956182640138, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295457956424656679, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295457956592779195, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295457956874612206, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4578434665224730241, guid: 1e05f42fb8577b64194222c13d671bf7,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1705,6 +1745,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sceneViewId
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556051831247054706, guid: 1e05f42fb8577b64194222c13d671bf7,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6567586190876205872, guid: 1e05f42fb8577b64194222c13d671bf7,
         type: 3}
