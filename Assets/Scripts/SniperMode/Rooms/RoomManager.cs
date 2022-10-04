@@ -34,15 +34,20 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private string OtherSessionID = "";
     private string MyUserID = "";
     private string OtherUserID = "";
+
+    private GameObject MyUserBox = null;
     #endregion
     private void Awake()
     {
+        PhotonNetwork.CurrentRoom.IsOpen = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
         MySessionID = ODINAPIHandler.Instance.GetUserSessionID().sessionId.ToString(); // Init My session ID
         photonView.RPC("InitOtherSessionID", RpcTarget.AllBuffered, MySessionID); // Init other session ID
         MyUserID = ODINAPIHandler.Instance.GetUserProfile().userProfile._id;
         photonView.RPC("InitOtherUserID", RpcTarget.AllBuffered, MyUserID);
-
-        PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true)); // Show setting UI button
         CancelButton.onClick.AddListener(() => ToggleEditUI(false)); // Hide setting UI button
         RoomExitButton.onClick.AddListener(() => ExitRoom()); // Exit room button
@@ -110,20 +115,26 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 CurrentMode = 3;
             }
         }
-        ShowUser();
+        GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
+        MyUserBox = userbox;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ShowUser", RpcTarget.AllBuffered);
+        }
         yield return null;
     }
+    [PunRPC]
     public void ShowUser()
     {
         Debug.Log("Created");
-        GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
-        if (photonView.IsMine)
+
+        if (PhotonNetwork.IsMasterClient)
         {
-            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
+            MyUserBox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
         }
         else
         {
-            userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "40.0", "232", 2, User2Pos.position);
+            MyUserBox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "40.0", "232", 2, User2Pos.position);
         }
     }
     private void ToggleEditUI(bool isTrue)
@@ -162,12 +173,26 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void ExitRoom()
     {
         PhotonNetwork.AutomaticallySyncScene = false;
+        Destroy(MyUserBox);
         PhotonNetwork.LeaveRoom();
     }
     public override void OnConnectedToMaster()
     {
+        Debug.Log("asdfasdf");
         PhotonNetwork.JoinLobby(); // Rejoin Lobby when leave room
         PhotonNetwork.LoadLevel(1); // Go to lobby scene
+    }
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        MyUserBox.transform.position = User1Pos.position;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ShowUser", RpcTarget.AllBuffered);
+        }
+    }
+    public override void OnJoinedRoom()
+    {
+        Debug.Log(PhotonNetwork.NickName);
     }
     public IEnumerator CountDown()
     {
@@ -189,7 +214,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
                             {
                                 if(CurrentMode != 0)
                                 {
-                                    if(CurrentMode == 1)
+                                    Destroy(MyUserBox);
+                                    if (CurrentMode == 1)
                                     {
                                         PhotonNetwork.LoadLevel("SniperScene");
                                     }

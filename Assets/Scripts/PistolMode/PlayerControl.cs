@@ -21,13 +21,14 @@ public class PlayerControl : MonoBehaviourPun
 
     PlayerAudio PA;
 
-    
-
     // 자식 오브젝트에 있는 rigidBody
     // = ragdoll 
     Rigidbody[] rbChild = new Rigidbody[13];
 
     BullCount bulletUI = null;
+
+    // 승리 UI
+    GunFightSceneUI winUI;
 
     float mouseX = 0f;
     float inputMouseY = 0f;
@@ -60,7 +61,7 @@ public class PlayerControl : MonoBehaviourPun
     GameObject MF = null;
 
 
-    
+
     /*
         Ray rayCamera;
         RaycastHit rayHit;
@@ -97,7 +98,9 @@ public class PlayerControl : MonoBehaviourPun
         if (SceneManager.GetActiveScene().name == "GunFight")
         {
             bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
+            winUI = GameObject.Find("GunFightUI").GetComponent<GunFightSceneUI>();
         }
+
     }
 
     void Start()
@@ -180,7 +183,7 @@ public class PlayerControl : MonoBehaviourPun
         // PRC target.ohter로 상대방에게 보여지는 PlayerClone에 Mouse Y값 누적
         // 상대방의 누적된 mouseY 값을 내 Client의 상대방 Player Clone에 반영 
         // else if (isStart && isAlive && photonView.IsMine == false)
-        else if(photonView.IsMine == false)
+        else if (photonView.IsMine == false)
         {
             // 나에게 보여질 상대방의 mouseY 값이 누적된 함수 호출 필요
             InPutMouseY();
@@ -320,6 +323,13 @@ public class PlayerControl : MonoBehaviourPun
             {
                 Debug.Log("죽음");
 
+                Debug.Log("ResultLose 호출 시도");
+                // 피격받은 플레이어 LOSE UI 호출
+                GameObject.Find("GunFightUI").GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
+
+                Debug.Log("ResultWin 호출 시도");
+                // Win UI 호출
+                winUI.ResultWin();
                 rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
             }
 
@@ -337,7 +347,7 @@ public class PlayerControl : MonoBehaviourPun
     public void LobbyPlayerActive()
     {
         // 로비 씬으로 전환됐을 때 플레이어 
-        playerLobbyActive = true;        
+        playerLobbyActive = true;
     }
 
     public void GunFightPlayerActive()
@@ -395,7 +405,7 @@ public class PlayerControl : MonoBehaviourPun
 
         punMouseY += inputMouseY;
 
-        Debug.Log("Chest 움직임 : " + inputMouseY);
+        //Debug.Log("Chest 움직임 : " + inputMouseY);
     }
 
     [PunRPC]

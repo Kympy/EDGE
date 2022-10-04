@@ -12,7 +12,7 @@ using Cinemachine;
 public class SniperControl : PlayerHeader, IPunObservable
 {
     [SerializeField] private GameObject[] changedObjects = new GameObject[12];
-
+    private SniperGameManager gameManager = null;
     private Coroutine CrouchCo = null;
 
     #region Variables
@@ -30,7 +30,8 @@ public class SniperControl : PlayerHeader, IPunObservable
     private void Awake()
     {
         SetLayer();
-        GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject); // Add Me On Player List
+        gameManager = GameObject.FindObjectOfType<SniperGameManager>();
+        gameManager.PlayerList.Add(this.gameObject); // Add Me On Player List
         HP = MaxHP;
         DeathCam.enabled = false;
         if (photonView.IsMine == false) return;
@@ -163,9 +164,9 @@ public class SniperControl : PlayerHeader, IPunObservable
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && IsZoom)
         {
             ScopeCamera.fieldOfView += -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime;
-            if (ScopeCamera.fieldOfView > 20f)
+            if (ScopeCamera.fieldOfView > 10f)
             {
-                ScopeCamera.fieldOfView = 20f;
+                ScopeCamera.fieldOfView = 10f;
             }
             else if(ScopeCamera.fieldOfView < 0.1f)
             {
@@ -187,20 +188,17 @@ public class SniperControl : PlayerHeader, IPunObservable
             {
                 case 0:
                     {
-                        ScopeCamera.fieldOfView = 20f;
-                        Debug.Log("1");
+                        ScopeCamera.fieldOfView = 10f;
                         break;
                     }
                 case 1:
                     {
                         ScopeCamera.fieldOfView = 5f;
-                        Debug.Log("2");
                         break;
                     }
                 case 2:
                     {
                         ScopeCamera.fieldOfView = 1f;
-                        Debug.Log("3");
                         break;
                     }
             }
@@ -410,20 +408,30 @@ public class SniperControl : PlayerHeader, IPunObservable
         }
     }
     [PunRPC]
-    public void GetDamage(float damage)
+    public void GetDamage(float damage, string parts)
     {
         HP -= damage;
-        SniperGameManager.Instance.GetUI.ShowBlood();
+        gameManager.GetUI.ShowBlood();
+        gameManager.GetUI.UpdateIndicator(parts, 1);
+        gameManager.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others, parts, 2);
         Debug.Log(HP);
-        if(HP <= 0f)
+        if(HP <= 0f && IsDead == false)
         {
             IsDead = true;
             HP = 0f;
             DeathCam.enabled = true;
             BrainCam.cullingMask = DeathCamCulling;
             photonView.RPC("RagdollToggle", RpcTarget.All, false); // Ragdoll mode ON
+            if(PhotonNetwork.IsMasterClient)
+            {
+                gameManager.GameEnd(ODINAPIHandler.Winner.Other);
+            }
+            else
+            {
+                gameManager.gameObject.GetPhotonView().RPC("GameEnd", RpcTarget.MasterClient, ODINAPIHandler.Winner.Me);
+            }
         }
-        SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP); // Update UI
+        gameManager.GetUI.UpdateHP(HP, MaxHP); // Update UI
     }
     [PunRPC]
     public void UpdateServerBone(float rotation)
@@ -468,5 +476,9 @@ public class SniperControl : PlayerHeader, IPunObservable
         1 << LayerMask.NameToLayer("DeadZone") |
         1 << LayerMask.NameToLayer("Bullet") | 
         1 << LayerMask.NameToLayer("MyServerPlayer");
+    }
+    private void OnDestroy()
+    {
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID);
     }
 }

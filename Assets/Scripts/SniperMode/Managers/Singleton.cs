@@ -26,8 +26,4 @@ public class Singleton<T> : MonoBehaviourPunCallbacks where T : class
             }
         }
     }
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-    }
 }

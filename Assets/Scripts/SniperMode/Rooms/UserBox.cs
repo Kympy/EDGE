@@ -54,4 +54,8 @@ public class UserBox : MonoBehaviourPun
         }
         UserInfo.text = "Rating : " + rating + "%\n" + "Games : " + games;
     }
+    private void OnDestroy()
+    {
+        Debug.Log(this.gameObject.name + " : Destroyed");
+    }
 }

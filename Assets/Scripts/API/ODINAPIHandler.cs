@@ -38,6 +38,10 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     public string OtherSessionID { get { return otherSessionID; } set { otherSessionID = value; } }
     private string otherUserID = "";
     public string OtherUserID { get { return otherUserID; } set { otherUserID = value; } }
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     #region User Profile
     public RequestedData.UserProfile GetUserProfile() // Get User ODIN Profile
     {
@@ -171,8 +175,8 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     public IEnumerator ProcessBettingCoin(COIN_TYPE type)
     {
         RequestedData.RequestingBettingPlaceBet request_BPB;
-        request_BPB.Players_Session_ID = new string[] { ResponseUserSessionID.sessionId, otherSessionID };
-        request_BPB.Bet_ID = SelectedBettingID;
+        request_BPB.players_session_id = new string[] { ResponseUserSessionID.sessionId, otherSessionID };
+        request_BPB.bet_id = SelectedBettingID;
 
         string URL = GetBettingURL(DEV_MODE) + "/v1/betting/" + type.ToString() + "/place-bet";
 
@@ -209,25 +213,25 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     public IEnumerator ProcessRequestDeclareWinner(COIN_TYPE type, Winner winner)
     {
         RequestedData.RequestDeclareWinner request_DeclareWinner;
-        request_DeclareWinner.Betting_ID = SelectedBettingID;
+        request_DeclareWinner.betting_id = ResponseBettingPlaceBet.data.betting_id;
         switch(winner)
         {
             case Winner.Me:
                 {
-                    request_DeclareWinner.Winner_ID = ResponseUserProfile.userProfile._id;
+                    request_DeclareWinner.winner_player_id = ResponseUserProfile.userProfile._id;
                     break;
                 }
             case Winner.Other:
                 {
-                    request_DeclareWinner.Winner_ID = otherUserID;
+                    request_DeclareWinner.winner_player_id = otherUserID;
                     break;
                 }
-            default: { Debug.Log("Winner parameter Error"); request_DeclareWinner.Winner_ID = ""; break; }
+            default: { Debug.Log("Winner parameter Error"); request_DeclareWinner.winner_player_id = ""; break; }
         }
 
-        request_DeclareWinner.Match_Details = null;
+        request_DeclareWinner.match_details = null;
 
-        if(request_DeclareWinner.Winner_ID == "")
+        if(request_DeclareWinner.winner_player_id == "")
         {
 
         }
@@ -261,7 +265,7 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     private IEnumerator ProcessDisconnectBetting(COIN_TYPE type)
     {
         RequestedData.RequestBettingDisconnect request_Disconnect;
-        request_Disconnect.Betting_ID = SelectedBettingID;
+        request_Disconnect.betting_id = ResponseBettingPlaceBet.data.betting_id;
 
         string URL = GetBettingURL(DEV_MODE) + "/v1/betting/" + type.ToString() + "/disconnect";
 

@@ -21,19 +21,22 @@ public class SniperGameManager : Singleton<SniperGameManager>
     [SerializeField] private Camera MyCamera = null; // Player Arm Camera
     [SerializeField] private GameObject Enemy = null;
 
+    private bool IsEnd = false;
+
     public SniperUIManager GetUI { get { return _UIManager; } }
     public PrefabData prefabData = null;
     public GameObject GetEnemy { get { return Enemy; } }
     private SniperGameManager() { }
     private void Awake()
     {
+        PhotonNetwork.AutomaticallySyncScene = false;
         if (PhotonNetwork.IsMasterClient) // If master, Create Random Value and Send
         {
             photonView.RPC("PlayerInst", RpcTarget.AllBuffered, Random.Range(-250f, 0f), Random.Range(0f, 250f));
             StartCoroutine(ODINAPIHandler.Instance.ProcessBettingCoin(ODINAPIHandler.COIN_TYPE.zera));
         }
         _WeatherManager.ApplyRandomSky();
-        
+        PhotonNetwork.CurrentRoom.IsOpen = false;      
     }
     private void Update()
     {
@@ -105,8 +108,48 @@ public class SniperGameManager : Singleton<SniperGameManager>
             }
         }
     }
-    public override void OnLeftRoom()
+    public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-       StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
+        if(otherPlayer != PhotonNetwork.LocalPlayer)
+        {
+            if (IsEnd == false)
+            {
+                StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Me));
+                photonView.RPC("GameEndByPlayerExit", RpcTarget.All);
+            }
+        }
+    }
+    [PunRPC]
+    public void GameEndByPlayerExit()
+    {
+        IsEnd = true;
+        Debug.Log(ODINAPIHandler.Instance.GetDeclare_Winner().message);
+        _UIManager.gameObject.GetPhotonView().RPC("ProcessGameExit", RpcTarget.All);
+    }
+    [PunRPC]
+    public void GameEnd(ODINAPIHandler.Winner winner)
+    {
+        IsEnd = true;
+        switch(winner)
+        {
+            case ODINAPIHandler.Winner.Me:
+                {
+                    StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Me));
+                    break;
+                }
+            case ODINAPIHandler.Winner.Other:
+                {
+                    StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
+                    break;
+                }
+            default: { Debug.Log("GameManager : Winner declare error"); break; }
+        }
+        _UIManager.gameObject.GetPhotonView().RPC("ProcessGameEnd", RpcTarget.All, winner);
+    }
+    [PunRPC]
+    public void GoBackToRoom()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.LoadLevel("RoomScene");
     }
 }

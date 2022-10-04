@@ -1,4 +1,4 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,16 +6,21 @@ using TMPro;
 
 public class Stopwatch : MonoBehaviour
 {
-    public Text text_Timer;
     float time_start;
     float time_current;
     float time_Max = 10f;
     bool isEnded;
+    TextMeshPro TextPosition;
 
+    private void Awake()
+    {
+        TextPosition = this.gameObject.GetComponent<TextMeshPro>();
+        TextPosition.text = "00.00";
+    }
     // Start is called before the first frame update
     void Start()
     {
-        Reset_Timer();    
+        Reset_Timer();
     }
 
     // Update is called once per frame
@@ -23,12 +28,10 @@ public class Stopwatch : MonoBehaviour
     {
         if (isEnded)
             return;
-        
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("스톱워치 시작");
+
+      
             Check_Timer();
-        }
+        
     }
 
     void Check_Timer()
@@ -36,7 +39,7 @@ public class Stopwatch : MonoBehaviour
         time_current = Time.time - time_start;
         if (time_current < time_Max)
         {
-            text_Timer.text = $"{time_current:N2}";
+            TextPosition.text = $"{time_current:N2}";
         }
 
         else if (!isEnded)
@@ -48,7 +51,7 @@ public class Stopwatch : MonoBehaviour
     void End_Timer()
     {
         time_current = time_Max;
-        text_Timer.text = $"{time_current:N2}";
+        TextPosition.text = $"{time_current:N2}";
         isEnded = true;
     }
 
@@ -56,8 +59,7 @@ public class Stopwatch : MonoBehaviour
     {
         time_start = Time.time;
         time_current = 0;
-        text_Timer.text = $"{time_current:N2}";
+        TextPosition.text = $"{time_current:N2}";
         isEnded = false;
     }
 }
-*/

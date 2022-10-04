@@ -26,7 +26,7 @@ public class item : MonoBehaviour
         }
         else if (this.gameObject.tag == "Knife")
         {
-            GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed * 1.5f);
+            GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed * 3f);
         }
     }
 

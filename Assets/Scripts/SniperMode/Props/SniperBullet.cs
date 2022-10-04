@@ -57,44 +57,33 @@ public class SniperBullet : MonoBehaviourPunCallbacks
             // Else Instantiate blood because bullet hit player
             if (collision.collider.CompareTag("PlayerHead"))
             {
-                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f);
-                SniperGameManager.Instance.GetUI.UpdateIndicator("Head", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "Head", 1);
+                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, 100f, "Head");
                 PhotonNetwork.Instantiate("SniperMode/Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
             }
             else if (collision.collider.CompareTag("PlayerBody"))
             {
-                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(70f, 99f)));
-                SniperGameManager.Instance.GetUI.UpdateIndicator("Body", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "Body", 1);
+                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(70f, 99f)), "Body");
                 PhotonNetwork.Instantiate("SniperMode/Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
             }
             else if (collision.collider.CompareTag("PlayerArmL"))
             {
-                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(10f, 50f)));
-                SniperGameManager.Instance.GetUI.UpdateIndicator("ArmL", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "ArmL", 1);
+                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(10f, 50f)), "ArmL");
                 PhotonNetwork.Instantiate("SniperMode/Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
             }
             else if (collision.collider.CompareTag("PlayerArmR"))
             {
-                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(10f, 50f)));
-                SniperGameManager.Instance.GetUI.UpdateIndicator("ArmR", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "ArmR", 1);
+                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(10f, 50f)), "ArmR");
                 PhotonNetwork.Instantiate("SniperMode/Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
             }
             else if (collision.collider.CompareTag("PlayerLegL"))
             {
-                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(20f, 60f)));
-                SniperGameManager.Instance.GetUI.UpdateIndicator("LegL", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "LegL", 1);
+                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(20f, 60f)), "LegL");
                 PhotonNetwork.Instantiate("SniperMode/Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
             }
             else if (collision.collider.CompareTag("PlayerLegR"))
             {
-                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(20f, 60f)));
-                SniperGameManager.Instance.GetUI.UpdateIndicator("LegR", 2);
-                SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "LegR", 1);
+                collision.transform.root.gameObject.GetPhotonView().RPC("GetDamage", RpcTarget.OthersBuffered, Mathf.Round(Random.Range(20f, 60f)), "LegR");
+                //SniperGameManager.Instance.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.OthersBuffered, "LegR", 1);
                 PhotonNetwork.Instantiate("SniperMode/Impacts/BodyImpact", collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
             }
         }
