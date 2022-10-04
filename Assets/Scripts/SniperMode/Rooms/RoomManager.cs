@@ -214,6 +214,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                             {
                                 if(CurrentMode != 0)
                                 {
+                                    Destroy(MyUserBox);
                                     if (CurrentMode == 1)
                                     {
                                         PhotonNetwork.LoadLevel("SniperScene");
