@@ -176,8 +176,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
         Destroy(MyUserBox);
         PhotonNetwork.LeaveRoom();
     }
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby(); // Rejoin Lobby when leave room
+        PhotonNetwork.LoadLevel(1); // Go to lobby scene
+    }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        /*
         PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.SetMasterClient(otherPlayer);
 
@@ -185,6 +191,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             photonView.RPC("ShowUser", RpcTarget.AllBuffered);
         }
+        */
     }
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
@@ -193,11 +200,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log(PhotonNetwork.NickName);
-    }
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby(); // Rejoin Lobby when leave room
-        PhotonNetwork.LoadLevel(1); // Go to lobby scene
     }
     public IEnumerator CountDown()
     {
