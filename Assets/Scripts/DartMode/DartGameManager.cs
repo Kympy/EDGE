@@ -13,6 +13,7 @@ public class DartGameManager : MonoBehaviourPunCallbacks
     {
         //if (photonView.IsMine == false) return;
         PhotonNetwork.Instantiate("DartMode/Player", PlayerSpawnPosition.transform.position, PlayerSpawnPosition.transform.rotation);
+        
     }
 
     void Start()

@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviourPun
 
     float delayTime = 0;
 
+    public string AxeResourcePath = "DartMode/AxePrefab";
+    public string KnifeResourcePath = "DartMode/KnifePrefab";
+
     private void Awake()
     {
         if (photonView.IsMine == false) return;
@@ -96,17 +99,18 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-
-
-
     private void Throwing()
     {
-        GameObject throwingObj = Instantiate(ItemFactory);
-        throwingObj.transform.position = ThrowPoint.position;
-        throwingObj.transform.rotation = ThrowPoint.rotation;
+        GameObject throwingObj = PhotonNetwork.Instantiate(AxeResourcePath, ThrowPoint.position, Quaternion.identity);
+        //throwingObj.transform.position = ThrowPoint.position;
+        //throwingObj.transform.rotation = ThrowPoint.rotation;
         /*Axe.transform.up = ThrowPoint.up;*/
 
-        throwingObj.GetComponent<item>().itemSpeed = press;
+        // 수정 
+        //throwingObj.GetComponent<item>().itemSpeed = press;
+
+        //추가
+        throwingObj.GetComponent<item>().photonView.RPC("ThrowWeapon", RpcTarget.AllBuffered, press);
 
         //Axe.transform.forward = ThrowPoint.forward;
 

@@ -3578,6 +3578,8 @@ MonoBehaviour:
   cam: {fileID: 0}
   audioWalk: {fileID: 8300000, guid: 1c9813dc085b5374884cf7bcbaa27dca, type: 3}
   audiothrowing: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}
+  AxeResourcePath: DartMode/AxePrefab
+  KnifeResourcePath: DartMode/KnifePrefab
 --- !u!114 &3483402902131045886
 MonoBehaviour:
   m_ObjectHideFlags: 0
