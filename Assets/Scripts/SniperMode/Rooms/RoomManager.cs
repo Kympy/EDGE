@@ -178,6 +178,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     public override void OnConnectedToMaster()
     {
+        Debug.Log("asdfasdf");
         PhotonNetwork.JoinLobby(); // Rejoin Lobby when leave room
         PhotonNetwork.LoadLevel(1); // Go to lobby scene
     }
