@@ -37,9 +37,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     #endregion
     private void Awake()
     {
+        PhotonNetwork.CurrentRoom.IsOpen = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
+        PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
         MySessionID = ODINAPIHandler.Instance.GetUserSessionID().sessionId.ToString(); // Init My session ID
         photonView.RPC("InitOtherSessionID", RpcTarget.AllBuffered, MySessionID); // Init other session ID
         MyUserID = ODINAPIHandler.Instance.GetUserProfile().userProfile._id;
@@ -112,14 +114,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
         }
         ShowUser();
-        PhotonNetwork.CurrentRoom.IsOpen = true;
         yield return null;
     }
     public void ShowUser()
     {
         Debug.Log("Created");
         GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
-        if (PhotonNetwork.IsMasterClient)
+        if (photonView.IsMine)
         {
             userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
         }
@@ -166,6 +167,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.LeaveRoom();
     }
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        PhotonNetwork.AutomaticallySyncScene = false;
+    }
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby(); // Rejoin Lobby when leave room
@@ -191,7 +196,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
                             {
                                 if(CurrentMode != 0)
                                 {
-                                    PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
                                     if (CurrentMode == 1)
                                     {
                                         PhotonNetwork.LoadLevel("SniperScene");
