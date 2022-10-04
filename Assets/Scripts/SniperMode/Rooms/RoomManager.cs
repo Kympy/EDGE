@@ -170,6 +170,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         PhotonNetwork.AutomaticallySyncScene = false;
+        PhotonNetwork.SetMasterClient(otherPlayer);
+    }
+    public override void OnJoinedRoom()
+    {
+        Debug.Log(PhotonNetwork.NickName);
     }
     public override void OnConnectedToMaster()
     {
