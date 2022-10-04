@@ -92,7 +92,8 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
         if (betSettings != null)
         {
             ResponseBetSettings = (RequestedData.Res_Settings)betSettings;
-            SelectedBettingID = ResponseBetSettings.data._id;
+            SelectedBettingID = ResponseBetSettings.data.bets[0]._id;
+            Debug.Log(SelectedBettingID + " Selected Betting ID");
         }
     }
     #endregion

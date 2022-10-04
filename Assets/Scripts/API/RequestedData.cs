@@ -58,7 +58,13 @@ public class RequestedData
     public struct Res_Settings
     {
         public string message;
-        public Settings data;
+        [Serializable]
+        public struct Data
+        {
+            public Settings settings;
+            public BetInfo[] bets;
+        }
+        public Data data;
     }
     [Serializable]
     public struct Settings
@@ -70,8 +76,6 @@ public class RequestedData
         public string createdAt;
         public string updatedAt;
         public int __v;
-
-        public BetInfo[] bets;
     }
     [Serializable]
     public struct BetInfo
@@ -87,6 +91,7 @@ public class RequestedData
         public string updatedAt;
         public int __v;
     }
+    
     [Serializable]
     public struct RequestingBettingPlaceBet
     {
