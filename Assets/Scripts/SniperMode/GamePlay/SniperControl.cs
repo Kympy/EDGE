@@ -412,7 +412,8 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         HP -= damage;
         gameManager.GetUI.ShowBlood();
-        gameManager.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.All, parts, 1);
+        gameManager.GetUI.UpdateIndicator(parts, 1);
+        gameManager.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others, parts, 2);
         Debug.Log(HP);
         if(HP <= 0f && IsDead == false)
         {
