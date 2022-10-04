@@ -8,9 +8,9 @@ using Photon.Pun;
 public class GunFightSceneUI : MonoBehaviourPun
 {
     [SerializeField]
-    TextMeshProUGUI resultWin;
+    GameObject resultWin;
     [SerializeField]
-    TextMeshProUGUI resultLose;
+    GameObject resultLose;
 
     bool isWin = false;
     bool isLose = false;
@@ -20,18 +20,15 @@ public class GunFightSceneUI : MonoBehaviourPun
         isWin = true;
         if (isWin)
         {
-            resultWin.enabled = true;
+            resultWin.SetActive(true);
         }
     }
 
     [PunRPC]
     void ResultLose()
     {
-        isLose = true;
-        if (isLose)
-        {
-            resultLose.enabled = true;
-        }
+        isLose = false;
+        
     }
 
 }

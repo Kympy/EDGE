@@ -25,6 +25,8 @@ public class GameSceneLogic : MonoBehaviourPun
 
     IEnumerator NextScene()
     {
+        GameObject curPlay = FindObjectOfType<PlayerControl>().gameObject;
+
         yield return new WaitForSeconds(10f);
 
         // if (PhotonNetwork.IsConnected) // && PhotonNetwork.IsMasterClient
@@ -34,19 +36,20 @@ public class GameSceneLogic : MonoBehaviourPun
 
         Debug.Log($"코루틴 호출  {PhotonNetwork.AutomaticallySyncScene}");
 
-        GameObject curPlay = FindObjectOfType<PlayerControl>().gameObject;
 
         if (curPlay != null)
         {
             Debug.Log(curPlay.name);
-            Destroy(curPlay.gameObject);
+            // Destroy(curPlay.gameObject);
+            PhotonNetwork.RemoveBufferedRPCs();
         }
 
         yield return new WaitForSeconds(1f);
         // MasterClient Scene 이동        
-
-        PhotonNetwork.LoadLevel("GunFight");
-
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("GunFight");
+        }
     }
 
 

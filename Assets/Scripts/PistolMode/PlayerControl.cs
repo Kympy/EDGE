@@ -325,7 +325,7 @@ public class PlayerControl : MonoBehaviourPun
 
                 Debug.Log("ResultLose 호출 시도");
                 // 피격받은 플레이어 LOSE UI 호출
-                GameObject.Find("GunFightUI").GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
+                //GameObject.Find("GunFightUI").GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
 
                 Debug.Log("ResultWin 호출 시도");
                 // Win UI 호출

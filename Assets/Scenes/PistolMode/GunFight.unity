@@ -1337,8 +1337,8 @@ GameObject:
   - component: {fileID: 885735271}
   - component: {fileID: 885735270}
   - component: {fileID: 885735269}
-  - component: {fileID: 885735273}
   - component: {fileID: 885735274}
+  - component: {fileID: 885735275}
   m_Layer: 5
   m_Name: GunFightUI
   m_TagString: Untagged
@@ -1429,20 +1429,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &885735273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 885735268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa1c03a4c46d9d46b3cb249a2fc29d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resultWin: {fileID: 447399013}
-  resultLose: {fileID: 1702555394}
 --- !u!114 &885735274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1465,6 +1451,20 @@ MonoBehaviour:
   sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &885735275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885735268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 596a776589b7896488a0563a0fa2e3e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultWin: {fileID: 447399011}
+  resultLose: {fileID: 1702555392}
 --- !u!1 &1042376177
 GameObject:
   m_ObjectHideFlags: 0
