@@ -206,6 +206,7 @@ public class SniperUIManager : MonoBehaviourPun
         }
         TabPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(5f);
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.LoadLevel("RoomScene");
     }
 }
