@@ -71,6 +71,9 @@ MonoBehaviour:
   - InitOtherSessionID
   - InitOtherUserID
   - GameEndByPlayerExit
+  - ProcessGameExit
+  - GameEnd
+  - ProcessGameEnd
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

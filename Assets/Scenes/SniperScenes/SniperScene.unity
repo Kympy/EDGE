@@ -1822,6 +1822,8 @@ MonoBehaviour:
   TabPanel: {fileID: 959554910}
   User1Name: {fileID: 726666077}
   User2Name: {fileID: 1773253130}
+  User1State: {fileID: 155780073}
+  User2State: {fileID: 479146350}
   BloodEffect: {fileID: 1678150548}
   MyIndicator:
     Head: {fileID: 2968900}
