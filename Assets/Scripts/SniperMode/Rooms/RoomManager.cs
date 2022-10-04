@@ -180,7 +180,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.SetMasterClient(otherPlayer);
-        ShowUser();
+    }
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        MyUserBox.transform.position = User1Pos.position;
     }
     public override void OnJoinedRoom()
     {
