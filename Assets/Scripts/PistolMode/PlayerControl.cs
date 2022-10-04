@@ -323,11 +323,9 @@ public class PlayerControl : MonoBehaviourPun
             {
                 Debug.Log("죽음");
 
-                Debug.Log("ResultLose 호출 시도");
                 // 피격받은 플레이어 LOSE UI 호출
-                //GameObject.Find("GunFightUI").GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
+                GameObject.Find("GunFightUI").GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
 
-                Debug.Log("ResultWin 호출 시도");
                 // Win UI 호출
                 winUI.ResultWin();
                 rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);

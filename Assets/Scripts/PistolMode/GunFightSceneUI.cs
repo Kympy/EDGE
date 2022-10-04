@@ -27,8 +27,12 @@ public class GunFightSceneUI : MonoBehaviourPun
     [PunRPC]
     void ResultLose()
     {
-        isLose = false;
-        
+        Debug.Log("ResultLose »£√‚");
+        isLose = true;
+        if (isLose)
+        {
+            Debug.Log("ResultLose False");
+            resultLose.SetActive(true);
+        }        
     }
-
 }
