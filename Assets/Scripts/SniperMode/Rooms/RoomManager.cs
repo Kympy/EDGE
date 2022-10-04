@@ -136,11 +136,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         MyUserBox = userbox;
     }
-    [PunRPC]
-    public void DestroyUserBox()
-    {
-        Destroy(MyUserBox);
-    }
     private void ToggleEditUI(bool isTrue)
     {
         if(isTrue)
@@ -184,6 +179,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.SetMasterClient(otherPlayer);
+        Destroy(MyUserBox);
+        if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ShowUser", RpcTarget.AllBuffered);
+        }
     }
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
