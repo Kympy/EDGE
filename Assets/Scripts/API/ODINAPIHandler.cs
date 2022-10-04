@@ -209,7 +209,7 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     public IEnumerator ProcessRequestDeclareWinner(COIN_TYPE type, Winner winner)
     {
         RequestedData.RequestDeclareWinner request_DeclareWinner;
-        request_DeclareWinner.betting_id = SelectedBettingID;
+        request_DeclareWinner.betting_id = ResponseBettingPlaceBet.data.betting_id;
         switch(winner)
         {
             case Winner.Me:
@@ -261,7 +261,7 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
     private IEnumerator ProcessDisconnectBetting(COIN_TYPE type)
     {
         RequestedData.RequestBettingDisconnect request_Disconnect;
-        request_Disconnect.betting_id = SelectedBettingID;
+        request_Disconnect.betting_id = ResponseBettingPlaceBet.data.betting_id;
 
         string URL = GetBettingURL(DEV_MODE) + "/v1/betting/" + type.ToString() + "/disconnect";
 
