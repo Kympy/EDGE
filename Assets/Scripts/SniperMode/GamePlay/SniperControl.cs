@@ -468,4 +468,8 @@ public class SniperControl : PlayerHeader, IPunObservable
         1 << LayerMask.NameToLayer("Bullet") | 
         1 << LayerMask.NameToLayer("MyServerPlayer");
     }
+    private void OnDestroy()
+    {
+        PhotonNetwork.RemoveBufferedRPCs(photonView.ViewID);
+    }
 }
