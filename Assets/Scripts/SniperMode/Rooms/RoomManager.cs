@@ -115,9 +115,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 CurrentMode = 3;
             }
         }
-        ShowUser();
+        if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ShowUser", RpcTarget.AllBuffered);
+        }
         yield return null;
     }
+    [PunRPC]
     public void ShowUser()
     {
         Debug.Log("Created");
