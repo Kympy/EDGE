@@ -5241,13 +5241,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454512471}
-  m_LocalRotation: {x: 0.50958294, y: -0.49022985, z: -0.4902298, w: 0.5095829}
-  m_LocalPosition: {x: -0.00022852472, y: -0.009182008, z: 0.024200005}
-  m_LocalScale: {x: 0.03333333, y: 0.03333333, z: 0.03333333}
+  m_LocalRotation: {x: -0, y: -0.025995295, z: -0.000000014901159, w: -0.9996621}
+  m_LocalPosition: {x: 0.31063887, y: -0.16785666, z: 0.032630246}
+  m_LocalScale: {x: 1.0005139, y: 1.1904761, z: 1.233786}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 259026342}
-  m_RootOrder: 1
+  m_Father: {fileID: 1248889221}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -344.843, z: 0}
 --- !u!108 &454512473
 Light:
@@ -5256,7 +5256,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454512471}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
@@ -8424,13 +8424,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862392830}
-  m_LocalRotation: {x: 0.50958294, y: -0.49022985, z: -0.4902298, w: 0.5095829}
-  m_LocalPosition: {x: 0.00309427, y: -0.011689692, z: 0.03333334}
-  m_LocalScale: {x: 0.03333333, y: 0.03333333, z: 0.03333333}
+  m_LocalRotation: {x: -0, y: -0.025995295, z: -0.000000014901159, w: -0.9996621}
+  m_LocalPosition: {x: 0.38453826, y: 0.15833409, z: -0.09165948}
+  m_LocalScale: {x: 1.0005139, y: 1.1904761, z: 1.233786}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 860137763}
-  m_RootOrder: 1
+  m_Father: {fileID: 2029672513}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -344.843, z: 0}
 --- !u!108 &862392832
 Light:
@@ -8439,7 +8439,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862392830}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
@@ -11960,7 +11960,8 @@ Transform:
   m_LocalPosition: {x: 0.00079, y: 0.00116, z: 0.0289}
   m_LocalScale: {x: 0.033333324, y: 0.028, z: 0.027}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 454512472}
   m_Father: {fileID: 259026342}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.761, y: -90, z: -90}
@@ -11980,6 +11981,8 @@ MonoBehaviour:
   ST: {fileID: 0}
   HitEffect: {fileID: 100002, guid: ac1aa04288fad804ba1cd769f4377aaf, type: 3}
   audioHit: {fileID: 8300000, guid: ca72e4423d1277248a3515c24e4daf89, type: 3}
+  Randomtarget: 2
+  light: {fileID: 0}
 --- !u!65 &1248889223
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14825,6 +14828,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503303716}
   m_Mesh: {fileID: 4300004, guid: 8588c0d4136ee6f4481d6ff61ef3e385, type: 3}
+--- !u!1 &1523996673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1523996674}
+  m_Layer: 0
+  m_Name: testbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1523996674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523996673}
+  m_LocalRotation: {x: 0.000000029802322, y: -0.2224889, z: 0.00000008940697, w: 0.9749353}
+  m_LocalPosition: {x: -14.534501, y: -5.6807485, z: -9.541559}
+  m_LocalScale: {x: 1.0370849, y: 1.190476, z: 1.1823702}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1696788594}
+  m_Father: {fileID: 1710972827}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1528840750
 GameObject:
   m_ObjectHideFlags: 0
@@ -16240,13 +16275,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696788593}
-  m_LocalRotation: {x: 0.44827628, y: -0.54685324, z: -0.5468532, w: 0.44827616}
-  m_LocalPosition: {x: 0.0012, y: -0.0086, z: 0.0296}
-  m_LocalScale: {x: 0.03333333, y: 0.03333333, z: 0.03333333}
+  m_LocalRotation: {x: -0.00000003474014, y: -0.13188776, z: 0.00000010286408, w: -0.99126464}
+  m_LocalPosition: {x: 16.864464, y: 4.7928276, z: 1.8154577}
+  m_LocalScale: {x: 0.9600624, y: 1, z: 1.0434047}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1750410955}
-  m_RootOrder: 1
+  m_Father: {fileID: 1523996674}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -344.843, z: 0}
 --- !u!108 &1696788595
 Light:
@@ -16337,10 +16372,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710972826}
   m_LocalRotation: {x: -0.4966671, y: 0.5033109, z: 0.50331086, w: -0.496667}
-  m_LocalPosition: {x: 0.00079, y: 0.00116, z: 0.0289}
+  m_LocalPosition: {x: 0.0007, y: -0.0087, z: 0.0289}
   m_LocalScale: {x: 0.033333324, y: 0.028, z: 0.027}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1523996674}
   m_Father: {fileID: 1750410955}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.761, y: -90, z: -90}
@@ -16373,6 +16409,8 @@ MonoBehaviour:
   ST: {fileID: 0}
   HitEffect: {fileID: 100002, guid: ac1aa04288fad804ba1cd769f4377aaf, type: 3}
   audioHit: {fileID: 8300000, guid: ca72e4423d1277248a3515c24e4daf89, type: 3}
+  Randomtarget: 0
+  light: {fileID: 0}
 --- !u!82 &1710972830
 AudioSource:
   m_ObjectHideFlags: 0
@@ -18544,7 +18582,8 @@ Transform:
   m_LocalPosition: {x: 0.00079, y: 0.00116, z: 0.0289}
   m_LocalScale: {x: 0.033333324, y: 0.028, z: 0.027}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 862392831}
   m_Father: {fileID: 860137763}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.761, y: -90, z: -90}
@@ -18564,6 +18603,8 @@ MonoBehaviour:
   ST: {fileID: 0}
   HitEffect: {fileID: 100002, guid: ac1aa04288fad804ba1cd769f4377aaf, type: 3}
   audioHit: {fileID: 8300000, guid: ca72e4423d1277248a3515c24e4daf89, type: 3}
+  Randomtarget: 1
+  light: {fileID: 0}
 --- !u!65 &2029672515
 BoxCollider:
   m_ObjectHideFlags: 0
