@@ -21,6 +21,8 @@ public class SniperGameManager : Singleton<SniperGameManager>
     [SerializeField] private Camera MyCamera = null; // Player Arm Camera
     [SerializeField] private GameObject Enemy = null;
 
+    private bool IsEnd = false;
+
     public SniperUIManager GetUI { get { return _UIManager; } }
     public PrefabData prefabData = null;
     public GameObject GetEnemy { get { return Enemy; } }
@@ -33,7 +35,7 @@ public class SniperGameManager : Singleton<SniperGameManager>
             StartCoroutine(ODINAPIHandler.Instance.ProcessBettingCoin(ODINAPIHandler.COIN_TYPE.zera));
         }
         _WeatherManager.ApplyRandomSky();
-        
+        PhotonNetwork.CurrentRoom.IsOpen = false;      
     }
     private void Update()
     {
@@ -107,6 +109,37 @@ public class SniperGameManager : Singleton<SniperGameManager>
     }
     public override void OnLeftRoom()
     {
-       StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
+        if(IsEnd == false)
+        {
+            StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
+            photonView.RPC("GameEndByPlayerExit", RpcTarget.All);
+        }
+    }
+    [PunRPC]
+    public void GameEndByPlayerExit()
+    {
+        IsEnd = true;
+        Debug.Log(ODINAPIHandler.Instance.GetDeclare_Winner().message);
+        _UIManager.gameObject.GetPhotonView().RPC("ProcessGameExit", RpcTarget.All);
+    }
+    [PunRPC]
+    public void GameEnd(ODINAPIHandler.Winner winner)
+    {
+        IsEnd = true;
+        switch(winner)
+        {
+            case ODINAPIHandler.Winner.Me:
+                {
+                    StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Me));
+                    break;
+                }
+            case ODINAPIHandler.Winner.Other:
+                {
+                    StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
+                    break;
+                }
+            default: { Debug.Log("GameManager : Winner declare error"); break; }
+        }
+        _UIManager.gameObject.GetPhotonView().RPC("ProcessGameEnd", RpcTarget.All, winner);
     }
 }

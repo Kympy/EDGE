@@ -111,6 +111,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
         }
         ShowUser();
+        PhotonNetwork.CurrentRoom.IsOpen = true;
         yield return null;
     }
     public void ShowUser()

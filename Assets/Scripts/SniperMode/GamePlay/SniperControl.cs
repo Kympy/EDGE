@@ -12,7 +12,7 @@ using Cinemachine;
 public class SniperControl : PlayerHeader, IPunObservable
 {
     [SerializeField] private GameObject[] changedObjects = new GameObject[12];
-
+    private SniperGameManager gameManager = null;
     private Coroutine CrouchCo = null;
 
     #region Variables
@@ -30,7 +30,8 @@ public class SniperControl : PlayerHeader, IPunObservable
     private void Awake()
     {
         SetLayer();
-        GameObject.FindObjectOfType<SniperGameManager>().PlayerList.Add(this.gameObject); // Add Me On Player List
+        gameManager = GameObject.FindObjectOfType<SniperGameManager>();
+        gameManager.PlayerList.Add(this.gameObject); // Add Me On Player List
         HP = MaxHP;
         DeathCam.enabled = false;
         if (photonView.IsMine == false) return;
@@ -422,6 +423,7 @@ public class SniperControl : PlayerHeader, IPunObservable
             DeathCam.enabled = true;
             BrainCam.cullingMask = DeathCamCulling;
             photonView.RPC("RagdollToggle", RpcTarget.All, false); // Ragdoll mode ON
+            gameManager.GameEnd(ODINAPIHandler.Winner.Other);
         }
         SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP); // Update UI
     }

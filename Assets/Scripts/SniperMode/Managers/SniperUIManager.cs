@@ -12,6 +12,8 @@ public class SniperUIManager : MonoBehaviourPun
     [SerializeField] private GameObject TabPanel = null;
     [SerializeField] private TextMeshProUGUI User1Name = null;
     [SerializeField] private TextMeshProUGUI User2Name = null;
+    [SerializeField] private TextMeshProUGUI User1State = null;
+    [SerializeField] private TextMeshProUGUI User2State = null;
 
     [SerializeField] private CanvasGroup BloodEffect = null;
     private Coroutine bloodCoroutine = null;
@@ -40,6 +42,8 @@ public class SniperUIManager : MonoBehaviourPun
         EnemyPlayerName.text = "";
         User1Name.text = PhotonNetwork.NickName;
         User2Name.text = "";
+        User1State.text = "";
+        User2State.text = "";
         TabPanel.SetActive(false);
     }
     private void Update()
@@ -158,5 +162,50 @@ public class SniperUIManager : MonoBehaviourPun
             }
             yield return null;
         }
+    }
+    [PunRPC]
+    public void ProcessGameExit()
+    {
+        StartCoroutine(GameExitUpdate());
+    }
+    public IEnumerator GameExitUpdate()
+    {
+        PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
+        User2State.text = "DISCONNECTED";
+        User2State.color = Color.red;
+
+        User1State.text = "WIN";
+
+        TabPanel.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(3f);
+        PhotonNetwork.LoadLevel("RoomScene");
+    }
+    [PunRPC]
+    public void ProcessGameEnd(ODINAPIHandler.Winner winner)
+    {
+        StartCoroutine(GameEnd(winner));
+    }
+    public IEnumerator GameEnd(ODINAPIHandler.Winner winner)
+    {
+        switch(winner)
+        {
+            case ODINAPIHandler.Winner.Me:
+                {
+                    User1State.text = "WIN";
+                    User2State.text = "LOSE";
+                    break;
+                }
+            case ODINAPIHandler.Winner.Other:
+                {
+                    User1State.text = "LOSE";
+                    User2State.text = "WIN";
+                    break;
+                }
+            default: { Debug.Log("UIManager : Winner declare error"); break; }
+        }
+        TabPanel.SetActive(true);
+        yield return new WaitForSecondsRealtime(3f);
+        PhotonNetwork.LoadLevel("RoomScene");
     }
 }
