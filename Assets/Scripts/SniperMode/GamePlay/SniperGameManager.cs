@@ -30,6 +30,7 @@ public class SniperGameManager : Singleton<SniperGameManager>
         if (PhotonNetwork.IsMasterClient) // If master, Create Random Value and Send
         {
             photonView.RPC("PlayerInst", RpcTarget.AllBuffered, Random.Range(-250f, 0f), Random.Range(0f, 250f));
+            StartCoroutine(ODINAPIHandler.Instance.ProcessBettingCoin(ODINAPIHandler.COIN_TYPE.zera));
         }
         _WeatherManager.ApplyRandomSky();
         
@@ -103,5 +104,9 @@ public class SniperGameManager : Singleton<SniperGameManager>
                 _UIManager.HideNickName();
             }
         }
+    }
+    public override void OnLeftRoom()
+    {
+       StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
     }
 }

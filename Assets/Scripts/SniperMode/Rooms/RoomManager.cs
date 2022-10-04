@@ -32,14 +32,19 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private string MySessionID = "";
     private string OtherSessionID = "";
+    private string MyUserID = "";
+    private string OtherUserID = "";
     #endregion
     private void Awake()
     {
-        MySessionID = ODINAPIHandler.Instance.GetUserSessionID().sessionId.ToString();
-        if(PhotonNetwork.IsMasterClient == false)
-        {
-            photonView.RPC("InitOtherSessionID", RpcTarget.All, MySessionID);
-        }
+        MySessionID = ODINAPIHandler.Instance.GetUserSessionID().sessionId.ToString(); // Init My session ID
+        photonView.RPC("InitOtherSessionID", RpcTarget.AllBuffered, MySessionID); // Init other session ID
+        MyUserID = ODINAPIHandler.Instance.GetUserProfile().userProfile._id;
+        photonView.RPC("InitOtherUserID", RpcTarget.AllBuffered, MyUserID);
+
+        ODINAPIHandler.Instance.OtherSessionID = OtherSessionID; // Save other session ID
+        ODINAPIHandler.Instance.OtherUserID = OtherUserID;
+
         PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true)); // Show setting UI button
         CancelButton.onClick.AddListener(() => ToggleEditUI(false)); // Hide setting UI button
@@ -230,8 +235,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void InitOtherSessionID(string sessionID)
     {
         OtherSessionID = sessionID;
-        Debug.Log(MySessionID + " Mine");
-        Debug.Log(OtherSessionID + " Other");
+        Debug.Log(MySessionID + " Mine Session");
+        Debug.Log(OtherSessionID + " Other Session");
+    }
+    [PunRPC]
+    public void InitOtherUserID(string userID)
+    {
+        OtherUserID = userID;
+        Debug.Log(MyUserID + "Mine User ID");
+        Debug.Log(OtherUserID + " Other User ID");
     }
 #if UNITY_EDITOR
     private void OnGUI()
