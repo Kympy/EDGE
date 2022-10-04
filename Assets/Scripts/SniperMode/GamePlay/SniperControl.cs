@@ -422,7 +422,14 @@ public class SniperControl : PlayerHeader, IPunObservable
             DeathCam.enabled = true;
             BrainCam.cullingMask = DeathCamCulling;
             photonView.RPC("RagdollToggle", RpcTarget.All, false); // Ragdoll mode ON
-            gameManager.gameObject.GetPhotonView().RPC("GameEnd", RpcTarget.MasterClient, ODINAPIHandler.Winner.Other);
+            if(PhotonNetwork.IsMasterClient)
+            {
+                gameManager.GameEnd(ODINAPIHandler.Winner.Other);
+            }
+            else
+            {
+                gameManager.gameObject.GetPhotonView().RPC("GameEnd", RpcTarget.MasterClient, ODINAPIHandler.Winner.Me);
+            }
         }
         gameManager.GetUI.UpdateHP(HP, MaxHP); // Update UI
     }
