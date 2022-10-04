@@ -408,10 +408,11 @@ public class SniperControl : PlayerHeader, IPunObservable
         }
     }
     [PunRPC]
-    public void GetDamage(float damage)
+    public void GetDamage(float damage, string parts)
     {
         HP -= damage;
-        SniperGameManager.Instance.GetUI.ShowBlood();
+        gameManager.GetUI.ShowBlood();
+        gameManager.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.All, parts, 1);
         Debug.Log(HP);
         if(HP <= 0f && IsDead == false)
         {
@@ -422,7 +423,7 @@ public class SniperControl : PlayerHeader, IPunObservable
             photonView.RPC("RagdollToggle", RpcTarget.All, false); // Ragdoll mode ON
             gameManager.gameObject.GetPhotonView().RPC("GameEnd", RpcTarget.MasterClient, ODINAPIHandler.Winner.Other);
         }
-        SniperGameManager.Instance.GetUI.UpdateHP(HP, MaxHP); // Update UI
+        gameManager.GetUI.UpdateHP(HP, MaxHP); // Update UI
     }
     [PunRPC]
     public void UpdateServerBone(float rotation)
