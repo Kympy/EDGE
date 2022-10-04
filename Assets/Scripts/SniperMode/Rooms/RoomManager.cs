@@ -119,14 +119,25 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void ShowUser()
     {
         Debug.Log("Created");
-        GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
-        if (photonView.IsMine)
+        
+        if (PhotonNetwork.IsMasterClient)
         {
+            GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
             userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "20.0", "12", 1, User1Pos.position);
         }
         else
         {
+            GameObject userbox = PhotonNetwork.Instantiate("SniperMode/Rooms/UserBox", Vector3.one, Quaternion.identity);
             userbox.GetPhotonView().RPC("InitUserUI", RpcTarget.AllBuffered, PhotonNetwork.NickName, "40.0", "232", 2, User2Pos.position);
+        }
+    }
+    [PunRPC]
+    public void DestroyUserBox()
+    {
+        UserBox[] userboxes = FindObjectsOfType<UserBox>();
+        for(int i = 0; i < userboxes.Length; i++)
+        {
+            Destroy(userboxes[i]);
         }
     }
     private void ToggleEditUI(bool isTrue)
@@ -171,6 +182,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = false;
         PhotonNetwork.SetMasterClient(otherPlayer);
+        photonView.RPC("DestroyUserBox", RpcTarget.MasterClient);
+        ShowUser();
     }
     public override void OnJoinedRoom()
     {
