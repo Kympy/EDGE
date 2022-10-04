@@ -38,11 +38,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         MySessionID = ODINAPIHandler.Instance.GetUserSessionID().sessionId.ToString();
         if(PhotonNetwork.IsMasterClient == false)
         {
-            
+            photonView.RPC("InitOtherSessionID", RpcTarget.All, MySessionID);
         }
-        photonView.RPC("InitOtherSessionID", RpcTarget.OthersBuffered);
-        Debug.Log(MySessionID + " Mine");
-        Debug.Log(OtherSessionID + " Other");
         PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true)); // Show setting UI button
         CancelButton.onClick.AddListener(() => ToggleEditUI(false)); // Hide setting UI button
@@ -230,9 +227,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
         _ChatManager.AddChatLine(name, msg);
     }
     [PunRPC]
-    public void InitOtherSessionID()
+    public void InitOtherSessionID(string sessionID)
     {
-        OtherSessionID = MySessionID;
+        OtherSessionID = sessionID;
+        Debug.Log(MySessionID + " Mine");
+        Debug.Log(OtherSessionID + " Other");
     }
 #if UNITY_EDITOR
     private void OnGUI()
