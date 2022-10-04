@@ -107,12 +107,15 @@ public class SniperGameManager : Singleton<SniperGameManager>
             }
         }
     }
-    public override void OnLeftRoom()
+    public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        if(IsEnd == false)
+        if(otherPlayer != PhotonNetwork.LocalPlayer)
         {
-            StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
-            photonView.RPC("GameEndByPlayerExit", RpcTarget.All);
+            if (IsEnd == false)
+            {
+                StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Me));
+                photonView.RPC("GameEndByPlayerExit", RpcTarget.All);
+            }
         }
     }
     [PunRPC]
