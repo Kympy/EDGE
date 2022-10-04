@@ -181,21 +181,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby(); // Rejoin Lobby when leave room
         PhotonNetwork.LoadLevel(1); // Go to lobby scene
     }
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        /*
-        PhotonNetwork.AutomaticallySyncScene = false;
-        PhotonNetwork.SetMasterClient(otherPlayer);
-
-        if(PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC("ShowUser", RpcTarget.AllBuffered);
-        }
-        */
-    }
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         MyUserBox.transform.position = User1Pos.position;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ShowUser", RpcTarget.AllBuffered);
+        }
     }
     public override void OnJoinedRoom()
     {
