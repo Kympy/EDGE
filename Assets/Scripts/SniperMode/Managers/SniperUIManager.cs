@@ -208,7 +208,8 @@ public class SniperUIManager : MonoBehaviourPun
         yield return new WaitForSecondsRealtime(5f);
         if(PhotonNetwork.IsMasterClient)
         {
-            MyGameManager.gameObject.GetPhotonView().RPC("GoBackToRoom", RpcTarget.MasterClient);
+            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.LoadLevel("RoomScene");
         }
     }
 }
