@@ -86,9 +86,9 @@ public class ODINAPIHandler : Singleton<ODINAPIHandler>
         UnityWebRequest Process = UnityWebRequest.Get(TargetURL);
         Process.SetRequestHeader("api-key", ProjectAPIKey); // Give API Key to header
         yield return Process.SendWebRequest();
-        Debug.Log(Process.downloadHandler.text);
+        Debug.Log("Bet Settings : " + Process.downloadHandler.text);
         RequestedData.Res_Settings? betSettings = JsonUtility.FromJson<RequestedData.Res_Settings>(Process.downloadHandler.text);
-
+        
         if (betSettings != null)
         {
             ResponseBetSettings = (RequestedData.Res_Settings)betSettings;

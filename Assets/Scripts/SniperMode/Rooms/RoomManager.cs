@@ -42,9 +42,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         MyUserID = ODINAPIHandler.Instance.GetUserProfile().userProfile._id;
         photonView.RPC("InitOtherUserID", RpcTarget.AllBuffered, MyUserID);
 
-        ODINAPIHandler.Instance.OtherSessionID = OtherSessionID; // Save other session ID
-        ODINAPIHandler.Instance.OtherUserID = OtherUserID;
-
         PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true)); // Show setting UI button
         CancelButton.onClick.AddListener(() => ToggleEditUI(false)); // Hide setting UI button
@@ -237,6 +234,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         OtherSessionID = sessionID;
         Debug.Log(MySessionID + " Mine Session");
         Debug.Log(OtherSessionID + " Other Session");
+        ODINAPIHandler.Instance.OtherSessionID = OtherSessionID; // Save other session ID
     }
     [PunRPC]
     public void InitOtherUserID(string userID)
@@ -244,6 +242,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         OtherUserID = userID;
         Debug.Log(MyUserID + "Mine User ID");
         Debug.Log(OtherUserID + " Other User ID");
+        ODINAPIHandler.Instance.OtherUserID = OtherUserID;
     }
 #if UNITY_EDITOR
     private void OnGUI()
