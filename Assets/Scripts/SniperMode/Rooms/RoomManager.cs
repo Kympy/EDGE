@@ -36,7 +36,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         MySessionID = ODINAPIHandler.Instance.GetUserSessionID().sessionId.ToString();
-        photonView.RPC("InitOtherSessionID", RpcTarget.AllBuffered);
+        if(PhotonNetwork.IsMasterClient == false)
+        {
+            
+        }
+        photonView.RPC("InitOtherSessionID", RpcTarget.OthersBuffered);
         Debug.Log(MySessionID + " Mine");
         Debug.Log(OtherSessionID + " Other");
         PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
