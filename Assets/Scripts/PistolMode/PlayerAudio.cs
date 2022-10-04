@@ -46,7 +46,7 @@ public class PlayerAudio : MonoBehaviourPun
 
         walkTime += Time.deltaTime;
 
-        Debug.Log(walkTime);
+        //Debug.Log(walkTime);
 
         // audioWalk.clip.length
         if(walkTime > audioWalk.clip.length)

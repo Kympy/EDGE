@@ -11,7 +11,7 @@ public class DartGameManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     private void Awake()
     {
-        //if (photonView.IsMine == false) return;
+        /*if (photonView.IsMine == false) return;*/
         PhotonNetwork.Instantiate("DartMode/Player", PlayerSpawnPosition.transform.position, PlayerSpawnPosition.transform.rotation);
     }
 

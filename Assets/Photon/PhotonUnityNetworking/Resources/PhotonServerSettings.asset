@@ -74,6 +74,8 @@ MonoBehaviour:
   - ProcessGameExit
   - GameEnd
   - ProcessGameEnd
+  - DestroyUserBox
+  - GoBackToRoom
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
