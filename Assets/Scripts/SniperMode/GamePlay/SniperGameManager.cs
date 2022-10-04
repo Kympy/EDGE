@@ -29,6 +29,7 @@ public class SniperGameManager : Singleton<SniperGameManager>
     private SniperGameManager() { }
     private void Awake()
     {
+        PhotonNetwork.AutomaticallySyncScene = false;
         if (PhotonNetwork.IsMasterClient) // If master, Create Random Value and Send
         {
             photonView.RPC("PlayerInst", RpcTarget.AllBuffered, Random.Range(-250f, 0f), Random.Range(0f, 250f));
