@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using System;
 
 public class SniperUIManager : MonoBehaviourPun
 {
@@ -14,6 +15,10 @@ public class SniperUIManager : MonoBehaviourPun
     [SerializeField] private TextMeshProUGUI User2Name = null;
     [SerializeField] private TextMeshProUGUI User1State = null;
     [SerializeField] private TextMeshProUGUI User2State = null;
+
+    [SerializeField] private TextMeshProUGUI OriginBalance = null;
+    [SerializeField] private TextMeshProUGUI LastBalance = null;
+    [SerializeField] private GameObject BalaceUI = null;
 
     [SerializeField] private CanvasGroup BloodEffect = null;
     private Coroutine bloodCoroutine = null;
@@ -38,12 +43,15 @@ public class SniperUIManager : MonoBehaviourPun
 
     private void Start()
     {
+        OriginBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.zera).Value.data.balance.ToString();
+        LastBalance.text = "";
         BloodEffect.alpha = 0f;
         EnemyPlayerName.text = "";
         User1Name.text = PhotonNetwork.NickName;
         User2Name.text = "";
         User1State.text = "";
         User2State.text = "";
+        BalaceUI.SetActive(false);
         TabPanel.SetActive(false);
     }
     private void Update()
@@ -51,10 +59,12 @@ public class SniperUIManager : MonoBehaviourPun
         if(Input.GetKey(KeyCode.Tab))
         {
             TabPanel.SetActive(true);
+            BalaceUI.SetActive(true);
         }
         else if(Input.GetKeyUp(KeyCode.Tab))
         {
             TabPanel.SetActive(false);
+            BalaceUI.SetActive(false);
         }
     }
     public void InitUserHP()
@@ -204,7 +214,11 @@ public class SniperUIManager : MonoBehaviourPun
                 }
             default: { Debug.Log("UIManager : Winner declare error"); break; }
         }
+        yield return ODINAPIHandler.Instance.ProcessGetBalance(ODINAPIHandler.COIN_TYPE.zera);
+        LastBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.zera).Value.data.balance;
+        LastBalance.text = float.Parse(LastBalance.text).ToString("F2");
         TabPanel.SetActive(true);
+        BalaceUI.SetActive(true);
         yield return new WaitForSecondsRealtime(5f);
         PhotonNetwork.AutomaticallySyncScene = true;
         if (PhotonNetwork.IsMasterClient)
