@@ -29,9 +29,19 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private ChatManager _ChatManager = null;
 
     private int CurrentMode = 0; // Current Game Mode ID
+
+    private string MySessionID = "";
+    private string OtherSessionID = "";
+    private string MyUserID = "";
+    private string OtherUserID = "";
     #endregion
     private void Awake()
     {
+        MySessionID = ODINAPIHandler.Instance.GetUserSessionID().sessionId.ToString(); // Init My session ID
+        photonView.RPC("InitOtherSessionID", RpcTarget.AllBuffered, MySessionID); // Init other session ID
+        MyUserID = ODINAPIHandler.Instance.GetUserProfile().userProfile._id;
+        photonView.RPC("InitOtherUserID", RpcTarget.AllBuffered, MyUserID);
+
         PhotonNetwork.AutomaticallySyncScene = true; // When enter the room, scene syncing turn on
         RoomSettingButton.onClick.AddListener(() => ToggleEditUI(true)); // Show setting UI button
         CancelButton.onClick.AddListener(() => ToggleEditUI(false)); // Hide setting UI button
@@ -46,9 +56,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         });
         EditCanvas.SetActive(false);
         lockedRoom.isOn = false;
-        //InitRoom();
-        //ShowUser();
-        Debug.Log(PhotonNetwork.CurrentRoom.Name);
     }
     private IEnumerator Start()
     {
@@ -220,6 +227,22 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void ChatLineMsg(string name, string msg)
     {
         _ChatManager.AddChatLine(name, msg);
+    }
+    [PunRPC]
+    public void InitOtherSessionID(string sessionID)
+    {
+        OtherSessionID = sessionID;
+        Debug.Log(MySessionID + " Mine Session");
+        Debug.Log(OtherSessionID + " Other Session");
+        ODINAPIHandler.Instance.OtherSessionID = OtherSessionID; // Save other session ID
+    }
+    [PunRPC]
+    public void InitOtherUserID(string userID)
+    {
+        OtherUserID = userID;
+        Debug.Log(MyUserID + "Mine User ID");
+        Debug.Log(OtherUserID + " Other User ID");
+        ODINAPIHandler.Instance.OtherUserID = OtherUserID;
     }
 #if UNITY_EDITOR
     private void OnGUI()

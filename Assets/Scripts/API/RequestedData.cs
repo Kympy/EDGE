@@ -58,7 +58,13 @@ public class RequestedData
     public struct Res_Settings
     {
         public string message;
-        public Settings data;
+        [Serializable]
+        public struct Data
+        {
+            public Settings settings;
+            public BetInfo[] bets;
+        }
+        public Data data;
     }
     [Serializable]
     public struct Settings
@@ -70,8 +76,6 @@ public class RequestedData
         public string createdAt;
         public string updatedAt;
         public int __v;
-
-        public BetInfo[] bets;
     }
     [Serializable]
     public struct BetInfo
@@ -87,19 +91,26 @@ public class RequestedData
         public string updatedAt;
         public int __v;
     }
+    
     [Serializable]
     public struct RequestingBettingPlaceBet
     {
         public string[] Players_Session_ID;
         public string Bet_ID;
     }
+
     [Serializable]
     public struct ResponseBettingPlaceBet
     {
         // Response Result
         public string Message;
         // Data
-        public string Bet_ID;
+        [Serializable]
+        public struct Data
+        {
+            public string betting_id;
+        }
+        public Data data;
     }
     [Serializable]
     public struct RequestDeclareWinner
@@ -114,7 +125,12 @@ public class RequestedData
         // Response Result
         public string Message;
         // Amount of Winner Earn
-        public int Amount_Won;
+        [Serializable]
+        public struct Data
+        {
+            public int amount_win;
+        }
+        public Data data;
     }
     [Serializable]
     public struct RequestBettingDisconnect
@@ -126,6 +142,12 @@ public class RequestedData
     {
         // Response Result
         public string Message;
+        [Serializable]
+        public struct Data
+        {
+
+        }
+        public Data data;
     }
     #endregion
 }

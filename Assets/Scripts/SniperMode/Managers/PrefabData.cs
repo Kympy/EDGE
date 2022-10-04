@@ -10,6 +10,8 @@ public class PrefabData : ScriptableObject
 
     [Header("Objects")]
     public GameObject Bullet = null;
+    public GameObject TumbleWeed1 = null;
+    public GameObject TumbleWeed2 = null;
 
     [Header ("Effects")]
     public GameObject BulletHole = null;

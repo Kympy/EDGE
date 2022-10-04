@@ -33,7 +33,7 @@ public class ServerLogin : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        PressAnyKey.alpha = Mathf.PingPong(Time.time, 1f); // Ping Pong Text Blink (Bottom Text)
+        PressAnyKey.alpha = Mathf.PingPong(Time.unscaledTime, 1f); // Ping Pong Text Blink (Bottom Text)
 
         if(FinishLogin && Input.anyKeyDown) // When finished getting user data and input any key
         {
@@ -92,12 +92,13 @@ public class ServerLogin : MonoBehaviourPunCallbacks
     }
     private IEnumerator JoinLobbyCo() // Wait and load
     {
+        WaitForSeconds halfSecond = new WaitForSeconds(0.5f);
         PopUpMsg("Connecting."); // Pop up box message
-        yield return new WaitForSecondsRealtime(0.5f); // Wait (Because of the dynamic effect)
+        yield return halfSecond; // Wait (Because of the dynamic effect)
         WarningMsg.text += "."; // Add Dot
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return halfSecond;
         WarningMsg.text += "."; // Add Dot
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return halfSecond;
         PhotonNetwork.JoinLobby(); // Load Lobby After 1.5 seconds
         while (true)
         {
