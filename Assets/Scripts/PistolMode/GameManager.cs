@@ -22,8 +22,8 @@ public class GameManager : Singleton<GameManager>
 
     public int myViewID = 0;
 
-    public int MasterWinCount;
-    public int ClientWinCount;
+    public int WinCount;
+
 
 
 
@@ -131,21 +131,5 @@ public class GameManager : Singleton<GameManager>
             // 단점 : prefab으로 생성 시 이름이 Name(Clone)으로 변경돼 찾지못함  
             // playerList = GameObject.Find("Player").GetComponent<PlayerControl>();
         }
-    }
-
-    public void WinCountAdd()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            MasterWinCount++;
-            GunFightSceneUI.Instance.WinCountUI(MasterWinCount);
-        }
-
-        else if(PhotonNetwork.IsMasterClient==false)
-        {
-            ClientWinCount++;
-            GunFightSceneUI.Instance.WinCountUI(ClientWinCount);
-        }
-
     }
 }

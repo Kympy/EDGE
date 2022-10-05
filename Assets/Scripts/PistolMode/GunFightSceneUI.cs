@@ -41,24 +41,12 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
 
     public void ResultWin()
     {
-        isWin = true;
-        if (isWin && (GameManager.Instance.MasterWinCount < 2 || GameManager.Instance.ClientWinCount < 2))
-        {
-            resultWin.SetActive(true);
-        }
-        StartCoroutine(reloadScene());
+        resultWin.SetActive(true);
     }
-
+    [PunRPC]
     public void ResultLose()
     {
-        Debug.Log("ResultLose È£Ãâ");
-        isLose = true;
-        if (isLose)
-        {
-            Debug.Log("ResultLose False");
-            resultLose.SetActive(true);
-        }
-        StartCoroutine(reloadScene());
+        resultLose.SetActive(true);
     }
 
     // Bullet Reload
@@ -75,24 +63,15 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         }
     }
 
+    [PunRPC]
+    public void RPC_ReloadScene()
+    { 
+        StartCoroutine(reloadScene());
+    }
 
     // GunFight ReloadScene
     IEnumerator reloadScene()
-    {
-        PhotonNetwork.AutomaticallySyncScene = true;
-
-        if (GameManager.Instance.MasterWinCount == 2 && PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("·Îºñ ½¹!");
-            //PhotonNetwork.LoadLevel("MainLobby");
-            StartCoroutine(moveMainLobby());
-        }
-
-        else if (GameManager.Instance.ClientWinCount == 2 && PhotonNetwork.IsMasterClient == false)
-        {
-            gameObject.GetComponent<PhotonView>().RPC("MoveMainLobby", RpcTarget.MasterClient);
-        }
-
+    { 
         yield return new WaitForSeconds(3f);
 
         isWin = false;
@@ -100,28 +79,43 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         reload.SetActive(false);
         resultWin.SetActive(false);
         resultLose.SetActive(false);
-
-        if (GameManager.Instance.ClientWinCount <2 && GameManager.Instance.MasterWinCount < 2 && PhotonNetwork.IsMasterClient)
+        PhotonNetwork.AutomaticallySyncScene = true;
+        if (PhotonNetwork.IsMasterClient)
         {
-            // PhotonNetwork.LoadLevel("GunFight");
             PhotonNetwork.LoadLevel("Loading");
         }
     }
 
-    public void WinCountUI(int WinCount)
+    public void WinCountUI()
     {
-        switch (WinCount)
+        ResultWin();
+        switch (GameManager.Instance.WinCount)
         {
             case 1:
                 WinIcon[0].SetActive(true);
+                photonView.RPC("RPC_ReloadScene", RpcTarget.All);
                 break;
 
             case 2:
                 WinIcon[1].SetActive(true);
+                photonView.RPC("GameEnd", RpcTarget.All);
                 break;
 
             default:
-                break;
+                {
+                    Debug.Log("Error");
+                    break;
+                }
+        }
+
+    }
+    [PunRPC]
+    public void GameEnd()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+        if(PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(moveMainLobby());
         }
     }
 
