@@ -83,8 +83,9 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     // GunFight ReloadScene
     IEnumerator reloadScene()
     {
-        if (GameManager.Instance.WinCount == 1 && PhotonNetwork.IsMasterClient)
+        if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("·Îºñ ½¹!");
             PhotonNetwork.LoadLevel("MainLobby");
         }
 
@@ -96,7 +97,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         resultWin.SetActive(false);
         resultLose.SetActive(false);
 
-        if (GameManager.Instance.WinCount < 1 && PhotonNetwork.IsMasterClient)
+        if (GameManager.Instance.WinCount < 2 && PhotonNetwork.IsMasterClient)
         {
             // PhotonNetwork.LoadLevel("GunFight");
             PhotonNetwork.LoadLevel("Loading");
