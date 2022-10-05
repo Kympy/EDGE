@@ -4,13 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Photon.Pun;
 
-public class PlayerController : MonoBehaviourPun
+public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     [SerializeField] GameObject CamPosition;
 
     private RotateToMouse rotateToMouse;
-    GameObject nearObject;
-    bool idown;
     private GameObject Axe;
     public GameObject Knife;
     public bool[] hasAxe;
@@ -31,11 +29,19 @@ public class PlayerController : MonoBehaviourPun
     public string AxeResourcePath = "DartMode/AxePrefab";
     public string KnifeResourcePath = "DartMode/KnifePrefab";
 
+    bool isAxe = true;
+
+    [SerializeField] GameObject FakeAxe = null;
+    [SerializeField] GameObject FakeKnife = null;
+
     private void Awake()
     {
+        
+
         if (photonView.IsMine == false) return;
         cam = GameObject.Find("PlayerCam").GetComponent<Camera>();
-
+        FakeAxe.SetActive(true);
+        FakeKnife.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -93,11 +99,45 @@ public class PlayerController : MonoBehaviourPun
             Throwing();
             press = 0f;
         }
+        Swap();
+    }
+
+    void Swap()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            isAxe = !isAxe;
+            if (isAxe == true)
+            {
+                // 도끼 활성화
+                FakeAxe.SetActive(true);
+                FakeKnife.SetActive(false);
+            }
+
+            else
+            {
+                // 칼 활성화
+                FakeAxe.SetActive(false);
+                FakeKnife.SetActive(true);
+            }
+        }
     }
 
     private void Throwing()
     {
-        GameObject throwingObj = PhotonNetwork.Instantiate(AxeResourcePath, ThrowPoint.position, ThrowPoint.rotation);
+        GameObject throwingObj = null;
+
+        if (isAxe == true)
+        {
+            throwingObj = PhotonNetwork.Instantiate(AxeResourcePath, ThrowPoint.position, ThrowPoint.rotation);
+        }
+
+        else
+        {
+            throwingObj = PhotonNetwork.Instantiate(KnifeResourcePath, ThrowPoint.position, ThrowPoint.rotation);
+        }
+
+
         //throwingObj.transform.position = ThrowPoint.position;
         //throwingObj.transform.rotation = ThrowPoint.rotation;
         /*Axe.transform.up = ThrowPoint.up;*/
@@ -108,7 +148,6 @@ public class PlayerController : MonoBehaviourPun
         //추가
         if (throwingObj.tag == "Axe")
         {
-            Debug.Log("테스트");
             throwingObj.GetComponent<Rigidbody>().AddForce(transform.forward * press * 1.5f + transform.up * press * 0.8f);
             throwingObj.GetComponent<Rigidbody>().AddTorque(transform.right * press * 100000f); 
         }
@@ -117,7 +156,6 @@ public class PlayerController : MonoBehaviourPun
             throwingObj.GetComponent<Rigidbody>().AddForce(transform.forward * press * 1.5f);
         }
 
-        Debug.Log("테스트2");
         
         //Axe.transform.forward = ThrowPoint.forward;
 
@@ -140,31 +178,19 @@ public class PlayerController : MonoBehaviourPun
     }
 
 
-    private void OnTriggerStay(Collider other)
+    // 내 클론에게 전달되는 함수
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (other.tag == "Axe")
+        if (stream.IsWriting) // 스트림에 쓸 때
         {
-            nearObject = other.gameObject;
-            Debug.Log("도끼당");
+            stream.SendNext(FakeAxe.activeSelf); // 가짜 도끼의 현재 상태를 전달함
+            stream.SendNext(FakeKnife.activeSelf); // 가짜 칼의 현재 상태를 전달함
         }
 
-        if (other.tag == "Knife")
+        else // 스트림에 읽어 올 때
         {
-            nearObject = other.gameObject;
-            Debug.Log("칼이당");
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Axe")
-        {
-            nearObject = null;
-        }
-
-        if (other.tag == "Knife")
-        {
-            nearObject = null;
+            FakeAxe.SetActive((bool)stream.ReceiveNext());
+            FakeKnife.SetActive((bool)stream.ReceiveNext());
         }
     }
 }
