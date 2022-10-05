@@ -7,10 +7,12 @@ using Photon.Pun;
 using Photon.Realtime;
 
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class GameManager : Singleton<GameManager>
 {
     GameSceneLogic gameSceneLogic;
     PlayerControl playerControl;
+
+    GunFightSceneUI gameSceneUI;
 
     [SerializeField] Transform MPos;
     [SerializeField] Transform CPos;
@@ -20,8 +22,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public int myViewID = 0;
 
+    public int WinCount = 0;
+
+
     private void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
         ScenePos();
         FindViewID();
     }
@@ -123,5 +129,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             // 단점 : prefab으로 생성 시 이름이 Name(Clone)으로 변경돼 찾지못함  
             // playerList = GameObject.Find("Player").GetComponent<PlayerControl>();
         }
+    }
+
+    public void WinCountAdd()
+    {
+        WinCount++;
+        GunFightSceneUI.Instance.WinCountUI(WinCount);
     }
 }

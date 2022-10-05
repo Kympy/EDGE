@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 
-public class GunFightSceneUI : MonoBehaviourPun
+public class GunFightSceneUI : Singleton<GunFightSceneUI>
 {
     [SerializeField]
     GameObject resultWin = null;
@@ -22,15 +23,10 @@ public class GunFightSceneUI : MonoBehaviourPun
     bool isWin = false;
     bool isLose = false;
 
-    int WinCount = 0;
-
     private void Awake()
     {
-        ReloadText = gameObject.GetComponent<TextMeshPro>();
-
-
-        // Win Score
         DontDestroyOnLoad(this.gameObject);
+        ReloadText = gameObject.GetComponent<TextMeshPro>();
     }
 
     void Start()
@@ -48,10 +44,8 @@ public class GunFightSceneUI : MonoBehaviourPun
         PhotonNetwork.AutomaticallySyncScene = true;
 
         isWin = true;
-        if (isWin && WinCount < 2)
+        if (isWin && GameManager.Instance.WinCount < 2)
         {
-            WinCount++;
-            WinCountUI();
             resultWin.SetActive(true);
         }
         StartCoroutine(reloadScene());
@@ -89,7 +83,7 @@ public class GunFightSceneUI : MonoBehaviourPun
     // GunFight ReloadScene
     IEnumerator reloadScene()
     {
-        if (WinCount == 2 && PhotonNetwork.IsMasterClient)
+        if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel("MainLobby");
         }
@@ -104,11 +98,13 @@ public class GunFightSceneUI : MonoBehaviourPun
 
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("GunFight");
+            // PhotonNetwork.LoadLevel("GunFight");
+            PhotonNetwork.LoadLevel("Loading");
+            Debug.Log($"다음 라운드 WinCount : {GameManager.Instance.WinCount}");
         }
     }
 
-    void WinCountUI()
+    public void WinCountUI(int WinCount)
     {
         switch (WinCount)
         {

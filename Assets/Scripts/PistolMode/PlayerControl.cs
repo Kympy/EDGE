@@ -71,6 +71,7 @@ public class PlayerControl : MonoBehaviourPun
 
     void Awake()
     {
+
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         PA = GetComponent<PlayerAudio>();
@@ -81,6 +82,8 @@ public class PlayerControl : MonoBehaviourPun
         {
             return;
         }
+
+
         // photonView가 IsMine 일때만 실행 
 
         // GunFight Scene : other Client Player error -> photonView Other isKinematic == false 
@@ -96,12 +99,7 @@ public class PlayerControl : MonoBehaviourPun
         // 자식 오브젝트에 붙어있는 rigidBody
         rbChild = GetComponentsInChildren<Rigidbody>();
 
-        if (SceneManager.GetActiveScene().name == "GunFight")
-        {
-            bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
-            gunFightSceneUI = GameObject.Find("GunFightUI").GetComponent<GunFightSceneUI>();
-            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        }
+
     }
 
     void Start()
@@ -126,6 +124,12 @@ public class PlayerControl : MonoBehaviourPun
         }
         // photonView가 IsMine 일때만 실행 
 
+        if (SceneManager.GetActiveScene().name == "GunFight")
+        {
+            bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
+            gunFightSceneUI = GameObject.Find("GunFightUI").GetComponent<GunFightSceneUI>();
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
 
         Invoke("Unlock", 3f); // 시작 3초뒤 마우스 회전 활성화
 
@@ -145,6 +149,7 @@ public class PlayerControl : MonoBehaviourPun
 
         // 현재 Scene을 확인하여 Player 기능 온/오프
         CurSceneFind();
+
     }
 
     void Update()
@@ -331,7 +336,10 @@ public class PlayerControl : MonoBehaviourPun
 
                 // Win UI 호출
                 gunFightSceneUI.ResultWin();
-                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
+
+                GameManager.Instance.WinCountAdd();
+
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.All);
             }
 
             if (rayHit.transform.tag == "SaloonObject")

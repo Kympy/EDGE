@@ -2599,6 +2599,7 @@ MonoBehaviour:
   MPos: {fileID: 1258775744}
   CPos: {fileID: 2041791931}
   myViewID: 0
+  WinCount: 0
 --- !u!4 &1905591361
 Transform:
   m_ObjectHideFlags: 0

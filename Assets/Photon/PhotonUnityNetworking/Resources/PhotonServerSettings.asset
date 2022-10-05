@@ -79,6 +79,7 @@ MonoBehaviour:
   - Init
   - RPCNextScene
   - RPCReloadScene
+  - IsHit
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
