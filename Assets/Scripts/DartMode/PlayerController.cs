@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] GameObject CamPosition;
 
     private RotateToMouse rotateToMouse;
-    private MovementChracterController movement;
     GameObject nearObject;
     bool idown;
     private GameObject Axe;
@@ -44,7 +43,6 @@ public class PlayerController : MonoBehaviourPun
 
 
         rotateToMouse = GetComponent<RotateToMouse>();
-        movement = GetComponent<MovementChracterController>();
 
         this.audioSource = GetComponent<AudioSource>();
     }
@@ -56,7 +54,6 @@ public class PlayerController : MonoBehaviourPun
         cam.gameObject.transform.position = CamPosition.transform.position;
         cam.gameObject.transform.rotation = CamPosition.transform.rotation;
         UpdateRotate();
-        UpdateMove();
         GetInput();
 
 
@@ -100,7 +97,7 @@ public class PlayerController : MonoBehaviourPun
 
     private void Throwing()
     {
-        GameObject throwingObj = PhotonNetwork.Instantiate(AxeResourcePath, ThrowPoint.position, Quaternion.identity);
+        GameObject throwingObj = PhotonNetwork.Instantiate(AxeResourcePath, ThrowPoint.position, ThrowPoint.rotation);
         //throwingObj.transform.position = ThrowPoint.position;
         //throwingObj.transform.rotation = ThrowPoint.rotation;
         /*Axe.transform.up = ThrowPoint.up;*/
@@ -109,8 +106,19 @@ public class PlayerController : MonoBehaviourPun
         //throwingObj.GetComponent<item>().itemSpeed = press;
 
         //추가
-        throwingObj.GetComponent<item>().photonView.RPC("ThrowWeapon", RpcTarget.AllBuffered, press);
+        if (throwingObj.tag == "Axe")
+        {
+            Debug.Log("테스트");
+            throwingObj.GetComponent<Rigidbody>().AddForce(transform.forward * press * 1.5f + transform.up * press * 0.8f);
+            throwingObj.GetComponent<Rigidbody>().AddTorque(transform.right * press * 100000f); 
+        }
+        else if (throwingObj.tag == "Knife")
+        {
+            throwingObj.GetComponent<Rigidbody>().AddForce(transform.forward * press * 1.5f);
+        }
 
+        Debug.Log("테스트2");
+        
         //Axe.transform.forward = ThrowPoint.forward;
 
         /*Axe.rb.position = ThrowPoint.position;
@@ -129,36 +137,6 @@ public class PlayerController : MonoBehaviourPun
         float mouseY = Input.GetAxis("Mouse Y");
 
         rotateToMouse.UpdateRotate(mouseX, mouseY);
-    }
-
-
-    private void UpdateMove()
-    {
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
-        movement.MoveTo(new Vector3(x, 0, z));
-
-
-        if (x != 0 || z != 0)
-        {
-            delayTime += Time.deltaTime;
-            anim.SetBool("walk", true);
-
-
-            audioSource.clip = audioWalk;
-
-            if (delayTime > audioSource.clip.length)
-            {
-                audioSource.Play();
-                delayTime = 0;
-            }
-        }
-
-        else
-        {
-            anim.SetBool("walk", false);
-        }
-        //anim.SetBool("walk", (x != 0 || z != 0));
     }
 
 

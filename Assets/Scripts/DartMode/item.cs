@@ -8,60 +8,21 @@ using Photon.Pun;
 [RequireComponent(typeof(Rigidbody))]
 public class item : MonoBehaviourPun
 {
-    public enum Type { Axe, Knife };
-    public Type type;
-    public int value;
-    public float itemSpeed = 0;
-    
-    
+    private Rigidbody rb;
+    private BoxCollider box;
 
     private void Awake()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        box = GetComponentInChildren<BoxCollider>();
     }
-
-    private void Start()
-    {
-/*
-        if (this.gameObject.tag == "Axe")
-        {
-            GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed * 1.5f + transform.up * itemSpeed * 0.8f);
-            GetComponent<Rigidbody>().AddTorque(transform.right * itemSpeed * 100000f);
-        }
-        else if (this.gameObject.tag == "Knife")
-        {
-            GetComponent<Rigidbody>().AddForce(transform.forward * itemSpeed * 1.5f);
-        }
-*/
-    }
-
     [PunRPC]
-    // Ãß°¡
-    void ThrowWeapon(float inputSpeed)
+    public void ObjReset()
     {
-        if (this.gameObject.tag == "Axe")
-        {
-            GetComponent<Rigidbody>().AddForce(transform.forward * inputSpeed * 1.5f + transform.up * inputSpeed * 0.8f);
-            GetComponent<Rigidbody>().AddTorque(transform.right * inputSpeed * 100000f);
-
-            Debug.Log($"{itemSpeed}");
-        }
-        else if (this.gameObject.tag == "Knife")
-        {
-            GetComponent<Rigidbody>().AddForce(transform.forward * inputSpeed * 1.5f);
-        }
-    }
-
-
-    private void Update()
-    {
-
-        
-
-
-
-
-
+        rb.velocity = Vector3.zero;
+        rb.useGravity = false;
+        rb.isKinematic = true;
+        box.enabled = false;
     }
 }
 
