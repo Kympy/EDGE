@@ -48,7 +48,7 @@ public class GunFightSceneUI : MonoBehaviourPun
         PhotonNetwork.AutomaticallySyncScene = true;
 
         isWin = true;
-        if (isWin && WinCount < 3)
+        if (isWin && WinCount < 2)
         {
             WinCount++;
             resultWin.SetActive(true);
@@ -89,7 +89,7 @@ public class GunFightSceneUI : MonoBehaviourPun
     // GunFight ReloadScene
     IEnumerator reloadScene()
     {
-        if (WinCount == 3 && PhotonNetwork.IsMasterClient)
+        if (WinCount == 2 && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel("MainLobby");
         }
@@ -101,11 +101,6 @@ public class GunFightSceneUI : MonoBehaviourPun
         reload.SetActive(false);
         resultWin.SetActive(false);
         resultLose.SetActive(false);
-
-        for (int i = 0; i < WinIcon.Length; i++)
-        {
-            WinIcon[i].SetActive(false);
-        }
 
         if (PhotonNetwork.IsMasterClient)
         {
