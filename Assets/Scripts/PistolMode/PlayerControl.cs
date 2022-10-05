@@ -334,10 +334,9 @@ public class PlayerControl : MonoBehaviourPun
                 // 피격받은 플레이어 LOSE UI 호출
                 rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("IsHit", RpcTarget.All);
 
+                GameManager.Instance.WinCountAdd();
                 // Win UI 호출
                 gunFightSceneUI.ResultWin();
-
-                GameManager.Instance.WinCountAdd();
 
                 rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.All);
             }
@@ -416,7 +415,6 @@ public class PlayerControl : MonoBehaviourPun
         //anim.enabled = false;        
 
         Destroy(gameObject, 4f);
-
     }
 
     [PunRPC]

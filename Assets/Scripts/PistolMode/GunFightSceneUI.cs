@@ -89,6 +89,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
             PhotonNetwork.LoadLevel("MainLobby");
         }
 
+
         yield return new WaitForSeconds(3f);
 
         isWin = false;
