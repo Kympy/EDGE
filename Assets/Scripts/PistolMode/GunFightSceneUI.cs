@@ -25,7 +25,21 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        for (int i = 0; i < WinIcon.Length; i++)
+        {
+            WinIcon[i].SetActive(false);
+        }
+
+        if (GameManager.Instance.WinCount == 1)
+        {
+            WinIcon[0].SetActive(true);
+        }
+        else if(GameManager.Instance.WinCount >= 2)
+        {
+            WinIcon[0].SetActive(true);
+            WinIcon[1].SetActive(true);
+        }
+
         ReloadText = gameObject.GetComponent<TextMeshPro>();
     }
 
@@ -33,10 +47,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     {
         reload.SetActive(false);
 
-        for (int i = 0; i < WinIcon.Length; i++)
-        {
-            WinIcon[i].SetActive(false);
-        }
+
     }
 
     public void ResultWin()
@@ -74,11 +85,6 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     { 
         yield return new WaitForSeconds(3f);
 
-        isWin = false;
-        isLose = false;
-        reload.SetActive(false);
-        resultWin.SetActive(false);
-        resultLose.SetActive(false);
         PhotonNetwork.AutomaticallySyncScene = true;
         if (PhotonNetwork.IsMasterClient)
         {

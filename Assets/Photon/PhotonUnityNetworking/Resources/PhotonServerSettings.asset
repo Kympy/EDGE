@@ -82,6 +82,7 @@ MonoBehaviour:
   - IsHit
   - returnToLobby
   - MoveMainLobby
+  - RPC_ReloadScene
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

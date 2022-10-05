@@ -30,6 +30,7 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+
         ScenePos();
         FindViewID();
     }
@@ -66,12 +67,14 @@ public class GameManager : Singleton<GameManager>
 
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
         {
+            MPos = GameObject.Find("MasterPos").transform;
             pos = MPos.position;
             //Debug.Log(pos);
         }
 
         else if (PhotonNetwork.IsConnected & PhotonNetwork.IsMasterClient == false)
         {
+            CPos = GameObject.Find("ClientPos").transform;
             pos = CPos.position;
             //Debug.Log(pos);
         }
