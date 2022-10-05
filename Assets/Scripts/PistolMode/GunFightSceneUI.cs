@@ -93,7 +93,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
             gameObject.GetComponent<PhotonView>().RPC("MoveMainLobby", RpcTarget.MasterClient);
         }
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
 
         isWin = false;
         isLose = false;
@@ -134,7 +134,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
 
     IEnumerator moveMainLobby()
     {
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(4f);
 
         PhotonNetwork.LoadLevel("MainLobby");
     }
