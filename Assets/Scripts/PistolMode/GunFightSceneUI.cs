@@ -42,7 +42,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     public void ResultWin()
     {
         isWin = true;
-        if (isWin && GameManager.Instance.WinCount < 2)
+        if (isWin && (GameManager.Instance.MasterWinCount < 2 || GameManager.Instance.ClientWinCount < 2))
         {
             resultWin.SetActive(true);
         }
@@ -81,14 +81,14 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     {
         PhotonNetwork.AutomaticallySyncScene = true;
 
-        if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient)
+        if (GameManager.Instance.MasterWinCount == 2 && PhotonNetwork.IsMasterClient)
         {
             Debug.Log("로비 슝!");
             //PhotonNetwork.LoadLevel("MainLobby");
             StartCoroutine(moveMainLobby());
         }
 
-        else if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient == false)
+        else if (GameManager.Instance.ClientWinCount == 2 && PhotonNetwork.IsMasterClient == false)
         {
             gameObject.GetComponent<PhotonView>().RPC("MoveMainLobby", RpcTarget.MasterClient);
         }
@@ -101,11 +101,10 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         resultWin.SetActive(false);
         resultLose.SetActive(false);
 
-        if (GameManager.Instance.WinCount < 2 && PhotonNetwork.IsMasterClient)
+        if (GameManager.Instance.ClientWinCount <2 && GameManager.Instance.MasterWinCount < 2 && PhotonNetwork.IsMasterClient)
         {
             // PhotonNetwork.LoadLevel("GunFight");
             PhotonNetwork.LoadLevel("Loading");
-            Debug.Log($"다음 라운드 WinCount : {GameManager.Instance.WinCount}");
         }
     }
 

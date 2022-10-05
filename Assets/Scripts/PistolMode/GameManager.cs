@@ -22,7 +22,9 @@ public class GameManager : Singleton<GameManager>
 
     public int myViewID = 0;
 
-    public int WinCount;
+    public int MasterWinCount;
+    public int ClientWinCount;
+
 
 
     private void Awake()
@@ -133,7 +135,17 @@ public class GameManager : Singleton<GameManager>
 
     public void WinCountAdd()
     {
-        WinCount++;
-        GunFightSceneUI.Instance.WinCountUI(WinCount);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            MasterWinCount++;
+            GunFightSceneUI.Instance.WinCountUI(MasterWinCount);
+        }
+
+        else if(PhotonNetwork.IsMasterClient==false)
+        {
+            ClientWinCount++;
+            GunFightSceneUI.Instance.WinCountUI(ClientWinCount);
+        }
+
     }
 }
