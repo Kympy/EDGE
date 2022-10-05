@@ -15,19 +15,20 @@ public class GameSceneLogic : MonoBehaviourPun
 
         StartCoroutine(NextScene());
     }
-
+/*
     [PunRPC]
     void RPCReloadScene()
     {
 
     }
-
+*/
 
     IEnumerator NextScene()
     {
         GameObject curPlay = FindObjectOfType<PlayerControl>().gameObject;
 
-        yield return new WaitForSeconds(10f);
+        // 프레임의 영향을 받지 않는 UnScale Time 사용
+        yield return new WaitForSecondsRealtime(10f);
 
         // if (PhotonNetwork.IsConnected) // && PhotonNetwork.IsMasterClient
 
