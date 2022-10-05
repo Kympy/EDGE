@@ -91,7 +91,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
 
         else if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient == false)
         {
-            gameObject.GetComponent<PhotonView>().RPC("returnToLobby", RpcTarget.MasterClient);
+            gameObject.GetComponent<PhotonView>().RPC("MoveMainLobby", RpcTarget.MasterClient);
         }
 
         yield return new WaitForSeconds(3f);
@@ -127,8 +127,16 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         }
     }
 
-    void returnToLobby()
+    [PunRPC]
+    void MoveMainLobby()
     {
+        StartCoroutine(moveMainLobby());
+    }
+
+    IEnumerator moveMainLobby()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+
         PhotonNetwork.LoadLevel("MainLobby");
     }
 }
