@@ -9,7 +9,7 @@ using Photon.Pun;
 public class GameSceneLogic : MonoBehaviourPun
 {
     [PunRPC]
-    void RPCScene()
+    void RPCNextScene()
     {
         Debug.Log("Scene 호출");
 
@@ -17,10 +17,10 @@ public class GameSceneLogic : MonoBehaviourPun
     }
 
     [PunRPC]
-    // 승리
-    // void WinUI()
-    // 패배
-    // void LoseUI()
+    void RPCReloadScene()
+    {
+
+    }
 
 
     IEnumerator NextScene()
@@ -51,6 +51,4 @@ public class GameSceneLogic : MonoBehaviourPun
             PhotonNetwork.LoadLevel("GunFight");
         }
     }
-
-
 }

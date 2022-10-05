@@ -31,6 +31,8 @@ public class PlayerControl : MonoBehaviourPun
     // 승리 UI
     GunFightSceneUI gunFightSceneUI = null;
 
+    GameManager gameManager = null;
+
     float mouseX = 0f;
     float inputMouseY = 0f;
     float mouseY = 0f;
@@ -98,6 +100,7 @@ public class PlayerControl : MonoBehaviourPun
         {
             bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
             gunFightSceneUI = GameObject.Find("GunFightUI").GetComponent<GunFightSceneUI>();
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         }
     }
 
@@ -193,6 +196,13 @@ public class PlayerControl : MonoBehaviourPun
         isStart = true;
         attackDelay = true;
     }
+
+    void Deadlock()
+    {
+
+    }
+
+    
 
     void PlayerRotate()
     {
@@ -372,7 +382,7 @@ public class PlayerControl : MonoBehaviourPun
             Invoke("Unlock", 3f); // 3초 뒤 플레이어 isStart, attackDelay
 
             GunFightPlayerActive();
-            // gameSceneLogic.GunFightPos();
+            //gameSceneLogic.GunFightPos();
         }
     }
 
@@ -393,6 +403,7 @@ public class PlayerControl : MonoBehaviourPun
         //anim.enabled = false;        
 
         Destroy(gameObject, 4f);
+
     }
 
     [PunRPC]

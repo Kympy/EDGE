@@ -51,9 +51,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         myViewID = objectViewID.GetPhotonView().ViewID;
     }
 
+
     void GunFightPos()
     {
-
         Vector3 pos = Vector3.zero;
 
         if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 // RpcTarget.MasterClient일 경우 적용 범위와 NextScene에서 
                 // 호출 할 GameObject의 RPC를 지정해줘야됨
-                GameObject.Find("GameSceneLogic").GetComponent<PhotonView>().RPC("RPCScene", RpcTarget.AllBuffered);
+                GameObject.Find("GameSceneLogic").GetComponent<PhotonView>().RPC("RPCNextScene", RpcTarget.AllBuffered);
             }
 
             // GameSceneLogic라는 이름을 가진 GameObject를 찾아 GameSceneLogic Component를 받아옴
