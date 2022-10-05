@@ -41,8 +41,6 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
 
     public void ResultWin()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-
         isWin = true;
         if (isWin && GameManager.Instance.WinCount < 2)
         {
@@ -53,8 +51,6 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
 
     public void ResultLose()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-
         Debug.Log("ResultLose »£√‚");
         isLose = true;
         if (isLose)
@@ -83,6 +79,8 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     // GunFight ReloadScene
     IEnumerator reloadScene()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient)
         {
             Debug.Log("∑Œ∫Ò Ωπ!");
