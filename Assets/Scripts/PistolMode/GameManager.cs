@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 // RpcTarget.MasterClient일 경우 적용 범위와 NextScene에서 
                 // 호출 할 GameObject의 RPC를 지정해줘야됨
-                GameObject.Find("GameSceneLogic").GetComponent<PhotonView>().RPC("RPCNextScene", RpcTarget.AllBuffered);
+                GameObject.Find("GameSceneLogic").GetComponent<PhotonView>().RPC("RPCNextScene", RpcTarget.AllViaServer);
             }
 
             // GameSceneLogic라는 이름을 가진 GameObject를 찾아 GameSceneLogic Component를 받아옴
