@@ -89,6 +89,10 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
             PhotonNetwork.LoadLevel("MainLobby");
         }
 
+        else if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient == false)
+        {
+            gameObject.GetComponent<PhotonView>().RPC("returnToLobby", RpcTarget.MasterClient);
+        }
 
         yield return new WaitForSeconds(3f);
 
@@ -121,5 +125,10 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
             default:
                 break;
         }
+    }
+
+    void returnToLobby()
+    {
+        PhotonNetwork.LoadLevel("MainLobby");
     }
 }
