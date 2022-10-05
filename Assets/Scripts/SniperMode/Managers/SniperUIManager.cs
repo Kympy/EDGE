@@ -216,7 +216,7 @@ public class SniperUIManager : MonoBehaviourPun
         }
         yield return ODINAPIHandler.Instance.ProcessGetBalance(ODINAPIHandler.COIN_TYPE.zera);
         LastBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.zera).Value.data.balance;
-        LastBalance.text = float.Parse(LastBalance.text).ToString("F2");
+        LastBalance.text = float.Parse(LastBalance.text).ToString("0.00");
         TabPanel.SetActive(true);
         BalaceUI.SetActive(true);
         yield return new WaitForSecondsRealtime(5f);
