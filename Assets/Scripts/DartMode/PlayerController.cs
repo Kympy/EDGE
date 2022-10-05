@@ -70,9 +70,8 @@ public class PlayerController : MonoBehaviourPun
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetBool("hold", true);
-
-            
         }
+
         if (Input.GetMouseButtonUp(0))
         {
             anim.SetBool("hold", false);
