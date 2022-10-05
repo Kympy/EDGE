@@ -27,6 +27,7 @@ public class GunFightSceneUI : MonoBehaviourPun
     private void Awake()
     {
         ReloadText = gameObject.GetComponent<TextMeshPro>();
+        
 
         // Win Score
         DontDestroyOnLoad(this.gameObject);
@@ -35,6 +36,11 @@ public class GunFightSceneUI : MonoBehaviourPun
     void Start()
     {
         reload.SetActive(false);
+
+        for (int i = 0; i < WinIcon.Length; i++)
+        {
+            WinIcon[i].SetActive(false);
+        }
     }
 
     public void ResultWin()
@@ -95,6 +101,11 @@ public class GunFightSceneUI : MonoBehaviourPun
         reload.SetActive(false);
         resultWin.SetActive(false);
         resultLose.SetActive(false);
+
+        for (int i = 0; i < WinIcon.Length; i++)
+        {
+            WinIcon[i].SetActive(false);
+        }
 
         if (PhotonNetwork.IsMasterClient)
         {
