@@ -84,7 +84,8 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient)
         {
             Debug.Log("·Îºñ ½¹!");
-            PhotonNetwork.LoadLevel("MainLobby");
+            //PhotonNetwork.LoadLevel("MainLobby");
+            StartCoroutine(moveMainLobby());
         }
 
         else if (GameManager.Instance.WinCount == 2 && PhotonNetwork.IsMasterClient == false)
