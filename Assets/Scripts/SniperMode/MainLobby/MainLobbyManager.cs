@@ -57,8 +57,10 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         CreateButton.onClick.AddListener(() => CreateUI()); // Show Create UI button
         ExitButton.onClick.AddListener(() => CloseCreateUI()); // Close UI
         RealCreateButton.onClick.AddListener(() => CreateRoom()); // Real Room Create
-        LockedRoom.onValueChanged.AddListener(delegate { PassInput.interactable = LockedRoom.isOn; 
-        if(LockedRoom.isOn == false)
+        LockedRoom.onValueChanged.AddListener(delegate
+        {
+            PassInput.interactable = LockedRoom.isOn;
+            if (LockedRoom.isOn == false)
             {
                 PassInput.text = ""; // Can only input password when lock toggle is on
             }
@@ -70,7 +72,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         ShowButton.onClick.AddListener(delegate { UserInfoCanvas.SetActive(true); }); // Show Button
         UserInfoCanvas.SetActive(false); // Hide when start
         // ======== Init Bool Value =================================================
-        for(int i = 0; i < MAX_ROOM; i++)
+        for (int i = 0; i < MAX_ROOM; i++)
         {
             IsRoomExist[i] = false;
         }
@@ -122,7 +124,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         custom.Add("Bet", ODINAPIHandler.Instance.GetBetSettings().data.bets[0].amount.ToString());
         custom.Add("RoomName", RoomNameInput.text);
         custom.Add("Password", PassInput.text);
-        string[] forLobbyCustom = { "Mode", "Bet", "RoomName", "Password"};
+        string[] forLobbyCustom = { "Mode", "Bet", "RoomName", "Password" };
         RoomOptions op = new RoomOptions();
         op.IsOpen = true;
         op.IsVisible = true;
@@ -141,7 +143,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList) // Call rate = 5 sec
     {
         RoomCount.text = PhotonNetwork.CountOfRooms.ToString() + " Rooms";
-        foreach(RoomInfo room in roomList)
+        foreach (RoomInfo room in roomList)
         {
             if (room.RemovedFromList)
             {
@@ -149,7 +151,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                 Destroy(roomObj);
                 TotalRoomList.Remove(room.Name);
             }
-            else 
+            else
             {
                 if (TotalRoomList.ContainsKey(room.Name) == false)
                 {
@@ -168,7 +170,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                         int index = GetRoomPos();
                         Transform roomPos = RoomPosition[index];
                         IsRoomExist[index] = true;
-    
+
                         string mode = modeName.ToString();
                         string betAmount = "0";
                         if (room.CustomProperties.TryGetValue("Bet", out object value))
@@ -225,7 +227,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     }
     public int GetRoomPos() // Where room have to create?
     {
-        for(int i = 0; i < MAX_ROOM; i++)
+        for (int i = 0; i < MAX_ROOM; i++)
         {
             if (IsRoomExist[i] == false) // There's no room
             {
@@ -238,7 +240,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     private IEnumerator UpdateUserCount() // Show online user
     {
         WaitForSeconds UpdateTime = new WaitForSeconds(5f); // Because photon networking update rate is 5 sec
-        while(true)
+        while (true)
         {
             UserCount.text = "ONLINE : " + PhotonNetwork.CountOfPlayers.ToString(); // How many players in app
             yield return UpdateTime;

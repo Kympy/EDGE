@@ -16135,13 +16135,14 @@ MonoBehaviour:
   ResponseBetSettings:
     message: 
     data:
-      _id: 
-      game_id: 
-      betting: 0
-      maintenance: 0
-      createdAt: 
-      updatedAt: 
-      __v: 0
+      settings:
+        _id: 
+        game_id: 
+        betting: 0
+        maintenance: 0
+        createdAt: 
+        updatedAt: 
+        __v: 0
       bets: []
   ResponseBalanceAce:
     message: 
@@ -16156,13 +16157,15 @@ MonoBehaviour:
     data:
       balance: 
   ResponseBettingPlaceBet:
-    Message: 
-    Bet_ID: 
+    message: 
+    data:
+      betting_id: 
   ResponseDeclareWinner:
-    Message: 
-    Amount_Won: 0
+    message: 
+    data:
+      amount_won: 0
   ResponseBettingDisconnect:
-    Message: 
+    message: 
 --- !u!4 &690066154
 Transform:
   m_ObjectHideFlags: 0

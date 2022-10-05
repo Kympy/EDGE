@@ -27,7 +27,14 @@ public class LoginController : MonoBehaviourPunCallbacks
 
         // 델리게이트 : 인자 전달 가능
 /*
-        login.onClick.AddListener(delegate
+        login.onClick.AddListener(
+
+
+
+
+
+
+gate
         {  // 사용자 닉네임 설정
             PhotonNetwork.NickName = "User1";
             // 방 설정
