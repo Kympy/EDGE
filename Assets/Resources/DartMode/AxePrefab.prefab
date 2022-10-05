@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1354652782646145084}
   - component: {fileID: 1354652781398336667}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Axe
   m_TagString: Axe
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 1354652782595427148}
   - component: {fileID: 1354652782595427150}
   - component: {fileID: 1354652782595427151}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 7455113227953356278}
   - component: {fileID: 3243793123175356285}
   - component: {fileID: 6452700023041753699}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: AxePrefab
   m_TagString: Axe
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 1354652782894624894}
   - component: {fileID: 1354652782894624895}
   - component: {fileID: 4419159462322241026}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Metal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2962844545098224930}
   - component: {fileID: 4388128514511340064}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: WoodCollider
   m_TagString: Wood
   m_Icon: {fileID: 0}
@@ -480,7 +480,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6561442512645502192}
   - component: {fileID: 4018321572604334665}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: MetalCollider
   m_TagString: Blade
   m_Icon: {fileID: 0}

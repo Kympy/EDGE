@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public GameObject Knife;
     public bool[] hasAxe;
     public bool[] hasKnife;
-    public Animator anim;
+
     Rigidbody rb;
     float press = 0f;
     float maxpress = 1000f;
@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     public string KnifeResourcePath = "DartMode/KnifePrefab";
 
     bool isAxe = true;
+    bool isHold = false;
+    public bool IsHold { get { return isHold; } }
 
     [SerializeField] GameObject FakeAxe = null;
     [SerializeField] GameObject FakeKnife = null;
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
         if (photonView.IsMine == false) return;
         cam = GameObject.Find("PlayerCam").GetComponent<Camera>();
+        cam.transform.rotation = Quaternion.identity;
         FakeAxe.SetActive(true);
         FakeKnife.SetActive(false);
         Cursor.visible = false;
@@ -58,27 +61,17 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine == false) return;
         cam.gameObject.transform.position = CamPosition.transform.position;
-        cam.gameObject.transform.rotation = CamPosition.transform.rotation;
-        UpdateRotate();
+        //cam.gameObject.transform.rotation = Quaternion.Euler(cam.gameObject.transform.rotation.x, transform.rotation.y, transform.rotation.z);
         GetInput();
 
-
-
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetMouseButton(0))
         {
-
-            /*   Debug.Log("던졌다");*/
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            anim.SetBool("hold", true);
+            isHold = true;
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            anim.SetBool("hold", false);
-            anim.SetTrigger("throw");
+            isHold = false;
             audioSource.clip = audiothrowing;
             audioSource.Play();
         }
@@ -168,15 +161,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         /*idown = Input.GetButtonDown("Interation");*/
 
     }
-
-    private void UpdateRotate()
-    {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-
-        rotateToMouse.UpdateRotate(mouseX, mouseY);
-    }
-
 
     // 내 클론에게 전달되는 함수
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

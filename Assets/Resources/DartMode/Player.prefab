@@ -704,7 +704,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748727434172074182}
   m_LocalRotation: {x: -0.000000059604645, y: -0, z: 0.00000004214685, w: 1}
-  m_LocalPosition: {x: 0.023, y: 1.579, z: 0.162}
+  m_LocalPosition: {x: 0, y: 1.579, z: 0.162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2298,7 +2298,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5363992672606968302}
-  m_LocalRotation: {x: -1.9530694e-12, y: 1.2352853e-13, z: 0.062388644, w: 0.99805194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.10808876, y: -0.00851415, z: 6.366463e-14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3718,6 +3718,7 @@ GameObject:
   - component: {fileID: 3754773984580810295}
   - component: {fileID: 6406593246268656234}
   - component: {fileID: -876898526747288857}
+  - component: {fileID: 8528906511503870037}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3817,6 +3818,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5947808493514341924}
   - {fileID: 5948981815387188297}
+  - {fileID: 8528906511503870037}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -3836,7 +3838,6 @@ MonoBehaviour:
   Knife: {fileID: 0}
   hasAxe: 00
   hasKnife: 00
-  anim: {fileID: 2669615613400881885}
   ItemFactory: {fileID: 1354652782723037568, guid: cc506e824ce185046a029a17f33cbc5b,
     type: 3}
   ThrowPoint: {fileID: 8376893509249504374}
@@ -3859,8 +3860,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f50bdc186ccc5045b3cf898e9c779b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotCamXAxisSpeed: 3
-  rotCamYAxisSpeed: 3
+  playerController: {fileID: 5948981815387188297}
+  rotCamXAxisSpeed: 30
+  rotCamYAxisSpeed: 30
+  MyUpper: {fileID: 7924589688078253524}
 --- !u!82 &-2714261427337948508
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3971,7 +3974,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &3754773984580810295
 CapsuleCollider:
@@ -4012,7 +4015,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d5aa16f1cb49242831f2d9196af636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 0}
+  playerMovement: {fileID: 6406593246268656234}
+  playerController: {fileID: 5948981815387188297}
+  _Animator: {fileID: 2669615613400881885}
+--- !u!114 &8528906511503870037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8694090476155116061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: walk
+  - Type: 4
+    SynchronizeType: 1
+    Name: hold
+  - Type: 9
+    SynchronizeType: 1
+    Name: throw
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
 --- !u!1 &8714160895203779284
 GameObject:
   m_ObjectHideFlags: 0

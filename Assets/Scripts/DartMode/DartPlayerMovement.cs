@@ -18,6 +18,8 @@ public class DartPlayerMovement : MonoBehaviour
     // 이동 중인지
     private bool isMove = false;
 
+    public bool IsMove { get { return isMove; } }
+
     // 이동할 벡터
     private Vector3 moveVector = Vector3.zero;
 
