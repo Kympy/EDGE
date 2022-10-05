@@ -93,7 +93,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
             gameObject.GetComponent<PhotonView>().RPC("MoveMainLobby", RpcTarget.MasterClient);
         }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(3f);
 
         isWin = false;
         isLose = false;

@@ -22,7 +22,7 @@ public class GameManager : Singleton<GameManager>
 
     public int myViewID = 0;
 
-    public int WinCount = 0;
+    public int WinCount;
 
 
     private void Awake()
