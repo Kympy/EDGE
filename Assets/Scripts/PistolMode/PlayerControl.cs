@@ -197,12 +197,6 @@ public class PlayerControl : MonoBehaviourPun
         attackDelay = true;
     }
 
-    void Deadlock()
-    {
-
-    }
-
-    
 
     void PlayerRotate()
     {
@@ -333,7 +327,7 @@ public class PlayerControl : MonoBehaviourPun
                 Debug.Log("죽음");
 
                 // 피격받은 플레이어 LOSE UI 호출
-                GameObject.Find("GunFightUI").GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("IsHit", RpcTarget.All);
 
                 // Win UI 호출
                 gunFightSceneUI.ResultWin();
@@ -350,6 +344,17 @@ public class PlayerControl : MonoBehaviourPun
             }
         }
     }
+
+    [PunRPC]
+    void IsHit()
+    {
+        if (photonView.IsMine)
+        {
+            gunFightSceneUI.ResultLose();
+        }
+    }
+
+
     public void LobbyPlayerActive()
     {
         // 로비 씬으로 전환됐을 때 플레이어 
