@@ -13,7 +13,7 @@ public class GameManager : Singleton<GameManager>
     PlayerControl playerControl;
 
     GunFightSceneUI gameSceneUI;
-    
+
     [SerializeField] Transform MPos;
     [SerializeField] Transform CPos;
 
@@ -27,16 +27,13 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        Destroy(gameObject.GetComponent<PhotonView>());
-
-        DontDestroyOnLoad(this.gameObject);
         ScenePos();
-        FindViewID();
-    }
-
-    private void Start()
-    {
+        DontDestroyOnLoad(this.gameObject);
+        // FindViewID();
+        if (photonView.IsMine == false) return;
+        Destroy(gameObject.GetComponent<PhotonView>());
         gameObject.AddComponent<PhotonView>();
+
     }
 
     void LobbyPos()
@@ -114,7 +111,7 @@ public class GameManager : Singleton<GameManager>
             GunFightPos();
         }
     }
-
+/*
     void FindViewID()
     {
         // 나의 ViewID에 해당하는 오브젝트 찾기
@@ -139,7 +136,7 @@ public class GameManager : Singleton<GameManager>
             // playerList = GameObject.Find("Player").GetComponent<PlayerControl>();
         }
     }
-
+*/
     public void IsDestroy()
     {
         Destroy(this.gameObject);
