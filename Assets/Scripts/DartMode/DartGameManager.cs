@@ -78,6 +78,7 @@ public class DartGameManager : MonoBehaviourPunCallbacks
                 EndGameText.text = "Draw Game!!";
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    ODINAPIHandler.Instance.DisconnectBetting(ODINAPIHandler.COIN_TYPE.zera);
                     StartCoroutine("ReStartGame");
                     return;
                 }
