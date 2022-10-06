@@ -55,6 +55,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     [PunRPC]
     public void ResultLose()
     {
+        Cursor.visible = true;
         resultLose.SetActive(true);
     }
 
@@ -93,6 +94,8 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     public void WinCountUI()
     {
         ResultWin();
+        Cursor.visible = true;
+
         switch (GameManager.Instance.WinCount)
         {
             case 1:
