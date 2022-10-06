@@ -34,7 +34,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         {
             WinIcon[0].SetActive(true);
         }
-        else if(GameManager.Instance.WinCount >= 2)
+        else if (GameManager.Instance.WinCount >= 2)
         {
             WinIcon[0].SetActive(true);
             WinIcon[1].SetActive(true);
@@ -76,25 +76,26 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
 
     [PunRPC]
     public void RPC_ReloadScene()
-    { 
+    {
         StartCoroutine(reloadScene());
     }
 
     // GunFight ReloadScene
     IEnumerator reloadScene()
-    { 
+    {
         yield return new WaitForSeconds(3f);
 
         PhotonNetwork.AutomaticallySyncScene = true;
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("MainLobby");
+            PhotonNetwork.LoadLevel("RoomScene");
         }
     }
 
     public void WinCountUI()
     {
         ResultWin();
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
@@ -103,6 +104,17 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
             case 1:
                 WinIcon[0].SetActive(true);
                 photonView.RPC("RPC_ReloadScene", RpcTarget.All);
+
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Me));
+                }
+
+                else
+                {
+                    gameObject.GetComponent<PhotonView>().RPC("TransODINAPIHandlerOder", RpcTarget.MasterClient);
+                }
+
                 break;
 
             case 2:
@@ -118,11 +130,19 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         }
 
     }
+
+    [PunRPC]
+    void TransODINAPIHandlerOder()
+    {
+        Debug.Log("호출 당함");
+        StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
+    }
+
     [PunRPC]
     public void GameEnd()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             StartCoroutine(moveMainLobby());
         }
@@ -138,6 +158,6 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     {
         yield return new WaitForSecondsRealtime(4f);
 
-        PhotonNetwork.LoadLevel("RoomScene");
+        PhotonNetwork.LoadLevel("MainLobby");
     }
 }

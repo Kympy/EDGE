@@ -66,7 +66,6 @@ public class PlayerControl : MonoBehaviourPun
 
     void Awake()
     {
-
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         PA = GetComponent<PlayerAudio>();
@@ -331,7 +330,7 @@ public class PlayerControl : MonoBehaviourPun
                 // rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
                 GameManager.Instance.WinCount++;
                 GunFightSceneUI.Instance.WinCountUI();
-
+                                
                 // Win UI »£√‚
                 gunFightSceneUI.ResultWin();
 

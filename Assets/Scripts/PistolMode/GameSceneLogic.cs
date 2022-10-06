@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 
@@ -13,7 +14,14 @@ public class GameSceneLogic : MonoBehaviourPun
     private void Awake()
     {
         gameManager = GameObject.Find("LobbyManager").GetComponent<GameManager>();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ODINAPIHandler.Instance.ProcessBettingCoin(ODINAPIHandler.COIN_TYPE.zera);
+        }
     }
+
+    
 
     [PunRPC]
     void RPCNextScene()

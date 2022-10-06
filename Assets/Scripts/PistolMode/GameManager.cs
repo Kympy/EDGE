@@ -27,6 +27,12 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(ODINAPIHandler.Instance.ProcessBettingCoin(ODINAPIHandler.COIN_TYPE.zera));
+        }
+
         MPos = GameObject.Find("MasterPos").transform;
         CPos = GameObject.Find("ClientPos").transform;
 
