@@ -86,11 +86,11 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
         yield return ODINAPIHandler.Instance.ProcessGetBalance(ODINAPIHandler.COIN_TYPE.zera);
         yield return ODINAPIHandler.Instance.ProcessGetBalance(ODINAPIHandler.COIN_TYPE.dappx);
         ACEBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.ace).Value.data.balance; // Set UI
-        ACEBalance.text = float.Parse(ACEBalance.text).ToString("F2");
+        ACEBalance.text = float.Parse(ACEBalance.text).ToString("0.00");
         ZERABalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.zera).Value.data.balance;
-        ZERABalance.text = float.Parse(ZERABalance.text).ToString("F2");
+        ZERABalance.text = float.Parse(ZERABalance.text).ToString("0.00");
         DAPPXBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.dappx).Value.data.balance;
-        DAPPXBalance.text = float.Parse(DAPPXBalance.text).ToString("F2");
+        DAPPXBalance.text = float.Parse(DAPPXBalance.text).ToString("0.00");
         yield return ODINAPIHandler.Instance.ProcessGetBetSettings(); // Request Betting Settings
         CreateButton.interactable = true;
         StartCoroutine(UpdateUserCount()); // Start Updating Online user count

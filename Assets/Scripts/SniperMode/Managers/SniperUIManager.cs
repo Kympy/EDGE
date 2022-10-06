@@ -185,10 +185,15 @@ public class SniperUIManager : MonoBehaviourPun
         User2State.color = Color.red;
 
         User1State.text = "WIN";
+        yield return ODINAPIHandler.Instance.ProcessGetBalance(ODINAPIHandler.COIN_TYPE.zera);
+        LastBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.zera).Value.data.balance;
+        LastBalance.text = float.Parse(LastBalance.text).ToString("0.00");
 
         TabPanel.SetActive(true);
+        BalaceUI.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(5f);
+
         PhotonNetwork.LoadLevel("RoomScene");
     }
     [PunRPC]
@@ -216,7 +221,7 @@ public class SniperUIManager : MonoBehaviourPun
         }
         yield return ODINAPIHandler.Instance.ProcessGetBalance(ODINAPIHandler.COIN_TYPE.zera);
         LastBalance.text = ODINAPIHandler.Instance.GetBalance(ODINAPIHandler.COIN_TYPE.zera).Value.data.balance;
-        LastBalance.text = float.Parse(LastBalance.text).ToString("F2");
+        LastBalance.text = float.Parse(LastBalance.text).ToString("0.00");
         TabPanel.SetActive(true);
         BalaceUI.SetActive(true);
         yield return new WaitForSecondsRealtime(5f);
