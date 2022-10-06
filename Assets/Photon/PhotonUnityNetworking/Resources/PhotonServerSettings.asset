@@ -34,48 +34,45 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - AnimControl
+  - ChatLineMsg
   - ClickRpc
   - DestroyRpc
   - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - RandPos
-  - MuzzleAndSmoke
-  - GetDamage
-  - RandomSky
-  - SetUserName
-  - UpdateServerBone
-  - PlayerInst
-  - UpdateIndicator
-  - RPC_RigidbodyDisable
-  - ShowUser
-  - SlotCheck
-  - UserBoxInit
-  - ChangeSlot
-  - InitUserUI
-  - PlayerReady
   - DisableRemoteButton
-  - UpdateUserCount
-  - ChatLineMsg
   - DisableRemoteRigidbody
-  - RagdollToggle
-  - AnimControl
+  - EndGame
+  - Fire
   - FireAnim
   - FireHit
-  - NextScene
-  - PhyPlayer
-  - PlayerRotateY
-  - ResultLose
-  - ResultWin
-  - RPCScene
+  - GameEnd
+  - GameEndByPlayerExit
+  - GetDamage
+  - GoBackToRoom
   - InitOtherSessionID
   - InitOtherUserID
-  - GameEndByPlayerExit
-  - ProcessGameExit
-  - GameEnd
+  - InitUserUI
+  - IsHit
+  - ObjReset
+  - PhyPlayer
+  - PlayerInst
+  - PlayerReady
+  - PlayerRotateY
   - ProcessGameEnd
-  - DestroyUserBox
-  - GoBackToRoom
+  - ProcessGameExit
+  - RagdollToggle
+  - RandomSky
+  - RespawnSpaceship
+  - ResultLose
+  - ResultWin
+  - RPC_ReloadScene
+  - RPC_RigidbodyDisable
+  - RPCNextScene
+  - ShowUser
+  - TransODINAPIHandlerOder
+  - UpdateIndicator
+  - UpdateScore
+  - UpdateServerBone
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
