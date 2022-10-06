@@ -1043,7 +1043,7 @@ PrefabInstance:
     - target: {fileID: 4358538024792230987, guid: c5e03cfc4a867574db933934f1701426,
         type: 3}
       propertyPath: InitialModule.maxNumParticles
-      value: 2500
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 4358538024792230987, guid: c5e03cfc4a867574db933934f1701426,
         type: 3}
@@ -1093,7 +1093,7 @@ PrefabInstance:
     - target: {fileID: 4358538024792230988, guid: c5e03cfc4a867574db933934f1701426,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.76196
       objectReference: {fileID: 0}
     - target: {fileID: 4358538024792230988, guid: c5e03cfc4a867574db933934f1701426,
         type: 3}
