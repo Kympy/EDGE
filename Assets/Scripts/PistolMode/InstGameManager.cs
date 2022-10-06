@@ -5,7 +5,6 @@ using Photon.Pun;
 
 public class InstGameManager : MonoBehaviourPun
 {
-
     private void Awake()
     {
         GameManager gameManager = FindObjectOfType<GameManager>();
@@ -16,6 +15,7 @@ public class InstGameManager : MonoBehaviourPun
 
             return;
         }
+
         else
         {
             Debug.Log("There's no GameManager. Create new");
@@ -27,7 +27,6 @@ public class InstGameManager : MonoBehaviourPun
             gameManagerObj.AddComponent<GameManager>();
             gameManagerObj.AddComponent<PhotonView>();
 */
-            
         }
     }
 }

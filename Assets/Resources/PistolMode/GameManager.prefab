@@ -45,8 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67606c931b58df34e91bf15f3309290d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MPos: {fileID: 0}
-  CPos: {fileID: 0}
   myViewID: 0
   WinCount: 0
 --- !u!114 &8645887490806508505

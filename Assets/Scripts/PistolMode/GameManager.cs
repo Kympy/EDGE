@@ -31,11 +31,11 @@ public class GameManager : Singleton<GameManager>
         CPos = GameObject.Find("ClientPos").transform;
 
         ScenePos();
-        DontDestroyOnLoad(this.gameObject);
+        // DontDestroyOnLoad(this.gameObject);
         // FindViewID();
         if (photonView.IsMine == false) return;
-        Destroy(gameObject.GetComponent<PhotonView>());
-        gameObject.AddComponent<PhotonView>();
+        // Destroy(gameObject.GetComponent<PhotonView>());
+        // gameObject.AddComponent<PhotonView>();
 
     }
 

@@ -86,7 +86,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         PhotonNetwork.AutomaticallySyncScene = true;
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("Loading");
+            PhotonNetwork.LoadLevel("MainLobby");
         }
     }
 
