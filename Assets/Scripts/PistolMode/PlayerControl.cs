@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 using Photon.Pun;
-using Photon.Realtime;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviourPun
@@ -15,11 +11,11 @@ public class PlayerControl : MonoBehaviourPun
     Animator anim = null;
 
     [SerializeField]
-    Transform PlayerChest;
+    Transform PlayerChest = null;
 
-    Rigidbody rb;
+    Rigidbody rb = null;
 
-    PlayerAudio PA;
+    PlayerAudio PA = null;
 
     // 자식 오브젝트에 있는 rigidBody
     // = ragdoll 
@@ -28,7 +24,9 @@ public class PlayerControl : MonoBehaviourPun
     BullCount bulletUI = null;
 
     // 승리 UI
-    GunFightSceneUI winUI;
+    GunFightSceneUI gunFightSceneUI = null;
+
+    GameManager gameManager = null;
 
     float mouseX = 0f;
     float inputMouseY = 0f;
@@ -61,13 +59,12 @@ public class PlayerControl : MonoBehaviourPun
     GameObject MF = null;
 
 
-
     /*
         Ray rayCamera;
         RaycastHit rayHit;
     */
 
-    private void Awake()
+    void Awake()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -79,6 +76,8 @@ public class PlayerControl : MonoBehaviourPun
         {
             return;
         }
+
+
         // photonView가 IsMine 일때만 실행 
 
         // GunFight Scene : other Client Player error -> photonView Other isKinematic == false 
@@ -91,15 +90,9 @@ public class PlayerControl : MonoBehaviourPun
         // Find : 최초 1회 사용은 괜찮지만 Update에 사용시 성능저하의 원인
         // followCameraPos = transform.GetChild(2).gameObject; 
 
-
         // 자식 오브젝트에 붙어있는 rigidBody
         rbChild = GetComponentsInChildren<Rigidbody>();
 
-        if (SceneManager.GetActiveScene().name == "GunFight")
-        {
-            bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
-            winUI = GameObject.Find("GunFightUI").GetComponent<GunFightSceneUI>();
-        }
 
     }
 
@@ -125,6 +118,12 @@ public class PlayerControl : MonoBehaviourPun
         }
         // photonView가 IsMine 일때만 실행 
 
+        if (SceneManager.GetActiveScene().name == "GunFight")
+        {
+            bulletUI = GameObject.Find("CurBullet").GetComponent<BullCount>();
+            gunFightSceneUI = GameObject.Find("GunFightUI").GetComponent<GunFightSceneUI>();
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
 
         Invoke("Unlock", 3f); // 시작 3초뒤 마우스 회전 활성화
 
@@ -144,6 +143,7 @@ public class PlayerControl : MonoBehaviourPun
 
         // 현재 Scene을 확인하여 Player 기능 온/오프
         CurSceneFind();
+
     }
 
     void Update()
@@ -195,6 +195,7 @@ public class PlayerControl : MonoBehaviourPun
         isStart = true;
         attackDelay = true;
     }
+
 
     void PlayerRotate()
     {
@@ -286,15 +287,16 @@ public class PlayerControl : MonoBehaviourPun
         {
             if (curBullet == maxBullet)
             {
-                Debug.Log("으앙 다씀");
                 attackAble = false;
             }
 
             anim.SetTrigger("isAttack");
             attackDelay = false;
 
+            // Reload UI 호출
+            StartCoroutine(gunFightSceneUI.Reload());
+
             Invoke("AttackDelay", 2f); // 재장전 시간 2초
-            Debug.Log("발사");
             GunFire();
 
             bulletUI.countBullet(curBullet);
@@ -323,14 +325,16 @@ public class PlayerControl : MonoBehaviourPun
             {
                 Debug.Log("죽음");
 
-                Debug.Log("ResultLose 호출 시도");
                 // 피격받은 플레이어 LOSE UI 호출
-                GameObject.Find("GunFightUI").GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
-
-                Debug.Log("ResultWin 호출 시도");
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("IsHit", RpcTarget.All);
+                // rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
+                GameManager.Instance.WinCount++;
+                GunFightSceneUI.Instance.WinCountUI();
+                                
                 // Win UI 호출
-                winUI.ResultWin();
-                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.AllBuffered);
+                gunFightSceneUI.ResultWin();
+
+                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("AnimControl", RpcTarget.All);
             }
 
             if (rayHit.transform.tag == "SaloonObject")
@@ -343,6 +347,16 @@ public class PlayerControl : MonoBehaviourPun
             }
         }
     }
+
+    [PunRPC]
+    void IsHit()
+    {
+        if (photonView.IsMine)
+        {
+            gunFightSceneUI.ResultLose();
+        }
+    }
+
 
     public void LobbyPlayerActive()
     {
@@ -376,7 +390,7 @@ public class PlayerControl : MonoBehaviourPun
             Invoke("Unlock", 3f); // 3초 뒤 플레이어 isStart, attackDelay
 
             GunFightPlayerActive();
-            // gameSceneLogic.GunFightPos();
+            //gameSceneLogic.GunFightPos();
         }
     }
 
