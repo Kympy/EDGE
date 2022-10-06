@@ -14,8 +14,8 @@ public class GameManager : Singleton<GameManager>
 
     GunFightSceneUI gameSceneUI;
 
-    [SerializeField] Transform MPos;
-    [SerializeField] Transform CPos;
+    Transform MPos;
+    Transform CPos;
 
     // bool LoginMaster = false;
     bool LoginClient = false;
@@ -27,6 +27,9 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
+        MPos = GameObject.Find("MasterPos").transform;
+        CPos = GameObject.Find("ClientPos").transform;
+
         ScenePos();
         DontDestroyOnLoad(this.gameObject);
         // FindViewID();

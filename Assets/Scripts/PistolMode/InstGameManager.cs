@@ -20,7 +20,7 @@ public class InstGameManager : MonoBehaviourPun
         {
             Debug.Log("There's no GameManager. Create new");
 
-            GameObject GameManagerViewID = PhotonNetwork.Instantiate("PistolMode/GameManager", Vector3.zero, Quaternion.identity);
+            GameObject InstGameManager = PhotonNetwork.Instantiate("PistolMode/GameManager", Vector3.zero, Quaternion.identity);
 
 /*
             GameObject gameManagerObj = new GameObject(typeof(GameManager).ToString());
