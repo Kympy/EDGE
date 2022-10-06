@@ -56,6 +56,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     public void ResultLose()
     {
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         resultLose.SetActive(true);
     }
 
@@ -95,6 +96,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     {
         ResultWin();
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         switch (GameManager.Instance.WinCount)
         {
