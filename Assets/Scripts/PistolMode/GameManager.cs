@@ -25,8 +25,6 @@ public class GameManager : Singleton<GameManager>
     public int WinCount;
 
 
-
-
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -134,5 +132,10 @@ public class GameManager : Singleton<GameManager>
             // 단점 : prefab으로 생성 시 이름이 Name(Clone)으로 변경돼 찾지못함  
             // playerList = GameObject.Find("Player").GetComponent<PlayerControl>();
         }
+    }
+
+    public void IsDestroy()
+    {
+        Destroy(this.gameObject);
     }
 }

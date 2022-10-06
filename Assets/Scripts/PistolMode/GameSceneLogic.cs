@@ -8,6 +8,8 @@ using Photon.Pun;
 
 public class GameSceneLogic : MonoBehaviourPun
 {
+    GameManager gameManager;
+
     [PunRPC]
     void RPCNextScene()
     {
@@ -31,6 +33,9 @@ public class GameSceneLogic : MonoBehaviourPun
         yield return new WaitForSecondsRealtime(10f);
 
         // if (PhotonNetwork.IsConnected) // && PhotonNetwork.IsMasterClient
+
+        // Scene 이동 전 GameManager 파괴
+        gameManager.IsDestroy();
 
         // 모든 클라이언트와 마스터 클라이언트의 LoadLevel 동기화
         PhotonNetwork.AutomaticallySyncScene = true;

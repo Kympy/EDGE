@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class InstGameManager : MonoBehaviour
+public class InstGameManager : MonoBehaviourPun
 {
     private void Awake()
     {
