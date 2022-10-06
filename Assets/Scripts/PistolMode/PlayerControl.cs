@@ -333,7 +333,7 @@ public class PlayerControl : MonoBehaviourPun
 
                 // 피격받은 플레이어 LOSE UI 호출
                 rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("IsHit", RpcTarget.All);
-                rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
+                // rayHit.transform.gameObject.GetComponent<PhotonView>().RPC("ResultLose", RpcTarget.Others);
                 GameManager.Instance.WinCount++;
                 GunFightSceneUI.Instance.WinCountUI();
 

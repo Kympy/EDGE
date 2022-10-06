@@ -13,7 +13,7 @@ public class GameManager : Singleton<GameManager>
     PlayerControl playerControl;
 
     GunFightSceneUI gameSceneUI;
-
+    
     [SerializeField] Transform MPos;
     [SerializeField] Transform CPos;
 
@@ -22,15 +22,21 @@ public class GameManager : Singleton<GameManager>
 
     public int myViewID = 0;
 
-    public int WinCount;
+    public int WinCount = 0;
 
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        Destroy(gameObject.GetComponent<PhotonView>());
 
+        DontDestroyOnLoad(this.gameObject);
         ScenePos();
         FindViewID();
+    }
+
+    private void Start()
+    {
+        gameObject.AddComponent<PhotonView>();
     }
 
     void LobbyPos()

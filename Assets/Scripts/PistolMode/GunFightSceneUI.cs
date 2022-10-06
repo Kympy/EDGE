@@ -46,8 +46,6 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     void Start()
     {
         reload.SetActive(false);
-
-
     }
 
     public void ResultWin()
