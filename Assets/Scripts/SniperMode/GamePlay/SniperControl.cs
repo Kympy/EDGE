@@ -16,6 +16,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     private Coroutine CrouchCo = null;
 
     #region Variables
+    [SerializeField] Transform OriginCamPos;
     private float UpperRotation = 0f;
     private int ZoomLevel = 0;
     public float min;
@@ -289,14 +290,13 @@ public class SniperControl : PlayerHeader, IPunObservable
             else
             {
                 PhotonNetwork.Instantiate("SniperMode/Bullets", shootPos.position, shootPos.rotation);
-
-                if (ReCoilCoroutine != null)
-                {
-                    StopCoroutine(ReCoilCoroutine);
-                    ReCoilCoroutine = null;
-                }
-                ReCoilCoroutine = StartCoroutine(ReCoilUp());
             }
+            if (ReCoilCoroutine != null)
+            {
+                StopCoroutine(ReCoilCoroutine);
+                ReCoilCoroutine = null;
+            }
+            ReCoilCoroutine = StartCoroutine(ReCoilUp());
             Invoke("Casing", 1f);
         }
     }
@@ -353,7 +353,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         while(true)
         {
             timer += Time.fixedDeltaTime;
-            rotValueX += 0.1f;
+            rotValueX += 0.02f;
             recoilPower = -rotValueX;
             if(timer > 0.2f)
             {
@@ -371,7 +371,7 @@ public class SniperControl : PlayerHeader, IPunObservable
         while (true)
         {
             timer += Time.fixedDeltaTime;
-            rotValueX += 0.09f;
+            rotValueX += 0.02f;
             recoilPower = rotValueX;
 
             if (timer > 0.2f)
@@ -411,6 +411,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     public void GetDamage(float damage, string parts)
     {
         HP -= damage;
+        StartCoroutine(ShakeCamera(0.2f));
         gameManager.GetUI.ShowBlood();
         gameManager.GetUI.UpdateIndicator(parts, 1);
         gameManager.GetUI.gameObject.GetPhotonView().RPC("UpdateIndicator", RpcTarget.Others, parts, 2);
@@ -432,6 +433,21 @@ public class SniperControl : PlayerHeader, IPunObservable
             }
         }
         gameManager.GetUI.UpdateHP(HP, MaxHP); // Update UI
+    }
+    private IEnumerator ShakeCamera(float time)
+    {
+        float timer = 0f;
+        while(true)
+        {
+            if(timer > time)
+            {
+                PlayerCameraPos.position = OriginCamPos.position;
+                yield break;
+            }
+            timer += Time.deltaTime;
+            PlayerCameraPos.position += UnityEngine.Random.insideUnitSphere * 0.2f;
+            yield return null;
+        }
     }
     [PunRPC]
     public void UpdateServerBone(float rotation)
