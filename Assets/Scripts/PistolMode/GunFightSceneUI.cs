@@ -137,7 +137,7 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
         Debug.Log("호출 당함");
         StartCoroutine(ODINAPIHandler.Instance.ProcessRequestDeclareWinner(ODINAPIHandler.COIN_TYPE.zera, ODINAPIHandler.Winner.Other));
     }
-
+    /*
     [PunRPC]
     public void GameEnd()
     {
@@ -160,4 +160,5 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
 
         PhotonNetwork.LoadLevel("MainLobby");
     }
+    */
 }
