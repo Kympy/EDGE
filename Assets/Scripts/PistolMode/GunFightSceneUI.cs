@@ -138,6 +138,6 @@ public class GunFightSceneUI : Singleton<GunFightSceneUI>
     {
         yield return new WaitForSecondsRealtime(4f);
 
-        PhotonNetwork.LoadLevel("MainLobby");
+        PhotonNetwork.LoadLevel("RoomScene");
     }
 }
