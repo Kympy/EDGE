@@ -12,7 +12,7 @@ public class GameSceneLogic : MonoBehaviourPun
 
     private void Awake()
     {
-        gameManager = GetComponent<GameManager>();
+        gameManager = GameObject.Find("LobbyManager").GetComponent<GameManager>();
     }
 
     [PunRPC]
@@ -22,13 +22,13 @@ public class GameSceneLogic : MonoBehaviourPun
 
         StartCoroutine(NextScene());
     }
-/*
-    [PunRPC]
-    void RPCReloadScene()
-    {
+    /*
+        [PunRPC]
+        void RPCReloadScene()
+        {
 
-    }
-*/
+        }
+    */
 
     IEnumerator NextScene()
     {
@@ -36,16 +36,7 @@ public class GameSceneLogic : MonoBehaviourPun
 
         // 프레임의 영향을 받지 않는 UnScale Time 사용
         yield return new WaitForSecondsRealtime(10f);
-
-        // if (PhotonNetwork.IsConnected) // && PhotonNetwork.IsMasterClient
-
-        // Scene 이동 전 GameManager 파괴
-        
-        if (photonView.IsMine)
-        {
-            gameManager.IsDestroy();
-        }
-
+                
         // 모든 클라이언트와 마스터 클라이언트의 LoadLevel 동기화
         PhotonNetwork.AutomaticallySyncScene = true;
 
@@ -61,7 +52,7 @@ public class GameSceneLogic : MonoBehaviourPun
 
         yield return new WaitForSeconds(1f);
         // MasterClient Scene 이동        
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel("GunFight");
         }

@@ -12,13 +12,11 @@ public class LoadingScene : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient)
         {
             StartCoroutine(NextScene());
-
         }
     }
 
     IEnumerator NextScene()
     {
-
         yield return new WaitForSeconds(0.5f);
         PhotonNetwork.LoadLevel("GunFight");
     }
