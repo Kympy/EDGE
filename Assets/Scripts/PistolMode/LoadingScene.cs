@@ -18,6 +18,7 @@ public class LoadingScene : MonoBehaviourPun
 
     IEnumerator NextScene()
     {
+
         yield return new WaitForSeconds(0.5f);
         PhotonNetwork.LoadLevel("GunFight");
     }
