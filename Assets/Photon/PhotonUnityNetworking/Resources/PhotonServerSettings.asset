@@ -78,6 +78,8 @@ MonoBehaviour:
   - Throwing
   - ThrowWeapon
   - ObjReset
+  - UpdateScore
+  - EndGame
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

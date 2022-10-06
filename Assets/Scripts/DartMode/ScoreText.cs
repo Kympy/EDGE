@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 // 메쉬프로 //
 
 public class ScoreText : MonoBehaviour
@@ -11,7 +12,11 @@ public class ScoreText : MonoBehaviour
     public int getScore { get { return TotalScore; } set { TotalScore = value; } }
     TextMeshPro TextPosition;
 
-    
+    public void AddScore()
+    {
+        gameObject.GetComponent<PhotonView>().RPC("UpdateScore", RpcTarget.All, TotalScore);
+    }
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -20,19 +25,12 @@ public class ScoreText : MonoBehaviour
         TextPosition.text = "0";
     }
 
-    public void UpdateScore()
+    [PunRPC]
+    public void UpdateScore(int TotalScore)
     {
         TextPosition.text = TotalScore.ToString();
     }
 
-    void Start()
-    {
-        
-    }
+    
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

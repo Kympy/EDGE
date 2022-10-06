@@ -33,13 +33,8 @@ public class TargetEvent : MonoBehaviour
                 || collision.gameObject.GetComponentInChildren<BoxCollider>().gameObject.tag == "Knife")
             {
                 ST.getScore += targetscore;
-                ST.UpdateScore();
+                ST.AddScore();
             }
-            /*Debug.Log(ST.getScore);*/
         }
-
-        else
-            Debug.Log("ÃÄ³Â´ç");
     }
-  
 }

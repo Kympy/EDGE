@@ -740,9 +740,10 @@ MonoBehaviour:
   Knife: {fileID: 0}
   hasAxe: 00
   hasKnife: 00
+  TotalCount: 0
+  isEnd: 0
   ItemFactory: {fileID: 1354652782723037568, guid: cc506e824ce185046a029a17f33cbc5b,
     type: 3}
-  ThrowPoint: {fileID: 7940197429414441176}
   cam: {fileID: 0}
   audioWalk: {fileID: 8300000, guid: 1c9813dc085b5374884cf7bcbaa27dca, type: 3}
   audiothrowing: {fileID: 8300000, guid: 13182107f288fdc47a11f9216c8f062b, type: 3}
@@ -2244,8 +2245,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3532209241454881513}
-  m_LocalRotation: {x: 0.46686715, y: -0.5310698, z: 0.46686712, w: 0.5310698}
-  m_LocalPosition: {x: -0.228, y: -0.14, z: 0.108}
+  m_LocalRotation: {x: 0.466867, y: -0.5310699, z: 0.46686703, w: 0.53106993}
+  m_LocalPosition: {x: -0.30354995, y: -0.13024563, z: 0.10799998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2800,7 +2801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5193150457364624302
 Transform:
   m_ObjectHideFlags: 0

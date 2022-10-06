@@ -8,17 +8,21 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 {
     [SerializeField] GameObject CamPosition;
 
+
     private RotateToMouse rotateToMouse;
     private GameObject Axe;
     public GameObject Knife;
     public bool[] hasAxe;
     public bool[] hasKnife;
 
+    public int TotalCount = 0;
+    public bool isEnd = false;
+
     Rigidbody rb;
     float press = 0f;
     float maxpress = 1000f;
     public GameObject ItemFactory;
-    public Transform ThrowPoint;
+    private Transform ThrowPoint;
     public Camera cam;
     AudioSource audioSource;
     public AudioClip audioWalk;
@@ -38,11 +42,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
 
     private void Awake()
     {
-        
+
 
         if (photonView.IsMine == false) return;
         cam = GameObject.Find("PlayerCam").GetComponent<Camera>();
         cam.transform.rotation = Quaternion.identity;
+        ThrowPoint = cam.gameObject.transform.GetChild(0);
         FakeAxe.SetActive(true);
         FakeKnife.SetActive(false);
         Cursor.visible = false;
@@ -120,16 +125,37 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
     {
         GameObject throwingObj = null;
 
-        if (isAxe == true)
-        {
-            throwingObj = PhotonNetwork.Instantiate(AxeResourcePath, ThrowPoint.position, ThrowPoint.rotation);
-        }
 
-        else
-        {
-            throwingObj = PhotonNetwork.Instantiate(KnifeResourcePath, ThrowPoint.position, ThrowPoint.rotation);
-        }
 
+        if (TotalCount < 5)
+        {
+            TotalCount++;
+
+            if (isAxe == true)
+            {
+                throwingObj = PhotonNetwork.Instantiate(AxeResourcePath, ThrowPoint.position, Quaternion.LookRotation(ThrowPoint.forward));
+            }
+
+            else
+            {
+                throwingObj = PhotonNetwork.Instantiate(KnifeResourcePath, ThrowPoint.position, Quaternion.LookRotation(ThrowPoint.forward));
+            }
+            //추가
+            if (throwingObj.tag == "Axe")
+            {
+                throwingObj.GetComponent<Rigidbody>().AddForce(throwingObj.transform.forward * press * 1.5f + throwingObj.transform.up * press * 0.8f);
+                throwingObj.GetComponent<Rigidbody>().AddTorque(throwingObj.transform.right * press * 100000f);
+            }
+            else if (throwingObj.tag == "Knife")
+            {
+                throwingObj.GetComponent<Rigidbody>().AddForce(throwingObj.transform.forward * press * 1.5f);
+            }
+
+            if (TotalCount == 5)
+            {
+                FindObjectOfType<DartGameManager>().gameObject.GetPhotonView().RPC("EndGame", RpcTarget.All);
+            }
+        }
 
         //throwingObj.transform.position = ThrowPoint.position;
         //throwingObj.transform.rotation = ThrowPoint.rotation;
@@ -138,18 +164,7 @@ public class PlayerController : MonoBehaviourPun, IPunObservable
         // 수정 
         //throwingObj.GetComponent<item>().itemSpeed = press;
 
-        //추가
-        if (throwingObj.tag == "Axe")
-        {
-            throwingObj.GetComponent<Rigidbody>().AddForce(transform.forward * press * 1.5f + transform.up * press * 0.8f);
-            throwingObj.GetComponent<Rigidbody>().AddTorque(transform.right * press * 100000f); 
-        }
-        else if (throwingObj.tag == "Knife")
-        {
-            throwingObj.GetComponent<Rigidbody>().AddForce(transform.forward * press * 1.5f);
-        }
 
-        
         //Axe.transform.forward = ThrowPoint.forward;
 
         /*Axe.rb.position = ThrowPoint.position;
