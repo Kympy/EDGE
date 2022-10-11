@@ -62,7 +62,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         EditCanvas.SetActive(false);
         lockedRoom.isOn = false;
     }
-    private IEnumerator Start()
+    private IEnumerator Start() // Ready Checking start
     {
         yield return InitRoom();
         while(true)
@@ -75,7 +75,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             yield return null;
         }
     }
-    public IEnumerator InitRoom()
+    public IEnumerator InitRoom() // Initialize room information
     {
         while(true)
         {
@@ -194,7 +194,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         Debug.Log(PhotonNetwork.NickName);
     }
-    public IEnumerator CountDown()
+    public IEnumerator CountDown() // Only Master Client Do This
     {
         int time = 3;
         float timer = 0f;
@@ -202,10 +202,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.CurrentRoom.PlayerCount == 2)
             {
-                if (User1Pos.transform.childCount > 0 && User2Pos.transform.childCount > 0)
+                if (User1Pos.transform.childCount > 0 && User2Pos.transform.childCount > 0) // Have User Box
                 {
                     if (User1Pos.GetChild(0).GetComponent<UserBox>().GetReadyText.activeSelf &&
-                        User2Pos.GetChild(0).GetComponent<UserBox>().GetReadyText.activeSelf)
+                        User2Pos.GetChild(0).GetComponent<UserBox>().GetReadyText.activeSelf) // 2 users Ready
                     {
                         timer += Time.deltaTime;
                         if(timer > 1f)
@@ -213,7 +213,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                             if (time <= 0)
                             {
                                 if(CurrentMode != 0)
-                                {
+                                {   // Load Game
                                     Destroy(MyUserBox);
                                     if (CurrentMode == 1)
                                     {
@@ -234,6 +234,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                                     yield break;
                                 }
                             }
+                            // Show Chat Msg
                             photonView.RPC("ChatLineMsg", RpcTarget.All, "System", "Enter the game in a few moments..." + time);
                             time--;
                             timer = 0f;

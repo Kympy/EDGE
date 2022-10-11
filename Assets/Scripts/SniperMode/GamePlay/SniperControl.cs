@@ -131,20 +131,20 @@ public class SniperControl : PlayerHeader, IPunObservable
     {
         while (true)
         {
-            if (IsZoom)
-            {
+            if (IsZoom) // Zoom In
+            {   // Move Virtual Arm
                 Arm.transform.localPosition = Vector3.MoveTowards(Arm.transform.localPosition, ZoomInPos.localPosition, Time.deltaTime * 2f);
-                PlayerCamera.m_Lens.FieldOfView -= 4f;
-                if (PlayerCamera.m_Lens.FieldOfView < 9f)
+                PlayerCamera.m_Lens.FieldOfView -= 4f; // Init fov
+                if (PlayerCamera.m_Lens.FieldOfView < 9f) // Clamp fov
                 {
                     PlayerCamera.m_Lens.FieldOfView = 9f;
                 }
                 if (Arm.transform.localPosition == ZoomInPos.transform.localPosition && PlayerCamera.m_Lens.FieldOfView == 9f)
                 {
-                    yield break;
+                    yield break; // When finish, break coroutine
                 }
             }
-            else
+            else // Zoom out
             {
                 Arm.transform.localPosition = Vector3.MoveTowards(Arm.transform.localPosition, ZoomOutPos.localPosition, Time.deltaTime * 2f);
                 PlayerCamera.m_Lens.FieldOfView += 4f;
@@ -162,7 +162,7 @@ public class SniperControl : PlayerHeader, IPunObservable
     }
     private void UpdateZoomValue()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") != 0 && IsZoom)
+        if (Input.GetAxis("Mouse ScrollWheel") != 0 && IsZoom) // Scroll Zoom adjust
         {
             ScopeCamera.fieldOfView += -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime;
             if (ScopeCamera.fieldOfView > 10f)
@@ -175,7 +175,7 @@ public class SniperControl : PlayerHeader, IPunObservable
             }
         }
     }
-    private void ZoomScope()
+    private void ZoomScope() // R key zoom adjust
     {
         if(Input.GetKeyDown(KeyCode.R) && IsZoom)
         {
@@ -204,7 +204,7 @@ public class SniperControl : PlayerHeader, IPunObservable
                     }
             }
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1)) // Zoom Out
         {
             IsZoom = !IsZoom;
             //if (IsZoom) BrainCam.cullingMask = ScopeCamCulling;

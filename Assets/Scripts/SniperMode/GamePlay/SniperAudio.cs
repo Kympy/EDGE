@@ -35,7 +35,7 @@ public class SniperAudio : MonoBehaviourPun
         footTimer += Time.deltaTime;
         if (footTimer > PlayerSound[0].clip.length)
         {
-            RandFootSound = Random.Range(0, Foot.Length);
+            RandFootSound = Random.Range(0, Foot.Length); // Random walk sound step by step
             PlayerSound[0].clip = Foot[RandFootSound];
             PlayerSound[0].Play();
             footTimer = 0f;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 
 public class SniperGameManager : Singleton<SniperGameManager> 
 {
@@ -95,7 +96,7 @@ public class SniperGameManager : Singleton<SniperGameManager>
 
             if (screenPoint.z > 0f &&
                 screenPoint.x > 0f && screenPoint.x < 1f &&
-                screenPoint.y > 0f && screenPoint.y < 1f)
+                screenPoint.y > 0f && screenPoint.y < 1f) // If object in camera
             {
                 
                 //Debug.Log("In!!");

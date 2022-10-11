@@ -143,19 +143,20 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
     #region Get Room List
     public override void OnRoomListUpdate(List<RoomInfo> roomList) // Call rate = 5 sec
     {
-        RoomCount.text = PhotonNetwork.CountOfRooms.ToString() + " Rooms";
-        foreach(RoomInfo room in roomList)
+        RoomCount.text = PhotonNetwork.CountOfRooms.ToString() + " Rooms"; // Show Room Count
+        foreach(RoomInfo room in roomList) // Check each room
         {
-            if (room.RemovedFromList)
+            if (room.RemovedFromList) // Is removed Room?
             {
-                TotalRoomList.TryGetValue(room.Name, out GameObject roomObj);
-                Destroy(roomObj);
-                TotalRoomList.Remove(room.Name);
+                TotalRoomList.TryGetValue(room.Name, out GameObject roomObj); // Search in my room list
+                Destroy(roomObj); // Destroy that gameobject
+                TotalRoomList.Remove(room.Name); // Remove from list
             }
-            else 
+            else  // Exist something change
             {
-                if (TotalRoomList.ContainsKey(room.Name) == false)
+                if (TotalRoomList.ContainsKey(room.Name) == false) // Search in my room list -> I don't have new room info
                 {
+                    // Get Custom properties information
                     if (room.CustomProperties.TryGetValue("Mode", out object modeName))
                     {
                         bool isLocked = false;
@@ -166,9 +167,9 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                         }
                         else isLocked = true;
 
-                        GameObject newRoom = null;
+                        GameObject newRoom = null; // For create new room object prefab
 
-                        int index = GetRoomPos();
+                        int index = GetRoomPos(); // Where room should show?
                         Transform roomPos = RoomPosition[index];
                         IsRoomExist[index] = true;
     
@@ -183,7 +184,7 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                         {
                             realName = roomName.ToString();
                         }
-                        if (mode == "Sniper Mode")
+                        if (mode == "Sniper Mode") // Switch prefab by mode name
                         {
                             newRoom = Instantiate(SniperRoomPrefab, roomPos.position, Quaternion.identity);
                             newRoom.transform.SetParent(roomPos);
@@ -206,10 +207,10 @@ public class MainLobbyManager : MonoBehaviourPunCallbacks
                             Debug.Log("Room Creation Error : Can't detect mode");
                             continue;
                         }
-                        TotalRoomList.Add(room.Name, newRoom);
+                        TotalRoomList.Add(room.Name, newRoom); // Add new room info on my local room list
                     }
                 }
-                else
+                else // Already in my local list, so change property values
                 {
                     TotalRoomList.TryGetValue(room.Name, out GameObject roomObj);
                     room.CustomProperties.TryGetValue("Bet", out object value);

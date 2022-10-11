@@ -94,7 +94,7 @@ public class SniperUIManager : MonoBehaviourPun
         EnemyPlayerName.gameObject.SetActive(false);
     }
     [PunRPC]
-    public void UpdateIndicator(string parts, int playerIndex)
+    public void UpdateIndicator(string parts, int playerIndex) // Update Indicator image by parts
     {
         //if (photonView.IsMine == false) return;
         switch(playerIndex)
@@ -149,7 +149,7 @@ public class SniperUIManager : MonoBehaviourPun
             someone.LegR.color = Color.white;
         }
     }
-    public void ShowBlood()
+    public void ShowBlood() // When collision with enemy bullet
     {
         if(bloodCoroutine != null)
         {
@@ -178,7 +178,7 @@ public class SniperUIManager : MonoBehaviourPun
     {
         StartCoroutine(GameExitUpdate());
     }
-    public IEnumerator GameExitUpdate()
+    public IEnumerator GameExitUpdate() // Show player state
     {
         PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
         User2State.text = "DISCONNECTED";
