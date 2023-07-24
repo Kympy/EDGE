@@ -16,3 +16,7 @@
 *.obj linguist-vendored
 *.fbx linguist-vendored
 *.unity linguist-vendored
+*.wav linguist-vendored
+*.mp3 linguist-vendored
+*.mp4 linguist-vendored
+*.terrainlayer linguist-vendored
