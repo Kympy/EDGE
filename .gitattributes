@@ -22,3 +22,4 @@
 *.terrainlayer linguist-vendored
 *.js linguist-vendored
 *.psd linguist-vendored
+*.jslib linguist-vendored
