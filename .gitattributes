@@ -21,3 +21,4 @@
 *.mp4 linguist-vendored
 *.terrainlayer linguist-vendored
 *.js linguist-vendored
+*.psd linguist-vendored
